@@ -1,0 +1,880 @@
+/* =============================================================================
+   JYOTISH MAARG — ANIMATIONS
+   css/animations.css
+
+   Covers:
+   · @keyframe definitions
+   · Scroll reveal — base states + revealed states (JS adds .is-visible)
+   · Stagger delay utilities
+   · Hero entrance sequence
+   · Card hover lift
+   · Button hover / active
+   · Icon animations (WhatsApp FAB pulse, service icon scale)
+   · Connecting line draw (process steps, timeline)
+   · Ornament shimmer
+   · Star rating sequential fill
+   · Page transition fade
+   · prefers-reduced-motion — all animations disabled cleanly
+
+   Performance contract:
+   · Only transform and opacity are animated (compositor-only properties).
+   · No animation touches layout-triggering properties (width, height, top, margin).
+   · will-change is applied lazily on .reveal elements and removed after reveal.
+
+   Load order: tokens.css → reset.css → global.css → animations.css
+   ============================================================================= */
+
+
+/* =============================================================================
+   1. @KEYFRAMES
+   ============================================================================= */
+
+/* --- Fade Up (standard scroll reveal) -------------------------------------- */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance, 1.25rem));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Fade Up — card variant (larger travel distance) ----------------------- */
+@keyframes fade-up-card {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance-card, 1.875rem));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Fade In (no vertical movement) ---------------------------------------- */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* --- Fade In Scale (testimonial entrance) ---------------------------------- */
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(var(--reveal-scale-start, 0.98));
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --- Fade Left (timeline — odd items slide from right) --------------------- */
+@keyframes fade-left {
+  from {
+    opacity: 0;
+    transform: translateX(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --- Fade Right (timeline — even items slide from left) -------------------- */
+@keyframes fade-right {
+  from {
+    opacity: 0;
+    transform: translateX(-1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --- Line Draw (process step connectors, timeline vertical line) ----------- */
+@keyframes line-draw-y {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+@keyframes line-draw-x {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* --- Ornament shimmer (gold line under headings) --------------------------- */
+@keyframes ornament-expand {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+
+/* --- WhatsApp FAB pulse ---------------------------------------------------- */
+@keyframes fab-pulse {
+  0%   { transform: scale(1);                    box-shadow: 0 0 0 0   rgba(37, 211, 102, 0.45); }
+  40%  { transform: scale(var(--fab-pulse-scale, 1.05)); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+  100% { transform: scale(1);                    box-shadow: 0 0 0 0   rgba(37, 211, 102, 0); }
+}
+
+/* --- Star fill sequential -------------------------------------------------- */
+@keyframes star-fill {
+  from { color: var(--gray-300); }
+  to   { color: var(--gold); }
+}
+
+/* --- Spinner (form submit loading state) ----------------------------------- */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* --- Skeleton shimmer (loading placeholders) ------------------------------- */
+@keyframes skeleton-shimmer {
+  0%   { background-position: -40rem 0; }
+  100% { background-position:  40rem 0; }
+}
+
+/* --- Count up (stats — driven by JS, this is a visual hook) ---------------- */
+@keyframes counter-pop {
+  0%   { transform: scale(0.85); opacity: 0; }
+  60%  { transform: scale(1.06); }
+  100% { transform: scale(1);    opacity: 1; }
+}
+
+/* --- Toast slide-in -------------------------------------------------------- */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-0.5rem) scale(0.97);
+  }
+}
+
+/* --- Hero background gentle drift ----------------------------------------- */
+@keyframes hero-drift {
+  0%   { transform: scale(1.04) translateY(0); }
+  50%  { transform: scale(1.06) translateY(-0.75rem); }
+  100% { transform: scale(1.04) translateY(0); }
+}
+
+/* --- Gold shimmer sweep (decorative elements) ------------------------------ */
+@keyframes gold-sweep {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+
+/* =============================================================================
+   2. SCROLL REVEAL — BASE (hidden) STATE
+   Applied via JS using IntersectionObserver.
+   All revealable elements start in the hidden state.
+   JS adds .is-visible to trigger the animation.
+   ============================================================================= */
+
+/* Generic fade-up — section headings, paragraphs, CTA strips */
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+  will-change: opacity, transform;
+  transition: opacity var(--duration-slower) var(--ease-out),
+              transform var(--duration-slower) var(--ease-out);
+}
+
+/* Card variant — larger translate distance */
+.reveal--card {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance-card));
+  will-change: opacity, transform;
+  transition: opacity var(--duration-slower) var(--ease-out),
+              transform var(--duration-slower) var(--ease-out);
+}
+
+/* Fade in only — no movement (images, wide elements) */
+.reveal--fade {
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity var(--duration-slower) var(--ease-out);
+}
+
+/* Scale entrance — testimonials */
+.reveal--scale {
+  opacity: 0;
+  transform: scale(var(--reveal-scale-start));
+  will-change: opacity, transform;
+  transition: opacity var(--duration-slower) var(--ease-out),
+              transform var(--duration-slower) var(--ease-out);
+}
+
+/* Slide from right — timeline odd items */
+.reveal--left {
+  opacity: 0;
+  transform: translateX(1.5rem);
+  will-change: opacity, transform;
+  transition: opacity var(--duration-slower) var(--ease-out),
+              transform var(--duration-slower) var(--ease-out);
+}
+
+/* Slide from left — timeline even items */
+.reveal--right {
+  opacity: 0;
+  transform: translateX(-1.5rem);
+  will-change: opacity, transform;
+  transition: opacity var(--duration-slower) var(--ease-out),
+              transform var(--duration-slower) var(--ease-out);
+}
+
+/* Line draw — vertical connector (transform-origin: top center) */
+.reveal--line-y {
+  transform: scaleY(0);
+  transform-origin: top center;
+  will-change: transform;
+  transition: transform var(--duration-slower) var(--ease-out);
+}
+
+/* Line draw — horizontal ornament (transform-origin: left center) */
+.reveal--line-x {
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+  transition: transform var(--duration-slower) var(--ease-out);
+}
+
+
+/* =============================================================================
+   3. SCROLL REVEAL — VISIBLE STATE
+   JS adds .is-visible once threshold is met.
+   will-change is reset after transition completes (handled in scroll-reveal.js).
+   ============================================================================= */
+
+.reveal.is-visible,
+.reveal--card.is-visible,
+.reveal--fade.is-visible,
+.reveal--scale.is-visible,
+.reveal--left.is-visible,
+.reveal--right.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal--line-y.is-visible {
+  transform: scaleY(1);
+}
+
+.reveal--line-x.is-visible {
+  transform: scaleX(1);
+}
+
+
+/* =============================================================================
+   4. STAGGER DELAY UTILITIES
+   Applied to child items in a grid/list. JS can also inject --stagger-index.
+   Classes: .stagger-1 through .stagger-8 cover up to 8 items.
+   --reveal-stagger-delay = 100ms (from tokens.css).
+   ============================================================================= */
+
+.stagger-1  { transition-delay: calc(1  * var(--reveal-stagger-delay)); }
+.stagger-2  { transition-delay: calc(2  * var(--reveal-stagger-delay)); }
+.stagger-3  { transition-delay: calc(3  * var(--reveal-stagger-delay)); }
+.stagger-4  { transition-delay: calc(4  * var(--reveal-stagger-delay)); }
+.stagger-5  { transition-delay: calc(5  * var(--reveal-stagger-delay)); }
+.stagger-6  { transition-delay: calc(6  * var(--reveal-stagger-delay)); }
+.stagger-7  { transition-delay: calc(7  * var(--reveal-stagger-delay)); }
+.stagger-8  { transition-delay: calc(8  * var(--reveal-stagger-delay)); }
+
+/* JS-driven stagger via inline custom property:
+   style="--stagger-index: 3"  →  transition-delay: 300ms             */
+[style*="--stagger-index"] {
+  transition-delay: calc(var(--stagger-index, 0) * var(--reveal-stagger-delay));
+}
+
+
+/* =============================================================================
+   5. HERO ENTRANCE SEQUENCE
+   Elements inside .hero get staggered entrance animations on page load.
+   No IntersectionObserver needed — triggered immediately.
+   ============================================================================= */
+
+/* Common base: hidden until animation runs */
+.hero-animate {
+  animation-fill-mode: both;
+  animation-timing-function: var(--ease-out);
+  animation-duration: var(--duration-slower);
+}
+
+.hero-animate--pre-heading {
+  animation-name: fade-up;
+  animation-delay: 0.1s;
+}
+
+.hero-animate--heading {
+  animation-name: fade-up;
+  animation-delay: 0.2s;
+}
+
+.hero-animate--subtext {
+  animation-name: fade-up;
+  animation-delay: 0.4s;
+}
+
+.hero-animate--stats {
+  animation-name: fade-up;
+  animation-delay: 0.6s;
+}
+
+.hero-animate--cta {
+  animation-name: fade-up;
+  animation-delay: 0.8s;
+}
+
+.hero-animate--micro {
+  animation-name: fade-in;
+  animation-delay: 1.0s;
+}
+
+/* Background image gentle drift — applied to .hero__bg-img */
+.hero-animate--bg {
+  animation-name: hero-drift;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  animation-timing-function: var(--ease-default);
+  animation-fill-mode: none;
+}
+
+
+/* =============================================================================
+   6. CARD HOVER LIFT
+   Applied to any .card element.
+   Components also apply this directly in components.css;
+   this file provides the canonical reusable version.
+   ============================================================================= */
+
+.card-hover {
+  transition: transform var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out);
+  will-change: transform;
+}
+
+.card-hover:hover,
+.card-hover:focus-within {
+  transform: translateY(var(--card-hover-translate, -4px));
+  box-shadow: var(--shadow-lg);
+}
+
+/* Subtle variant — smaller lift for compact cards */
+.card-hover--sm:hover,
+.card-hover--sm:focus-within {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Icon inside a hovered card — slight scale */
+.card-hover:hover .card-icon,
+.card-hover:focus-within .card-icon {
+  transform: scale(1.08);
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+/* Image inside a hovered card (blog card) */
+.card-hover:hover .card-img,
+.card-hover:focus-within .card-img {
+  transform: scale(var(--blog-card-img-scale, 1.03));
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+/* Image wrapper must clip overflow */
+.card-img-wrap {
+  overflow: hidden;
+}
+
+.card-img-wrap .card-img {
+  transition: transform var(--duration-slow) var(--ease-out);
+  will-change: transform;
+}
+
+
+/* =============================================================================
+   7. BUTTON ANIMATIONS
+   ============================================================================= */
+
+/* --- Primary / gradient button -------------------------------------------- */
+.btn-animate {
+  transition: transform var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out),
+              background var(--duration-normal) var(--ease-default),
+              filter var(--duration-normal) var(--ease-default);
+  will-change: transform;
+}
+
+.btn-animate:hover,
+.btn-animate:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-animate:active {
+  transform: translateY(0);
+  box-shadow: none;
+  transition-duration: var(--duration-fast);
+}
+
+/* --- Ghost button arrow nudge --------------------------------------------- */
+.btn-arrow-icon {
+  display: inline-block;
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.btn-arrow:hover .btn-arrow-icon,
+.btn-arrow:focus-visible .btn-arrow-icon {
+  transform: translateX(4px);
+}
+
+/* --- CTA glow on hover (saffron shadow) ------------------------------------ */
+.btn-glow:hover,
+.btn-glow:focus-visible {
+  box-shadow: var(--shadow-glow);
+}
+
+/* --- WhatsApp button green glow -------------------------------------------- */
+.btn-whatsapp-glow:hover,
+.btn-whatsapp-glow:focus-visible {
+  box-shadow: 0 0 20px rgba(37, 211, 102, 0.35);
+}
+
+/* --- Loading spinner state ------------------------------------------------- */
+.btn-loading {
+  pointer-events: none;
+  opacity: 0.75;
+  position: relative;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: var(--white);
+  border-radius: var(--radius-full);
+  animation: spin 0.6s linear infinite;
+}
+
+
+/* =============================================================================
+   8. WHATSAPP FAB PULSE
+   ============================================================================= */
+
+.fab-pulse {
+  animation: fab-pulse var(--fab-pulse-interval, 5s) ease-in-out infinite;
+  animation-delay: 2s; /* Wait before first pulse */
+}
+
+/* Pause on hover — respects user intent */
+.fab-pulse:hover {
+  animation-play-state: paused;
+}
+
+
+/* =============================================================================
+   9. ORNAMENT LINE (section heading gold underline)
+   ============================================================================= */
+
+/* Base state — collapsed */
+.ornament-line {
+  display: block;
+  height: var(--ornament-height);
+  width: var(--ornament-width);
+  background-color: var(--ornament-color);
+  border-radius: var(--radius-full);
+  margin-inline: auto;
+  margin-top: var(--ornament-gap-above);
+  margin-bottom: var(--ornament-gap-below);
+
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: 0;
+  transition: transform var(--duration-slow) var(--ease-out),
+              opacity var(--duration-slow) var(--ease-out);
+}
+
+.ornament-line.is-visible {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* Left-aligned variant (used in footer, some section headings) */
+.ornament-line--left {
+  margin-inline: 0;
+  transform-origin: left center;
+}
+
+@media (max-width: 767px) {
+  .ornament-line {
+    width: var(--ornament-width-mobile);
+  }
+}
+
+
+/* =============================================================================
+   10. CONNECTING LINE DRAW (process steps, timeline)
+   ============================================================================= */
+
+/* Vertical connector between process steps */
+.connector-line {
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.connector-line.is-visible {
+  transform: scaleY(1);
+}
+
+/* Stagger each connector after the step above it */
+.connector-line.stagger-1 { transition-delay: calc(1 * var(--reveal-stagger-delay) + 200ms); }
+.connector-line.stagger-2 { transition-delay: calc(2 * var(--reveal-stagger-delay) + 200ms); }
+.connector-line.stagger-3 { transition-delay: calc(3 * var(--reveal-stagger-delay) + 200ms); }
+.connector-line.stagger-4 { transition-delay: calc(4 * var(--reveal-stagger-delay) + 200ms); }
+
+
+/* =============================================================================
+   11. STAR RATING FILL (sequential, left-to-right)
+   ============================================================================= */
+
+/* Each star starts grey, JS/CSS stagger turns them gold */
+.star-rating .star {
+  color: var(--gray-300);
+  transition: color var(--duration-normal) var(--ease-out);
+}
+
+.star-rating.is-visible .star:nth-child(1) { color: var(--gold); transition-delay: 0ms;   }
+.star-rating.is-visible .star:nth-child(2) { color: var(--gold); transition-delay: 80ms;  }
+.star-rating.is-visible .star:nth-child(3) { color: var(--gold); transition-delay: 160ms; }
+.star-rating.is-visible .star:nth-child(4) { color: var(--gold); transition-delay: 240ms; }
+.star-rating.is-visible .star:nth-child(5) { color: var(--gold); transition-delay: 320ms; }
+
+
+/* =============================================================================
+   12. STATS COUNTER
+   JS handles the count-up. This provides the visual pop entrance.
+   ============================================================================= */
+
+.stat-number {
+  display: inline-block;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-bounce);
+}
+
+.stat-number.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+/* =============================================================================
+   13. SKELETON LOADING
+   ============================================================================= */
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--gray-200) 25%,
+    var(--gray-100) 50%,
+    var(--gray-200) 75%
+  );
+  background-size: 80rem 100%;
+  animation: skeleton-shimmer 1.5s linear infinite;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton--text {
+  height: 1rem;
+  border-radius: var(--radius-full);
+}
+
+.skeleton--heading {
+  height: 1.75rem;
+  border-radius: var(--radius-full);
+}
+
+.skeleton--image {
+  border-radius: var(--radius-lg);
+}
+
+.skeleton--circle {
+  border-radius: var(--radius-full);
+}
+
+
+/* =============================================================================
+   14. TOAST NOTIFICATION
+   ============================================================================= */
+
+.toast {
+  animation: toast-in var(--duration-normal) var(--ease-out) both;
+}
+
+.toast--exiting {
+  animation: toast-out var(--duration-normal) var(--ease-in) both;
+}
+
+
+/* =============================================================================
+   15. PAGE TRANSITION
+   Whole-page fade on navigation (if using JS-driven page transitions).
+   ============================================================================= */
+
+.page-transition-enter {
+  opacity: 0;
+  animation: fade-in var(--duration-normal) var(--ease-out) both;
+}
+
+.page-transition-exit {
+  opacity: 1;
+  animation: fade-in var(--duration-fast) var(--ease-in) reverse both;
+}
+
+
+/* =============================================================================
+   16. GOLD SHIMMER UTILITY (decorative text/borders)
+   ============================================================================= */
+
+.shimmer-text {
+  background: var(--gradient-gold-shimmer);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gold-sweep 3s linear infinite;
+}
+
+.shimmer-border {
+  background: var(--gradient-gold-shimmer);
+  background-size: 200% 100%;
+  animation: gold-sweep 3s linear infinite;
+}
+
+
+/* =============================================================================
+   17. SPINNER UTILITY
+   ============================================================================= */
+
+.spinner {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--gray-300);
+  border-top-color: var(--primary-400);
+  border-radius: var(--radius-full);
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.spinner--sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 1.5px;
+}
+
+.spinner--lg {
+  width: 2rem;
+  height: 2rem;
+  border-width: 3px;
+}
+
+.spinner--white {
+  border-color: rgba(255, 255, 255, 0.3);
+  border-top-color: var(--white);
+}
+
+
+/* =============================================================================
+   18. FOCUS RING ANIMATION
+   Accessible focus treatment with a subtle fade-in ring.
+   ============================================================================= */
+
+:focus-visible {
+  animation: fade-in var(--duration-fast) var(--ease-out) both;
+}
+
+
+/* =============================================================================
+   19. REDUCED MOTION — KILL SWITCH
+   Overrides ALL animations and transitions.
+   Respects prefers-reduced-motion: reduce (WCAG 2.1 AA).
+
+   Strategy:
+   · Keyframe animations: duration 0.01ms, iterate once.
+   · Transitions: duration 0.01ms.
+   · Scroll-reveal elements start visible (no hidden state).
+   · Connectors, ornaments, stars all start revealed.
+   · Shimmer, shimmer-text, hero-drift, fab-pulse: all disabled.
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  /* --- Kill all keyframe animations --------------------------------------- */
+  *,
+  *::before,
+  *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    animation-delay:           0ms    !important;
+  }
+
+  /* --- Kill all transitions ----------------------------------------------- */
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay:    0ms    !important;
+  }
+
+  /* --- Scroll-reveal: skip hidden state — elements always visible --------- */
+  .reveal,
+  .reveal--card,
+  .reveal--fade,
+  .reveal--scale,
+  .reveal--left,
+  .reveal--right {
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto !important;
+    transition: none !important;
+  }
+
+  /* --- Stagger delays removed --------------------------------------------- */
+  .stagger-1, .stagger-2, .stagger-3, .stagger-4,
+  .stagger-5, .stagger-6, .stagger-7, .stagger-8,
+  [style*="--stagger-index"] {
+    transition-delay: 0ms !important;
+  }
+
+  /* --- Hero entrance — skip to final state -------------------------------- */
+  .hero-animate {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hero-animate--bg {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* --- Connectors and ornaments: immediately visible ---------------------- */
+  .reveal--line-y,
+  .reveal--line-y.is-visible,
+  .connector-line,
+  .connector-line.is-visible {
+    transform: scaleY(1) !important;
+    transition: none !important;
+  }
+
+  .reveal--line-x,
+  .reveal--line-x.is-visible,
+  .ornament-line,
+  .ornament-line.is-visible {
+    transform: scaleX(1) !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  /* --- Stars: all filled immediately --------------------------------------- */
+  .star-rating .star,
+  .star-rating.is-visible .star {
+    color: var(--gold) !important;
+    transition: none !important;
+    transition-delay: 0ms !important;
+  }
+
+  /* --- Stats: visible immediately ----------------------------------------- */
+  .stat-number,
+  .stat-number.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* --- Shimmer: static gold ----------------------------------------------- */
+  .shimmer-text {
+    animation: none !important;
+    background-position: center !important;
+  }
+
+  .shimmer-border {
+    animation: none !important;
+    background-position: center !important;
+  }
+
+  /* --- Skeleton: static background --------------------------------------- */
+  .skeleton {
+    animation: none !important;
+    background: var(--gray-200) !important;
+  }
+
+  /* --- Card hover: only colour change, no transform ----------------------- */
+  .card-hover:hover,
+  .card-hover:focus-within {
+    transform: none !important;
+  }
+
+  .card-hover:hover .card-icon,
+  .card-hover:focus-within .card-icon,
+  .card-img-wrap .card-img {
+    transform: none !important;
+  }
+
+  /* --- Button hover: no translateY --------------------------------------- */
+  .btn-animate:hover,
+  .btn-animate:focus-visible {
+    transform: none !important;
+  }
+
+  /* --- Arrow nudge: no movement ------------------------------------------ */
+  .btn-arrow:hover .btn-arrow-icon,
+  .btn-arrow:focus-visible .btn-arrow-icon {
+    transform: none !important;
+  }
+
+  /* --- FAB pulse: off ----------------------------------------------------- */
+  .fab-pulse {
+    animation: none !important;
+  }
+
+  /* --- Spinner keeps working (functional, not decorative) but slower ------ */
+  .spinner {
+    animation-duration: 1.5s !important;
+  }
+
+  .btn-loading::after {
+    animation-duration: 1.5s !important;
+  }
+
+  /* --- Toast: instant ---------------------------------------------------- */
+  .toast,
+  .toast--exiting {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}

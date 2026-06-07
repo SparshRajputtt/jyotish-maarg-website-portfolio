@@ -1,0 +1,1151 @@
+/* =============================================================================
+   JYOTISH MAARG — FOOTER
+   css/footer.css
+
+   Covers:
+   · Footer shell with gold shimmer top border
+   · Brand column (logo, tagline, trust badge)
+   · Quick Links column
+   · Our Services column
+   · Connect + Visit Us column (contact, social, map embed)
+   · Desktop 4-column grid
+   · Mobile accordion (each column collapses)
+   · Bottom bar — copyright + legal links
+   · Reduced-motion, high-contrast, print
+
+   Load order: tokens.css → reset.css → global.css → footer.css
+   ============================================================================= */
+
+
+/* =============================================================================
+   1. FOOTER SHELL
+   ============================================================================= */
+
+.footer {
+  position: relative;
+  background-color: var(--footer-bg);
+  padding-top: var(--footer-padding-top);
+  padding-bottom: 0; /* Bottom bar controls its own padding */
+  overflow: hidden;
+}
+
+/* 3px gold-shimmer gradient top border */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-gold-shimmer);
+  background-size: 200% 100%;
+  animation: footer-shimmer 4s linear infinite;
+}
+
+@keyframes footer-shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* Subtle radial glow — decorative depth on dark bg */
+.footer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 30rem;
+  background: radial-gradient(ellipse at top, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+
+/* =============================================================================
+   2. FOOTER INNER CONTAINER
+   ============================================================================= */
+
+.footer__inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container-xl);
+  margin-inline: auto;
+  padding-inline: var(--container-px-desktop);
+}
+
+@media (max-width: 1023px) {
+  .footer__inner {
+    padding-inline: var(--container-px-tablet);
+  }
+}
+
+@media (max-width: 767px) {
+  .footer__inner {
+    padding-inline: var(--container-px-mobile);
+  }
+}
+
+
+/* =============================================================================
+   3. BRAND ROW — logo + tagline above the column grid
+   ============================================================================= */
+
+.footer__brand-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-8);
+  padding-bottom: var(--space-10);
+  border-bottom: 1px solid var(--footer-divider);
+  margin-bottom: var(--space-10);
+}
+
+/* Logo + tagline block */
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 22rem;
+}
+
+.footer__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer__logo-img {
+  height: 2.5rem;    /* 40px */
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+.footer__logo-wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  line-height: var(--leading-tight);
+}
+
+.footer__logo-name {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--white);
+  letter-spacing: var(--tracking-snug);
+}
+
+.footer__logo-tagline-small {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.footer__tagline {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  color: var(--footer-text-body);
+  line-height: var(--leading-relaxed);
+}
+
+/* Trust badge strip */
+.footer__trust {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.footer__trust-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--footer-text-body);
+}
+
+.footer__trust-icon {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+  flex-shrink: 0;
+  color: var(--gold);
+}
+
+/* Rating stars in brand row */
+.footer__rating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.footer__stars {
+  display: flex;
+  gap: 2px;
+  color: var(--gold);
+}
+
+.footer__stars svg {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+  pointer-events: none;
+}
+
+.footer__rating-text {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--footer-text-body);
+}
+
+/* Brand row: right side has a decorative ornament divider */
+.footer__brand-divider {
+  width: 1px;
+  align-self: stretch;
+  background-color: var(--footer-divider);
+  flex-shrink: 0;
+}
+
+@media (max-width: 1023px) {
+  .footer__brand-row {
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-bottom: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+
+  .footer__brand-divider {
+    display: none;
+  }
+
+  .footer__brand {
+    max-width: 100%;
+  }
+}
+
+
+/* =============================================================================
+   4. COLUMNS GRID
+   ============================================================================= */
+
+.footer__columns {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1.4fr;
+  gap: var(--footer-col-gap);
+  padding-bottom: var(--footer-padding-top);
+}
+
+@media (max-width: 1023px) {
+  .footer__columns {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+}
+
+@media (max-width: 767px) {
+  .footer__columns {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-bottom: var(--space-8);
+  }
+}
+
+
+/* =============================================================================
+   5. INDIVIDUAL COLUMN
+   ============================================================================= */
+
+.footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Column heading */
+.footer__col-heading {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--footer-text-heading);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  margin-bottom: var(--footer-heading-spacing);
+  padding-bottom: var(--space-3);
+  position: relative;
+}
+
+/* Gold underline ornament below column heading */
+.footer__col-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: var(--ornament-width-mobile);
+  height: var(--ornament-height);
+  background-color: var(--gold);
+  border-radius: var(--radius-full);
+}
+
+
+/* =============================================================================
+   6. COLUMN — LINKS (Quick Links & Services)
+   ============================================================================= */
+
+.footer__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--footer-link-gap);
+}
+
+.footer__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  color: var(--footer-text-body);
+  text-decoration: none;
+  line-height: var(--leading-normal);
+
+  transition: color var(--duration-fast) var(--ease-default),
+              transform var(--duration-fast) var(--ease-default);
+}
+
+.footer__link:hover,
+.footer__link:focus-visible {
+  color: var(--footer-text-hover);
+  transform: translateX(4px);
+}
+
+.footer__link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Small arrow icon (optional, injected via HTML data-icon) */
+.footer__link-arrow {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+  flex-shrink: 0;
+  opacity: 0;
+  color: var(--gold);
+  transition: opacity var(--duration-fast) var(--ease-default),
+              transform var(--duration-fast) var(--ease-default);
+  pointer-events: none;
+}
+
+.footer__link:hover .footer__link-arrow {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+/* Active page indicator */
+.footer__link[aria-current="page"] {
+  color: var(--gold);
+}
+
+/* Badge on a link (e.g. "New" on Blog) */
+.footer__link-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px var(--space-2);
+  font-size: 0.625rem;   /* 10px */
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--secondary-600);
+  background-color: var(--gold);
+  border-radius: var(--radius-full);
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+
+/* =============================================================================
+   7. COLUMN — CONTACT DETAILS
+   ============================================================================= */
+
+.footer__contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.footer__contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.footer__contact-icon {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  flex-shrink: 0;
+  color: var(--gold);
+  margin-top: 1px; /* Optical alignment with text */
+  pointer-events: none;
+}
+
+.footer__contact-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.footer__contact-label {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: var(--leading-normal);
+}
+
+.footer__contact-value {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  color: var(--footer-text-body);
+  text-decoration: none;
+  line-height: var(--leading-normal);
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+a.footer__contact-value:hover,
+a.footer__contact-value:focus-visible {
+  color: var(--gold);
+}
+
+a.footer__contact-value:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.footer__contact-note {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: rgba(255, 255, 255, 0.35);
+  margin-top: 1px;
+}
+
+
+/* =============================================================================
+   8. COLUMN — SOCIAL ICONS
+   ============================================================================= */
+
+.footer__social-heading {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--footer-text-heading);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-3);
+}
+
+.footer__social {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-social-icons);
+}
+
+.footer__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;    /* 36px */
+  height: 2.25rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--footer-divider);
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  flex-shrink: 0;
+
+  transition: color var(--duration-fast) var(--ease-default),
+              border-color var(--duration-fast) var(--ease-default),
+              background-color var(--duration-fast) var(--ease-default),
+              transform var(--duration-fast) var(--ease-default);
+}
+
+.footer__social-link:hover,
+.footer__social-link:focus-visible {
+  color: var(--gold);
+  border-color: var(--gold);
+  background-color: rgba(212, 175, 55, 0.08);
+  transform: translateY(-2px);
+}
+
+.footer__social-link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.footer__social-link svg {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  pointer-events: none;
+}
+
+/* Per-platform hover tints (subtle) */
+.footer__social-link--youtube:hover {
+  color: #FF0000;
+  border-color: #FF0000;
+  background-color: rgba(255, 0, 0, 0.08);
+}
+
+.footer__social-link--instagram:hover {
+  color: #E1306C;
+  border-color: #E1306C;
+  background-color: rgba(225, 48, 108, 0.08);
+}
+
+.footer__social-link--whatsapp:hover {
+  color: var(--color-whatsapp);
+  border-color: var(--color-whatsapp);
+  background-color: rgba(37, 211, 102, 0.08);
+}
+
+.footer__social-link--facebook:hover {
+  color: #1877F2;
+  border-color: #1877F2;
+  background-color: rgba(24, 119, 242, 0.08);
+}
+
+
+/* =============================================================================
+   9. COLUMN — MAP EMBED
+   ============================================================================= */
+
+.footer__map-wrap {
+  margin-top: var(--space-4);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--footer-divider);
+  flex-shrink: 0;
+}
+
+.footer__map {
+  display: block;
+  width: 100%;
+  height: var(--footer-map-height);
+  border: none;
+  filter: grayscale(100%) brightness(0.75) contrast(1.1);
+  transition: filter var(--duration-normal) var(--ease-default);
+}
+
+.footer__map:hover {
+  filter: grayscale(60%) brightness(0.85) contrast(1.05);
+}
+
+.footer__map-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.footer__map-link:hover,
+.footer__map-link:focus-visible {
+  color: var(--gold);
+}
+
+.footer__map-link svg {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+  pointer-events: none;
+}
+
+
+/* =============================================================================
+   10. BOTTOM BAR — copyright + legal links
+   ============================================================================= */
+
+.footer__bottom {
+  position: relative;
+  z-index: 1;
+  background-color: var(--footer-bg-bottom);
+  border-top: 1px solid var(--footer-divider);
+}
+
+.footer__bottom-inner {
+  max-width: var(--container-xl);
+  margin-inline: auto;
+  padding-inline: var(--container-px-desktop);
+  padding-block: var(--footer-padding-bottom);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.footer__copyright {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  color: var(--footer-text-meta);
+  line-height: var(--leading-normal);
+}
+
+.footer__copyright-highlight {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: var(--weight-medium);
+}
+
+/* Legal links row */
+.footer__legal {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer__legal-link {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-regular);
+  color: var(--footer-text-meta);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.footer__legal-link:hover,
+.footer__legal-link:focus-visible {
+  color: var(--gold);
+}
+
+.footer__legal-link:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Separator dot between legal links */
+.footer__legal-separator {
+  color: var(--footer-text-meta);
+  font-size: var(--text-xs);
+  -webkit-user-select: none;
+  user-select: none;
+  aria-hidden: true;
+}
+
+/* Made with love credit */
+.footer__made-with {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: var(--tracking-wide);
+}
+
+.footer__made-with-heart {
+  color: var(--primary-400);
+}
+
+@media (max-width: 1023px) {
+  .footer__bottom-inner {
+    padding-inline: var(--container-px-tablet);
+  }
+}
+
+@media (max-width: 767px) {
+  .footer__bottom-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-3);
+    padding-inline: var(--container-px-mobile);
+  }
+
+  .footer__legal {
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+
+/* =============================================================================
+   11. MOBILE ACCORDION COLUMNS
+   ============================================================================= */
+
+/* Accordion trigger — the column heading becomes a button on mobile */
+.footer__col-trigger {
+  display: none; /* Hidden on desktop */
+}
+
+@media (max-width: 767px) {
+
+  /* Column becomes an accordion panel */
+  .footer__col {
+    border-bottom: 1px solid var(--footer-divider);
+  }
+
+  .footer__col:first-child {
+    border-top: 1px solid var(--footer-divider);
+  }
+
+  /* Hide the static heading on mobile (replaced by trigger button) */
+  .footer__col-heading {
+    display: none;
+  }
+
+  /* Show the trigger */
+  .footer__col-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-block: var(--space-4);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--footer-text-heading);
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    transition: color var(--duration-fast) var(--ease-default);
+  }
+
+  .footer__col-trigger:hover,
+  .footer__col-trigger:focus-visible {
+    color: var(--gold);
+  }
+
+  .footer__col-trigger:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Chevron icon inside trigger */
+  .footer__col-chevron {
+    width: var(--icon-sm);
+    height: var(--icon-sm);
+    flex-shrink: 0;
+    color: rgba(255, 255, 255, 0.4);
+    transition: transform var(--duration-normal) var(--ease-default),
+                color var(--duration-fast) var(--ease-default);
+    pointer-events: none;
+  }
+
+  .footer__col-trigger[aria-expanded="true"] .footer__col-chevron {
+    transform: rotate(180deg);
+    color: var(--gold);
+  }
+
+  /* Collapsible content panel */
+  .footer__col-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height var(--duration-slow) var(--ease-out),
+                padding var(--duration-slow) var(--ease-out);
+  }
+
+  .footer__col-body--open {
+    max-height: 32rem;  /* Large enough for any column */
+    padding-bottom: var(--space-5);
+  }
+
+  /* On desktop the body is always visible */
+  /* (no max-height restriction applied outside mobile breakpoint) */
+
+  /* Tighten link size on mobile */
+  .footer__link {
+    font-size: var(--text-sm);
+    padding-block: 2px;
+  }
+
+  .footer__contact-value {
+    font-size: var(--text-sm);
+  }
+
+  /* Social row: always visible regardless of accordion state */
+  .footer__col--connect .footer__social-heading,
+  .footer__col--connect .footer__social {
+    /* Both sit inside the collapsible body */
+  }
+
+  /* Map: full-width on mobile */
+  .footer__map-wrap {
+    margin-top: var(--space-4);
+  }
+
+  .footer__map {
+    height: 10rem;  /* Slightly taller on mobile for readability */
+  }
+
+  /* Brand column never collapses */
+  .footer__col--brand .footer__col-trigger {
+    display: none;
+  }
+
+  .footer__col--brand .footer__col-body {
+    max-height: none !important;
+    overflow: visible;
+    padding-bottom: var(--space-6);
+  }
+
+  /* Reset grid for brand col on mobile */
+  .footer__col--brand {
+    border-top: none;
+  }
+}
+
+
+/* =============================================================================
+   12. DECORATIVE ORNAMENT — between brand row and columns
+   ============================================================================= */
+
+.footer__ornament {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-10);
+}
+
+.footer__ornament-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--footer-divider) 30%,
+    var(--footer-divider) 70%,
+    transparent
+  );
+}
+
+.footer__ornament-symbol {
+  font-family: var(--font-hindi);
+  font-size: var(--text-lg);
+  color: var(--gold);
+  line-height: 1;
+  -webkit-user-select: none;
+  user-select: none;
+  opacity: 0.8;
+}
+
+@media (max-width: 767px) {
+  .footer__ornament {
+    display: none;
+  }
+}
+
+
+/* =============================================================================
+   13. NEWSLETTER STRIP (optional, within footer)
+   ============================================================================= */
+
+.footer__newsletter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  padding: var(--space-6) var(--space-8);
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--footer-divider);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-10);
+}
+
+.footer__newsletter-copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.footer__newsletter-heading {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--white);
+  line-height: var(--leading-snug);
+}
+
+.footer__newsletter-sub {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--footer-text-body);
+}
+
+.footer__newsletter-form {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.footer__newsletter-input {
+  height: var(--btn-height-sm);
+  padding-inline: var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--white);
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--footer-divider);
+  border-radius: var(--btn-border-radius);
+  outline: none;
+  width: 16rem;
+  transition: border-color var(--duration-fast) var(--ease-default),
+              background-color var(--duration-fast) var(--ease-default);
+}
+
+.footer__newsletter-input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.footer__newsletter-input:focus {
+  border-color: var(--gold);
+  background-color: rgba(255, 255, 255, 0.12);
+  outline: none;
+}
+
+.footer__newsletter-input:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.footer__newsletter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--btn-gap);
+  height: var(--btn-height-sm);
+  padding-inline: var(--btn-padding-x-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--secondary-600);
+  background: var(--gradient-cta);
+  border: none;
+  border-radius: var(--btn-border-radius);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--duration-fast) var(--ease-default),
+              box-shadow var(--duration-fast) var(--ease-default);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.footer__newsletter-btn:hover,
+.footer__newsletter-btn:focus-visible {
+  background: var(--gradient-cta-hover);
+  box-shadow: var(--shadow-glow);
+}
+
+.footer__newsletter-btn:focus-visible {
+  outline: 2px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1023px) {
+  .footer__newsletter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+  }
+
+  .footer__newsletter-form {
+    width: 100%;
+  }
+
+  .footer__newsletter-input {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .footer__newsletter {
+    padding: var(--space-4);
+  }
+}
+
+
+/* =============================================================================
+   14. BACK TO TOP BUTTON
+   ============================================================================= */
+
+.footer__back-to-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  color: var(--footer-text-meta);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0;
+  transition: color var(--duration-fast) var(--ease-default);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.footer__back-to-top:hover,
+.footer__back-to-top:focus-visible {
+  color: var(--gold);
+}
+
+.footer__back-to-top:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.footer__back-to-top-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  transition: transform var(--duration-fast) var(--ease-default);
+}
+
+.footer__back-to-top:hover .footer__back-to-top-icon {
+  transform: translateY(-2px);
+}
+
+.footer__back-to-top-icon svg {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+  pointer-events: none;
+}
+
+
+/* =============================================================================
+   15. REDUCED MOTION
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .footer::before {
+    animation: none;
+    background-position: center;
+  }
+
+  .footer__col-body {
+    transition: max-height var(--duration-fast) var(--ease-default);
+  }
+
+  .footer__link,
+  .footer__social-link,
+  .footer__back-to-top-icon {
+    transition: color var(--duration-fast) var(--ease-default);
+  }
+
+  .footer__link:hover,
+  .footer__link:focus-visible {
+    transform: none;
+  }
+
+  .footer__social-link:hover,
+  .footer__social-link:focus-visible {
+    transform: none;
+  }
+
+  .footer__back-to-top:hover .footer__back-to-top-icon {
+    transform: none;
+  }
+}
+
+
+/* =============================================================================
+   16. HIGH CONTRAST
+   ============================================================================= */
+
+@media (prefers-contrast: more) {
+  .footer {
+    border-top: 3px solid var(--gold);
+  }
+
+  .footer__link:hover,
+  .footer__link:focus-visible {
+    text-decoration: underline;
+  }
+
+  .footer__col-heading::after {
+    height: 3px;
+  }
+
+  .footer__social-link {
+    border-width: 2px;
+  }
+}
+
+
+/* =============================================================================
+   17. PRINT
+   ============================================================================= */
+
+@media print {
+  .footer {
+    background: none !important;
+    color: #000 !important;
+    border-top: 2px solid #000;
+  }
+
+  .footer::before,
+  .footer::after {
+    display: none !important;
+  }
+
+  .footer__social,
+  .footer__newsletter,
+  .footer__map-wrap,
+  .footer__back-to-top {
+    display: none !important;
+  }
+
+  .footer__link,
+  .footer__contact-value,
+  .footer__copyright,
+  .footer__legal-link {
+    color: #000 !important;
+  }
+
+  .footer__col-trigger {
+    display: none !important;
+  }
+
+  .footer__col-body {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}

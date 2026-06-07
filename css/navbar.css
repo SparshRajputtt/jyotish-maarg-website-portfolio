@@ -1,0 +1,1258 @@
+/* =============================================================================
+   JYOTISH MAARG — NAVBAR
+   css/navbar.css
+
+   Covers:
+   · Top announcement bar
+   · Desktop sticky navbar (transparent → solid on scroll)
+   · Services mega-menu dropdown
+   · Mobile hamburger + full-screen overlay menu
+   · Book Consultation CTA button
+   · Accessible focus management, ARIA support, reduced-motion
+
+   Load order: tokens.css → reset.css → global.css → navbar.css
+   ============================================================================= */
+
+
+/* =============================================================================
+   1. TOP ANNOUNCEMENT BAR
+   ============================================================================= */
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-navbar);
+  height: var(--topbar-height);
+  background-color: var(--secondary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--container-px-mobile);
+}
+
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: var(--tracking-wide);
+}
+
+.topbar__icon {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+  flex-shrink: 0;
+  color: var(--gold);
+}
+
+.topbar__link {
+  color: var(--gold);
+  font-weight: var(--weight-semibold);
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.topbar__link:hover,
+.topbar__link:focus-visible {
+  color: var(--gold-light);
+}
+
+/* Hide topbar on mobile — space is too tight */
+@media (max-width: 767px) {
+  .topbar {
+    display: none;
+  }
+}
+
+
+/* =============================================================================
+   2. NAVBAR SHELL
+   ============================================================================= */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-navbar);
+
+  height: var(--navbar-height-desktop);
+  display: flex;
+  align-items: center;
+
+  /* Transparent at page top — JS adds .navbar--scrolled */
+  background-color: var(--navbar-bg-top);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+
+  transition: var(--transition-nav);
+
+  /* Offset below topbar on desktop */
+  margin-top: var(--topbar-height);
+}
+
+/* Scrolled state — added by navbar.js */
+.navbar--scrolled {
+  background-color: var(--navbar-bg-scrolled);
+  -webkit-backdrop-filter: var(--navbar-blur);
+  backdrop-filter: var(--navbar-blur);
+  box-shadow: var(--shadow-md);
+  margin-top: 0;
+}
+
+/* Solid state — non-hero pages that always need a solid bar */
+.navbar--solid {
+  background-color: var(--navbar-bg-solid);
+  box-shadow: var(--shadow-sm);
+  margin-top: 0;
+}
+
+/* When mobile menu is open, navbar is always solid */
+.navbar--menu-open {
+  background-color: var(--navbar-bg-solid) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  margin-top: 0;
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    height: var(--navbar-height-mobile);
+    margin-top: 0;
+  }
+}
+
+
+/* =============================================================================
+   3. NAVBAR INNER LAYOUT
+   ============================================================================= */
+
+.navbar__inner {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin-inline: auto;
+  padding-inline: var(--container-px-desktop);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+}
+
+@media (max-width: 1023px) {
+  .navbar__inner {
+    padding-inline: var(--container-px-tablet);
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar__inner {
+    padding-inline: var(--container-px-mobile);
+    gap: var(--space-4);
+  }
+}
+
+
+/* =============================================================================
+   4. LOGO
+   ============================================================================= */
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  text-decoration: none;
+  color: inherit;
+
+  /* Prevent layout shift */
+  min-width: 0;
+}
+
+.navbar__logo-img {
+  height: 2.5rem;       /* 40px */
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+  transition: opacity var(--duration-fast) var(--ease-default);
+}
+
+/* White logo on transparent navbar (over dark hero) */
+.navbar:not(.navbar--scrolled):not(.navbar--solid):not(.navbar--menu-open)
+  .navbar__logo-img--dark {
+  display: none;
+}
+
+.navbar--scrolled .navbar__logo-img--white,
+.navbar--solid .navbar__logo-img--white,
+.navbar--menu-open .navbar__logo-img--white {
+  display: none;
+}
+
+.navbar__logo-wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  line-height: var(--leading-tight);
+}
+
+.navbar__logo-name {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-snug);
+  color: var(--secondary-500);
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+/* On transparent (dark hero) navbar, text goes white */
+.navbar:not(.navbar--scrolled):not(.navbar--solid):not(.navbar--menu-open)
+  .navbar__logo-name {
+  color: var(--white);
+}
+
+.navbar__logo-tagline {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.navbar__logo:hover .navbar__logo-img,
+.navbar__logo:focus-visible .navbar__logo-img {
+  opacity: 0.85;
+}
+
+@media (max-width: 767px) {
+  .navbar__logo-wordmark {
+    display: none; /* Show icon-only on mobile */
+  }
+
+  .navbar__logo-img {
+    height: 2rem;   /* 32px */
+  }
+}
+
+
+/* =============================================================================
+   5. DESKTOP NAV — LINKS
+   ============================================================================= */
+
+.navbar__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-nav-links);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar__nav-item {
+  position: relative;
+}
+
+.navbar__nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  color: var(--white);
+  text-decoration: none;
+  white-space: nowrap;
+
+  padding-block: var(--space-2);
+  position: relative;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+/* Active underline indicator */
+.navbar__nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--primary-400);
+  border-radius: var(--radius-full);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.navbar__nav-link:hover::after,
+.navbar__nav-link:focus-visible::after,
+.navbar__nav-link[aria-current="page"]::after,
+.navbar__nav-item--active > .navbar__nav-link::after {
+  transform: scaleX(1);
+}
+
+.navbar__nav-link:hover,
+.navbar__nav-link:focus-visible,
+.navbar__nav-link[aria-current="page"],
+.navbar__nav-item--active > .navbar__nav-link {
+  color: var(--primary-300);
+}
+
+/* Solid / scrolled navbar — links turn dark */
+.navbar--scrolled .navbar__nav-link,
+.navbar--solid .navbar__nav-link {
+  color: var(--secondary-400);
+}
+
+.navbar--scrolled .navbar__nav-link:hover,
+.navbar--scrolled .navbar__nav-link:focus-visible,
+.navbar--scrolled .navbar__nav-link[aria-current="page"],
+.navbar--solid .navbar__nav-link:hover,
+.navbar--solid .navbar__nav-link:focus-visible,
+.navbar--solid .navbar__nav-link[aria-current="page"] {
+  color: var(--primary-500);
+}
+
+/* Chevron icon for items with submenu */
+.navbar__nav-link-icon {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+  flex-shrink: 0;
+  transition: transform var(--duration-normal) var(--ease-default);
+  pointer-events: none;
+}
+
+.navbar__nav-item--has-dropdown[aria-expanded="true"] .navbar__nav-link-icon {
+  transform: rotate(180deg);
+}
+
+/* Hide desktop nav on mobile */
+@media (max-width: 1023px) {
+  .navbar__nav {
+    display: none;
+  }
+}
+
+
+/* =============================================================================
+   6. DESKTOP ACTIONS (CTA + optional lang toggle)
+   ============================================================================= */
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-shrink: 0;
+}
+
+/* Book Consultation CTA — Primary gradient button */
+.navbar__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--btn-gap);
+
+  padding: var(--btn-padding-y-sm) var(--btn-padding-x-md);
+  min-height: var(--btn-min-touch);
+
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  color: var(--secondary-500);
+  text-decoration: none;
+  white-space: nowrap;
+
+  background: var(--gradient-cta);
+  border-radius: var(--btn-border-radius);
+  border: none;
+  cursor: pointer;
+
+  transition: background var(--duration-normal) var(--ease-default),
+              box-shadow var(--duration-normal) var(--ease-default),
+              transform var(--duration-fast) var(--ease-default);
+}
+
+.navbar__cta:hover,
+.navbar__cta:focus-visible {
+  background: var(--gradient-cta-hover);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-1px);
+  color: var(--secondary-500);
+}
+
+.navbar__cta:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.navbar__cta-icon {
+  width: var(--btn-icon-sm);
+  height: var(--btn-icon-sm);
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* On transparent dark navbar, optionally show outline variant */
+.navbar:not(.navbar--scrolled):not(.navbar--solid):not(.navbar--menu-open)
+  .navbar__cta--ghost {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  color: var(--white);
+}
+
+.navbar:not(.navbar--scrolled):not(.navbar--solid):not(.navbar--menu-open)
+  .navbar__cta--ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--white);
+}
+
+/* Hide desktop actions on mobile (CTA moves to overlay menu) */
+@media (max-width: 1023px) {
+  .navbar__actions {
+    display: none;
+  }
+}
+
+
+/* =============================================================================
+   7. HAMBURGER BUTTON (mobile only)
+   ============================================================================= */
+
+.navbar__hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+
+  width: 2.75rem;   /* 44px tap target */
+  height: 2.75rem;
+  padding: var(--space-2);
+  flex-shrink: 0;
+
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-default);
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+.navbar__hamburger:hover {
+  background-color: rgba(27, 31, 59, 0.06);
+}
+
+.navbar--scrolled .navbar__hamburger:hover,
+.navbar--solid .navbar__hamburger:hover {
+  background-color: var(--primary-100);
+}
+
+.navbar__hamburger:focus-visible {
+  outline: 3px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
+/* Hamburger bars */
+.navbar__hamburger-bar {
+  display: block;
+  width: 1.375rem;   /* 22px */
+  height: 2px;
+  border-radius: var(--radius-full);
+  background-color: var(--white);
+  transform-origin: center;
+  transition: transform var(--duration-normal) var(--ease-default),
+              opacity var(--duration-fast) var(--ease-default),
+              width var(--duration-normal) var(--ease-default);
+}
+
+/* Bars turn dark on scrolled/solid navbar */
+.navbar--scrolled .navbar__hamburger-bar,
+.navbar--solid .navbar__hamburger-bar {
+  background-color: var(--secondary-500);
+}
+
+/* When menu is open — animate to X */
+.navbar__hamburger[aria-expanded="true"] .navbar__hamburger-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.navbar__hamburger[aria-expanded="true"] .navbar__hamburger-bar:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+
+.navbar__hamburger[aria-expanded="true"] .navbar__hamburger-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Show hamburger on tablet and mobile */
+@media (max-width: 1023px) {
+  .navbar__hamburger {
+    display: flex;
+  }
+}
+
+
+/* =============================================================================
+   8. MEGA MENU — SERVICES DROPDOWN
+   ============================================================================= */
+
+.navbar__dropdown {
+  position: absolute;
+  top: calc(100% + var(--space-4));
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+
+  width: var(--dropdown-width);
+  padding: var(--dropdown-padding);
+
+  background-color: var(--white);
+  border-radius: var(--dropdown-radius);
+  box-shadow: var(--shadow-xl);
+  border-top: 3px solid var(--primary-400);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out),
+              visibility 0s linear var(--duration-normal);
+}
+
+/* Open state — JS adds aria-expanded="true" to parent nav item */
+.navbar__nav-item--has-dropdown[aria-expanded="true"] .navbar__dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out),
+              visibility 0s linear 0s;
+}
+
+/* Section header spanning full width */
+.navbar__dropdown-header {
+  grid-column: 1 / -1;
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-2);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.navbar__dropdown-title {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-preheading);
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+/* Individual service card link */
+.navbar__dropdown-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: inherit;
+  transition: background-color var(--duration-fast) var(--ease-default);
+}
+
+.navbar__dropdown-item:hover,
+.navbar__dropdown-item:focus-visible {
+  background-color: var(--primary-50);
+}
+
+.navbar__dropdown-item:focus-visible {
+  outline: 3px solid var(--primary-400);
+  outline-offset: -2px;
+}
+
+.navbar__dropdown-item-icon {
+  width: 2.5rem;    /* 40px */
+  height: 2.5rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-100);
+  border-radius: var(--radius-md);
+  color: var(--primary-500);
+  transition: background-color var(--duration-fast) var(--ease-default),
+              color var(--duration-fast) var(--ease-default);
+}
+
+.navbar__dropdown-item:hover .navbar__dropdown-item-icon {
+  background-color: var(--primary-400);
+  color: var(--secondary-600);
+}
+
+.navbar__dropdown-item-icon svg {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  pointer-events: none;
+}
+
+.navbar__dropdown-item-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.navbar__dropdown-item-label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--secondary-500);
+  line-height: var(--leading-snug);
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.navbar__dropdown-item:hover .navbar__dropdown-item-label {
+  color: var(--primary-600);
+}
+
+.navbar__dropdown-item-desc {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  color: var(--gray-500);
+  line-height: var(--leading-normal);
+}
+
+/* Footer CTA row spanning full width */
+.navbar__dropdown-footer {
+  grid-column: 1 / -1;
+  padding-top: var(--space-3);
+  margin-top: var(--space-2);
+  border-top: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.navbar__dropdown-footer-text {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--gray-500);
+}
+
+.navbar__dropdown-footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--primary-500);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-default),
+              gap var(--duration-fast) var(--ease-default);
+}
+
+.navbar__dropdown-footer-link:hover,
+.navbar__dropdown-footer-link:focus-visible {
+  color: var(--primary-600);
+  gap: var(--space-2);
+}
+
+.navbar__dropdown-footer-link svg {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+  pointer-events: none;
+}
+
+/* Bridge gap between trigger and panel so mouse doesn't lose hover */
+.navbar__dropdown::before {
+  content: '';
+  position: absolute;
+  top: -var(--space-4);
+  left: 0;
+  right: 0;
+  height: var(--space-4);
+}
+
+
+/* =============================================================================
+   9. MOBILE OVERLAY MENU
+   ============================================================================= */
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-mobile-menu);
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--white);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  /* Hidden state */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(100%);
+  transition: transform var(--duration-slow) var(--ease-out),
+              opacity var(--duration-slow) var(--ease-out),
+              visibility 0s linear var(--duration-slow);
+}
+
+/* Open state — JS adds .mobile-menu--open */
+.mobile-menu--open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition: transform var(--duration-slow) var(--ease-out),
+              opacity var(--duration-slow) var(--ease-out),
+              visibility 0s linear 0s;
+}
+
+/* Prevent body scroll when menu is open */
+body.mobile-menu-open {
+  overflow: hidden;
+  /* Prevent layout shift from scrollbar disappearing */
+  padding-right: var(--scrollbar-width, 0);
+}
+
+
+/* -----------------------------------------------------------------------------
+   9a. Mobile Menu Header
+----------------------------------------------------------------------------- */
+
+.mobile-menu__header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--container-px-mobile);
+  min-height: var(--navbar-height-mobile);
+  background-color: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  flex-shrink: 0;
+}
+
+.mobile-menu__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: inherit;
+}
+
+.mobile-menu__logo-img {
+  height: 2rem;
+  width: auto;
+  display: block;
+}
+
+.mobile-menu__logo-name {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  color: var(--secondary-500);
+  letter-spacing: var(--tracking-snug);
+}
+
+/* Close button */
+.mobile-menu__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  background: var(--gray-100);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  color: var(--secondary-400);
+  flex-shrink: 0;
+  transition: background-color var(--duration-fast) var(--ease-default),
+              color var(--duration-fast) var(--ease-default);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-menu__close:hover,
+.mobile-menu__close:focus-visible {
+  background-color: var(--primary-100);
+  color: var(--primary-600);
+}
+
+.mobile-menu__close:focus-visible {
+  outline: 3px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
+.mobile-menu__close svg {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  pointer-events: none;
+}
+
+
+/* -----------------------------------------------------------------------------
+   9b. Mobile Menu Body
+----------------------------------------------------------------------------- */
+
+.mobile-menu__body {
+  flex: 1;
+  padding: var(--space-4) var(--container-px-mobile);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Primary nav links */
+.mobile-menu__nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu__nav-item {
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.mobile-menu__nav-item:first-child {
+  border-top: 1px solid var(--gray-200);
+}
+
+.mobile-menu__nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) 0;
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  color: var(--secondary-500);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-default);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-menu__nav-link:hover,
+.mobile-menu__nav-link:focus-visible {
+  color: var(--primary-500);
+}
+
+.mobile-menu__nav-link[aria-current="page"] {
+  color: var(--primary-500);
+  font-weight: var(--weight-semibold);
+}
+
+.mobile-menu__nav-link-icon {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  flex-shrink: 0;
+  color: var(--gray-400);
+  transition: transform var(--duration-normal) var(--ease-default),
+              color var(--duration-fast) var(--ease-default);
+  pointer-events: none;
+}
+
+.mobile-menu__nav-link:hover .mobile-menu__nav-link-icon {
+  color: var(--primary-400);
+}
+
+/* Accordion toggle for Services */
+.mobile-menu__nav-link[aria-expanded="true"] .mobile-menu__nav-link-icon {
+  transform: rotate(90deg);
+}
+
+
+/* -----------------------------------------------------------------------------
+   9c. Mobile Services Submenu (accordion)
+----------------------------------------------------------------------------- */
+
+.mobile-menu__submenu {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height var(--duration-slow) var(--ease-out);
+}
+
+.mobile-menu__submenu--open {
+  max-height: 40rem;  /* Large enough for all service items */
+}
+
+.mobile-menu__submenu-inner {
+  padding-bottom: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.mobile-menu__submenu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--secondary-400);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  transition: background-color var(--duration-fast) var(--ease-default),
+              color var(--duration-fast) var(--ease-default);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-menu__submenu-item:hover,
+.mobile-menu__submenu-item:focus-visible {
+  background-color: var(--primary-50);
+  color: var(--primary-600);
+}
+
+.mobile-menu__submenu-item:focus-visible {
+  outline: 3px solid var(--primary-400);
+  outline-offset: -2px;
+}
+
+.mobile-menu__submenu-icon {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-100);
+  border-radius: var(--radius-sm);
+  color: var(--primary-500);
+  transition: background-color var(--duration-fast) var(--ease-default);
+}
+
+.mobile-menu__submenu-item:hover .mobile-menu__submenu-icon {
+  background-color: var(--primary-200);
+}
+
+.mobile-menu__submenu-icon svg {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+  pointer-events: none;
+}
+
+
+/* -----------------------------------------------------------------------------
+   9d. Mobile Menu Footer (CTA + contact)
+----------------------------------------------------------------------------- */
+
+.mobile-menu__footer {
+  padding: var(--space-6) var(--container-px-mobile) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border-top: 1px solid var(--gray-200);
+  margin-top: auto;
+}
+
+/* Book Consultation CTA — full width on mobile */
+.mobile-menu__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-gap);
+
+  width: 100%;
+  padding: var(--btn-padding-y-md) var(--btn-padding-x-md);
+  min-height: var(--btn-height-md);
+
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  color: var(--secondary-500);
+  text-decoration: none;
+
+  background: var(--gradient-cta);
+  border-radius: var(--btn-border-radius);
+  border: none;
+  cursor: pointer;
+
+  transition: background var(--duration-normal) var(--ease-default),
+              box-shadow var(--duration-fast) var(--ease-default);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-menu__cta:hover,
+.mobile-menu__cta:focus-visible {
+  background: var(--gradient-cta-hover);
+  box-shadow: var(--shadow-glow);
+}
+
+.mobile-menu__cta:focus-visible {
+  outline: 3px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
+/* WhatsApp secondary link */
+.mobile-menu__whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-gap);
+
+  width: 100%;
+  padding: var(--btn-padding-y-md) var(--btn-padding-x-md);
+  min-height: var(--btn-height-md);
+
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--color-whatsapp);
+  text-decoration: none;
+
+  background: transparent;
+  border: 1.5px solid var(--color-whatsapp);
+  border-radius: var(--btn-border-radius);
+  cursor: pointer;
+
+  transition: background-color var(--duration-fast) var(--ease-default),
+              color var(--duration-fast) var(--ease-default);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-menu__whatsapp:hover,
+.mobile-menu__whatsapp:focus-visible {
+  background-color: var(--color-whatsapp);
+  color: var(--white);
+}
+
+.mobile-menu__whatsapp:focus-visible {
+  outline: 3px solid var(--color-whatsapp);
+  outline-offset: 2px;
+}
+
+.mobile-menu__whatsapp svg {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+/* Contact micro-row */
+.mobile-menu__contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--gray-500);
+}
+
+.mobile-menu__contact-link {
+  color: var(--secondary-400);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.mobile-menu__contact-link:hover {
+  color: var(--primary-500);
+}
+
+/* Decorative divider between pages */
+.mobile-menu__divider {
+  height: 1px;
+  background-color: var(--gray-200);
+  margin-block: var(--space-2);
+}
+
+/* Secondary page links (About, Blog, etc.) */
+.mobile-menu__secondary-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.mobile-menu__secondary-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  color: var(--gray-600);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-default);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-menu__secondary-link:hover,
+.mobile-menu__secondary-link:focus-visible {
+  color: var(--primary-500);
+}
+
+.mobile-menu__secondary-link svg {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+  color: var(--gray-400);
+  pointer-events: none;
+}
+
+
+/* =============================================================================
+   10. PAGE OFFSET UTILITY
+   Applied to <main> to prevent content from being hidden under fixed navbar.
+   ============================================================================= */
+
+.page-offset {
+  padding-top: calc(var(--navbar-height-desktop) + var(--topbar-height));
+}
+
+/* Hero pages override: hero section itself handles the offset with padding-top */
+.page-offset--hero {
+  padding-top: 0;
+}
+
+@media (max-width: 767px) {
+  .page-offset {
+    padding-top: var(--navbar-height-mobile);
+  }
+}
+
+
+/* =============================================================================
+   11. OVERLAY BACKDROP (blocks interaction with page content)
+   ============================================================================= */
+
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-mobile-menu) - 1);
+  background-color: rgba(27, 31, 59, 0.5);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--duration-slow) var(--ease-out),
+              visibility 0s linear var(--duration-slow);
+}
+
+.nav-backdrop--visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--duration-slow) var(--ease-out),
+              visibility 0s linear 0s;
+}
+
+
+/* =============================================================================
+   12. NAVBAR — HERO PAGE VARIANT
+   When navbar sits over a dark hero, keep it transparent until scroll.
+   Add class .navbar--over-hero to the <nav> element.
+   ============================================================================= */
+
+.navbar--over-hero {
+  /* Ensure text/icons are white in transparent state */
+}
+
+.navbar--over-hero:not(.navbar--scrolled):not(.navbar--solid) .navbar__nav-link,
+.navbar--over-hero:not(.navbar--scrolled):not(.navbar--solid) .navbar__hamburger-bar {
+  /* Inherits white colour from base transparent state rules above */
+}
+
+
+/* =============================================================================
+   13. REDUCED MOTION
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu {
+    transition: opacity var(--duration-fast) var(--ease-default),
+                visibility 0s linear var(--duration-fast);
+    transform: none;
+  }
+
+  .mobile-menu--open {
+    transition: opacity var(--duration-fast) var(--ease-default),
+                visibility 0s linear 0s;
+  }
+
+  .navbar__dropdown {
+    transition: opacity var(--duration-fast) var(--ease-default),
+                visibility 0s linear var(--duration-fast);
+    transform: translateX(-50%) !important;
+  }
+
+  .navbar__nav-item--has-dropdown[aria-expanded="true"] .navbar__dropdown {
+    transition: opacity var(--duration-fast) var(--ease-default),
+                visibility 0s linear 0s;
+  }
+
+  .mobile-menu__submenu {
+    transition: max-height var(--duration-fast) var(--ease-default);
+  }
+}
+
+
+/* =============================================================================
+   14. HIGH CONTRAST MODE
+   ============================================================================= */
+
+@media (prefers-contrast: more) {
+  .navbar--scrolled,
+  .navbar--solid {
+    border-bottom: 2px solid var(--secondary-500);
+  }
+
+  .navbar__dropdown {
+    border: 2px solid var(--secondary-500);
+  }
+
+  .mobile-menu {
+    border-right: 2px solid var(--secondary-500);
+  }
+
+  .navbar__cta,
+  .mobile-menu__cta {
+    border: 2px solid var(--secondary-600);
+  }
+}
+
+
+/* =============================================================================
+   15. PRINT
+   ============================================================================= */
+
+@media print {
+  .navbar,
+  .topbar,
+  .mobile-menu,
+  .nav-backdrop {
+    display: none !important;
+  }
+
+  .page-offset {
+    padding-top: 0 !important;
+  }
+}

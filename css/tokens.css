@@ -1,0 +1,526 @@
+/* =============================================================================
+   JYOTISH MAARG — DESIGN TOKENS
+   css/tokens.css
+   
+   Single source of truth for all design system values.
+   No selectors, no styles — custom properties only.
+   All values sourced from the approved Jyotish Maarg Design System v1.0.
+   ============================================================================= */
+
+:root {
+
+  /* ===========================================================================
+     1. BRAND COLORS — PRIMARY (Saffron)
+     Base: #E8A317 — Primary brand saffron
+     Usage: CTAs, icons, accent elements, interactive states
+     =========================================================================== */
+
+  --primary-50:  #FFF8F0;   /* Page background, light sections                  */
+  --primary-100: #FFF0DB;   /* Card backgrounds, subtle highlights               */
+  --primary-200: #FFE0B2;   /* Hover states, borders on light bg                 */
+  --primary-300: #FFCC80;   /* Active/focus rings                                */
+  --primary-400: #E8A317;   /* ★ Primary brand saffron — CTAs, icons, accents    */
+  --primary-500: #D4940F;   /* Primary hover state                               */
+  --primary-600: #B8800D;   /* Primary active/pressed state                      */
+  --primary-700: #8B6208;   /* Dark accent, small text on light bg               */
+
+
+  /* ===========================================================================
+     2. BRAND COLORS — SECONDARY (Navy)
+     Base: #1B1F3B — Primary navy
+     Usage: Headings, nav, footer, deep backgrounds
+     =========================================================================== */
+
+  --secondary-50:  #E8EAF0;   /* Light section background alt                   */
+  --secondary-100: #C5CAD9;   /* Dividers, subtle borders                       */
+  --secondary-200: #8B92AC;   /* Placeholder text, disabled states              */
+  --secondary-300: #5A6283;   /* Secondary text, captions                       */
+  --secondary-400: #2D3561;   /* Body text, paragraphs                          */
+  --secondary-500: #1B1F3B;   /* ★ Primary navy — headings, nav, footer bg      */
+  --secondary-600: #141730;   /* Deeper backgrounds, footer bottom              */
+  --secondary-700: #0D0F20;   /* Darkest bg, overlays                           */
+
+
+  /* ===========================================================================
+     3. BRAND COLORS — ACCENT (Gold)
+     Base: #D4AF37 — Decorative gold
+     Usage: Decorative borders, star ratings, divider ornaments
+     =========================================================================== */
+
+  --gold-light: #F5E6C8;   /* Gold shimmer backgrounds                          */
+  --gold:       #D4AF37;   /* ★ Accent gold — decorative borders, star ratings  */
+  --gold-dark:  #A8891E;   /* Gold hover, dark mode accents                     */
+
+
+  /* ===========================================================================
+     4. BRAND COLORS — NEUTRALS
+     Usage: Surfaces, borders, text hierarchy, backgrounds
+     =========================================================================== */
+
+  --white:     #FFFFFF;   /* Card surfaces, inputs                               */
+  --cream:     #FFF8F0;   /* Page background (alias of --primary-50)             */
+  --gray-100:  #F7F7F8;   /* Alternate section backgrounds                       */
+  --gray-200:  #EBEBEE;   /* Borders, dividers                                   */
+  --gray-300:  #D1D1D6;   /* Input borders, disabled text                        */
+  --gray-400:  #A0A0AB;   /* Placeholder text                                    */
+  --gray-500:  #71717A;   /* Caption text, meta info                             */
+  --gray-600:  #52525B;   /* Secondary body text                                 */
+  --gray-700:  #3F3F46;   /* Primary body text (alt)                             */
+  --gray-900:  #18181B;   /* Headings (alt for light backgrounds)                */
+
+
+  /* ===========================================================================
+     5. BRAND COLORS — SEMANTIC
+     Usage: Feedback states — validation, alerts, informational
+     =========================================================================== */
+
+  --success:       #16A34A;   /* Form validation success, confirmations          */
+  --success-light: #DCFCE7;   /* Success background                              */
+  --error:         #DC2626;   /* Form errors, required field indicators          */
+  --error-light:   #FEE2E2;   /* Error background                                */
+  --info:          #2563EB;   /* Links, informational highlights                 */
+  --info-light:    #DBEAFE;   /* Info background                                 */
+  --warning:       #F59E0B;   /* Warnings, attention                             */
+  --warning-light: #FEF3C7;   /* Warning background                              */
+
+
+  /* ===========================================================================
+     6. BRAND COLORS — GRADIENTS
+     Usage: Hero backgrounds, CTA buttons, decorative elements
+     =========================================================================== */
+
+  /* Backgrounds */
+  --gradient-hero:         linear-gradient(135deg, #1B1F3B 0%, #2D3561 50%, #1B1F3B 100%);
+  --gradient-dark-overlay: linear-gradient(180deg, rgba(27,31,59,0.85) 0%, rgba(27,31,59,0.95) 100%);
+  --gradient-card-glass:   linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,248,240,0.8) 100%);
+
+  /* CTAs */
+  --gradient-cta:          linear-gradient(135deg, #E8A317 0%, #D4AF37 100%);
+  --gradient-cta-hover:    linear-gradient(135deg, #D4940F 0%, #A8891E 100%);
+
+  /* Decorative */
+  --gradient-gold-shimmer: linear-gradient(90deg, #D4AF37 0%, #F5E6C8 50%, #D4AF37 100%);
+
+  /* WhatsApp */
+  --color-whatsapp:        #25D366;
+  --color-whatsapp-hover:  #20BD5A;
+  --color-whatsapp-active: #1DA851;
+
+
+  /* ===========================================================================
+     7. TYPOGRAPHY — FONT FAMILIES
+     =========================================================================== */
+
+  --font-heading:  'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body:     'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-hindi:    'Noto Sans Devanagari', sans-serif;
+  --font-mono:     'JetBrains Mono', 'Courier New', monospace;
+
+
+  /* ===========================================================================
+     8. TYPOGRAPHY — FONT WEIGHTS
+     =========================================================================== */
+
+  --weight-regular:   400;
+  --weight-medium:    500;
+  --weight-semibold:  600;
+  --weight-bold:      700;
+
+
+  /* ===========================================================================
+     9. TYPOGRAPHY — FONT SIZES
+     Base: 16px (1rem). Scale ratio: 1.25 (Major Third)
+     =========================================================================== */
+
+  --text-xs:   0.75rem;    /* 12px — Micro labels, badges                       */
+  --text-sm:   0.875rem;   /* 14px — Captions, meta, form hints                 */
+  --text-base: 1rem;       /* 16px — Body text, paragraphs                      */
+  --text-lg:   1.125rem;   /* 18px — Lead paragraphs, subtext                   */
+  --text-xl:   1.25rem;    /* 20px — Card headings, sub-headings                */
+  --text-2xl:  1.5rem;     /* 24px — Section subheadings (H3)                   */
+  --text-3xl:  1.875rem;   /* 30px — Section headings (H2)                      */
+  --text-4xl:  2.25rem;    /* 36px — Page headings (H1 — mobile)                */
+  --text-5xl:  3rem;       /* 48px — Page headings (H1 — desktop)               */
+  --text-6xl:  3.75rem;    /* 60px — Hero headline (desktop)                    */
+
+
+  /* ===========================================================================
+     10. TYPOGRAPHY — LINE HEIGHTS
+     =========================================================================== */
+
+  --leading-none:    1;
+  --leading-tight:   1.1;
+  --leading-snug:    1.2;
+  --leading-heading: 1.3;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.6;
+  --leading-body:    1.7;   /* Body text standard                                */
+
+
+  /* ===========================================================================
+     11. TYPOGRAPHY — LETTER SPACING
+     =========================================================================== */
+
+  --tracking-tightest: -0.03em;
+  --tracking-tighter:  -0.025em;
+  --tracking-tight:    -0.02em;
+  --tracking-snug:     -0.015em;
+  --tracking-normal:    0em;
+  --tracking-wide:      0.01em;
+  --tracking-wider:     0.02em;
+  --tracking-widest:    0.08em;   /* Footer column headings                      */
+  --tracking-preheading: 0.1em;  /* Pre-heading labels (uppercase small caps)   */
+
+
+  /* ===========================================================================
+     12. SPACING SYSTEM
+     Base unit: 4px. All values are multiples of 4.
+     =========================================================================== */
+
+  --space-0:  0;
+  --space-1:  0.25rem;    /* 4px  — Micro gaps: icon-to-text, badge padding     */
+  --space-2:  0.5rem;     /* 8px  — Tight gaps: between inline elements         */
+  --space-3:  0.75rem;    /* 12px — Input padding (vertical), small card        */
+  --space-4:  1rem;       /* 16px — Standard paragraph gap, card padding mobile */
+  --space-5:  1.25rem;    /* 20px — Between form fields                         */
+  --space-6:  1.5rem;     /* 24px — Card padding desktop, between sub-sections  */
+  --space-8:  2rem;       /* 32px — Between components within a section         */
+  --space-10: 2.5rem;     /* 40px — Section heading to content gap              */
+  --space-12: 3rem;       /* 48px — Between cards in a grid                     */
+  --space-16: 4rem;       /* 64px — Between sections (mobile)                   */
+  --space-20: 5rem;       /* 80px — Between sections (tablet)                   */
+  --space-24: 6rem;       /* 96px — Between sections (desktop)                  */
+  --space-32: 8rem;       /* 128px — Hero section vertical padding              */
+
+
+  /* ===========================================================================
+     13. SPACING — SECTION PADDING
+     Applied as padding-block on section elements
+     =========================================================================== */
+
+  --section-padding-mobile:  var(--space-16);   /* 64px                        */
+  --section-padding-tablet:  var(--space-20);   /* 80px                        */
+  --section-padding-desktop: var(--space-24);   /* 96px                        */
+  --section-hero-padding:    var(--space-32);   /* 128px — hero top/bottom     */
+  --section-cta-padding:     var(--space-16);   /* 64px — CTA strip            */
+
+
+  /* ===========================================================================
+     14. SPACING — CONTAINER HORIZONTAL PADDING
+     =========================================================================== */
+
+  --container-px-mobile:  var(--space-4);    /* 16px                           */
+  --container-px-tablet:  var(--space-6);    /* 24px                           */
+  --container-px-desktop: var(--space-8);    /* 32px                           */
+
+
+  /* ===========================================================================
+     15. SPACING — COMPONENT GAPS
+     =========================================================================== */
+
+  --gap-cards-mobile:  var(--space-4);    /* 16px — Card grid gap mobile       */
+  --gap-cards-desktop: var(--space-8);    /* 32px — Card grid gap desktop      */
+  --gap-buttons:       0.75rem;           /* 12px — Between paired buttons     */
+  --gap-icon-text:     var(--space-2);    /* 8px  — Icon to label              */
+  --gap-nav-links:     var(--space-8);    /* 32px — Between nav items desktop  */
+  --gap-footer-links:  0.75rem;           /* 12px — Between footer links       */
+  --gap-form-fields:   var(--space-5);    /* 20px — Between form fields        */
+  --gap-social-icons:  var(--space-4);    /* 16px — Social icon row            */
+
+
+  /* ===========================================================================
+     16. CONTAINER WIDTHS
+     =========================================================================== */
+
+  --container-sm:  40rem;    /* 640px  — Blog post content, narrow forms        */
+  --container-md:  48rem;    /* 768px  — Single-column content                  */
+  --container-lg:  64rem;    /* 1024px — Standard page container                */
+  --container-xl:  75rem;    /* 1200px — Wide sections (service grids, footer)  */
+  --container-2xl: 87.5rem;  /* 1400px — Maximum width cap (hero, full-width)   */
+
+  /* Form-specific max-widths */
+  --form-width-booking: 35rem;    /* 560px — Booking form                       */
+  --form-width-contact: 30rem;    /* 480px — Contact form                       */
+
+
+  /* ===========================================================================
+     17. BREAKPOINTS
+     Usage: Reference values only — use in media queries via calc() or directly.
+     Custom properties cannot be used inside @media queries in CSS.
+     These are documented here for reference and used in JS via getComputedStyle.
+     =========================================================================== */
+
+  --bp-sm:  480px;    /* Small mobile — small phones                            */
+  --bp-md:  768px;    /* Tablet — tablets, large phones                         */
+  --bp-lg:  1024px;   /* Desktop — small laptops, landscape tablets             */
+  --bp-xl:  1280px;   /* Large desktop — standard desktops                      */
+  --bp-2xl: 1536px;   /* Extra large — wide monitors                            */
+
+
+  /* ===========================================================================
+     18. BORDER RADIUS
+     =========================================================================== */
+
+  --radius-none: 0;
+  --radius-sm:   0.25rem;    /* 4px    — Badges, tags, small elements           */
+  --radius-md:   0.5rem;     /* 8px    — Input fields, buttons                  */
+  --radius-lg:   0.75rem;    /* 12px   — Cards, dropdowns                       */
+  --radius-xl:   1rem;       /* 16px   — Large cards, modals                    */
+  --radius-2xl:  1.5rem;     /* 24px   — Floating CTA strip, hero content box   */
+  --radius-full: 9999px;     /* ∞      — Avatars, icon buttons, pills           */
+
+
+  /* ===========================================================================
+     19. SHADOWS
+     Color basis: --secondary-500 (#1B1F3B)
+     =========================================================================== */
+
+  --shadow-none:  none;
+  --shadow-xs:    0 1px 2px rgba(27,31,59,0.05);
+  --shadow-sm:    0 2px 4px rgba(27,31,59,0.06),  0 1px 2px  rgba(27,31,59,0.04);
+  --shadow-md:    0 4px 12px rgba(27,31,59,0.08), 0 2px 4px  rgba(27,31,59,0.04);
+  --shadow-lg:    0 8px 24px rgba(27,31,59,0.10), 0 4px 8px  rgba(27,31,59,0.05);
+  --shadow-xl:    0 16px 48px rgba(27,31,59,0.14), 0 8px 16px rgba(27,31,59,0.06);
+  --shadow-inner: inset 0 2px 4px rgba(27,31,59,0.06);
+
+  /* Brand-specific shadows */
+  --shadow-glow:           0 0 20px rgba(232,163,23,0.25);   /* Gold glow on CTA hover */
+  --shadow-focus-primary:  0 0 0 3px rgba(232,163,23,0.15);  /* Primary focus ring     */
+  --shadow-focus-error:    0 0 0 3px rgba(220,38,38,0.15);   /* Error focus ring       */
+
+
+  /* ===========================================================================
+     20. TRANSITIONS — DURATION
+     =========================================================================== */
+
+  --duration-fast:   150ms;   /* Micro-interactions: hover color, focus ring    */
+  --duration-normal: 250ms;   /* Standard: card hover, button state             */
+  --duration-slow:   400ms;   /* Complex: dropdown open, accordion, overlay     */
+  --duration-slower: 600ms;   /* Page-level: scroll reveal, hero entrance       */
+
+
+  /* ===========================================================================
+     21. TRANSITIONS — EASING
+     =========================================================================== */
+
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);    /* General purpose           */
+  --ease-in:      cubic-bezier(0.4, 0, 1, 1);       /* Elements leaving viewport */
+  --ease-out:     cubic-bezier(0, 0, 0.2, 1);       /* Elements entering viewport*/
+  --ease-bounce:  cubic-bezier(0.34, 1.56, 0.64, 1);/* Playful: counter, toast  */
+
+
+  /* ===========================================================================
+     22. TRANSITIONS — SHORTHAND PRESETS
+     =========================================================================== */
+
+  --transition-fast:    all var(--duration-fast)   var(--ease-default);
+  --transition-default: all var(--duration-normal) var(--ease-default);
+  --transition-slow:    all var(--duration-slow)   var(--ease-default);
+  --transition-card:    all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-nav:     background-color var(--duration-normal) var(--ease-default),
+                        box-shadow var(--duration-normal) var(--ease-default),
+                        backdrop-filter var(--duration-normal) var(--ease-default);
+
+
+  /* ===========================================================================
+     23. Z-INDEX SYSTEM
+     Scale: 0 (flat) → 1100 (critical overlay)
+     =========================================================================== */
+
+  --z-below:        -1;     /* Behind everything (decorative pseudo-elements)   */
+  --z-base:          0;     /* Default stacking context                         */
+  --z-raised:       10;     /* Cards, lifted elements                           */
+  --z-dropdown:    100;     /* Mega-dropdown panel                              */
+  --z-sticky:      200;     /* Sticky sidebar, sticky elements                  */
+  --z-fab:         800;     /* WhatsApp FAB, Back-to-top                        */
+  --z-sticky-bar:  900;     /* Mobile sticky bottom CTA bar                    */
+  --z-navbar:     1000;     /* Fixed navbar                                     */
+  --z-overlay:    1050;     /* Modal/overlay backdrop                           */
+  --z-mobile-menu: 1100;    /* Mobile full-screen menu (above navbar)           */
+  --z-toast:      1200;     /* Toast notifications (above everything)           */
+
+
+  /* ===========================================================================
+     24. NAVBAR
+     =========================================================================== */
+
+  --navbar-height-desktop: 4.5rem;     /* 72px                                  */
+  --navbar-height-mobile:  3.75rem;    /* 60px                                  */
+  --navbar-scroll-trigger: 50px;       /* Distance before scroll styles apply   */
+  --navbar-blur:           blur(12px); /* Backdrop blur when scrolled           */
+  --navbar-bg-scrolled:    rgba(255,255,255,0.92);
+  --navbar-bg-top:         transparent;
+  --navbar-bg-solid:       var(--white);   /* Non-hero pages: always solid      */
+
+  /* Mobile tap-to-call banner (above navbar) */
+  --topbar-height: 2.25rem;   /* 36px                                           */
+
+  /* Combined offset for page content below fixed navbar */
+  --navbar-offset-desktop: var(--navbar-height-desktop);
+  --navbar-offset-mobile:  calc(var(--navbar-height-mobile) + var(--topbar-height));
+
+
+  /* ===========================================================================
+     25. FOOTER
+     =========================================================================== */
+
+  --footer-bg:              var(--secondary-500);     /* #1B1F3B                */
+  --footer-bg-bottom:       var(--secondary-600);     /* #141730 bottom strip   */
+  --footer-border-top:      3px;                      /* Gold shimmer top border*/
+  --footer-padding-top:     var(--space-16);           /* 64px                  */
+  --footer-padding-bottom:  var(--space-8);            /* 32px                  */
+  --footer-col-gap:         var(--space-8);            /* 32px between columns  */
+  --footer-link-gap:        0.75rem;                   /* 12px between links    */
+  --footer-heading-spacing: var(--space-5);            /* 20px below col heading*/
+
+  /* Footer text colors (on dark background) */
+  --footer-text-heading:    var(--white);
+  --footer-text-body:       rgba(255,255,255,0.65);
+  --footer-text-meta:       rgba(255,255,255,0.5);
+  --footer-text-hover:      var(--gold);
+  --footer-divider:         rgba(255,255,255,0.1);
+
+  /* Footer map embed */
+  --footer-map-height: 9.375rem;   /* 150px                                     */
+
+
+  /* ===========================================================================
+     26. FORM TOKENS
+     =========================================================================== */
+
+  --input-height:         3rem;      /* 48px                                     */
+  --input-padding-y:      0.75rem;   /* 12px                                     */
+  --input-padding-x:      1rem;      /* 16px                                     */
+  --input-border:         1.5px solid var(--gray-300);
+  --input-border-focus:   2px solid var(--primary-400);
+  --input-border-error:   2px solid var(--error);
+  --input-border-radius:  var(--radius-md);
+  --textarea-min-height:  7.5rem;    /* 120px                                    */
+  --label-margin-bottom:  0.375rem;  /* 6px                                      */
+
+
+  /* ===========================================================================
+     27. COMPONENT — CARD TOKENS
+     =========================================================================== */
+
+  --card-padding-mobile:  var(--space-4);   /* 16px                             */
+  --card-padding-desktop: var(--space-6);   /* 24px                             */
+  --card-border:          1px solid var(--gray-200);
+  --card-border-radius:   var(--radius-lg);
+  --card-hover-translate: -4px;
+  --card-min-height:      17.5rem;          /* 280px desktop                    */
+
+  /* Testimonial card */
+  --testimonial-padding:      var(--space-8);      /* 32px                      */
+  --testimonial-border-left:  4px solid var(--gold);
+  --testimonial-max-width:    45rem;               /* 720px                     */
+
+  /* Process step circle */
+  --step-circle-size: 3.5rem;   /* 56px                                         */
+
+  /* Stats strip */
+  --stats-padding-y: var(--space-8);   /* 32px                                  */
+
+
+  /* ===========================================================================
+     28. COMPONENT — BUTTON TOKENS
+     =========================================================================== */
+
+  --btn-padding-y-sm:  0.5rem;     /* 8px                                       */
+  --btn-padding-x-sm:  1rem;       /* 16px                                      */
+  --btn-height-sm:     2.25rem;    /* 36px                                      */
+  --btn-icon-sm:       1rem;       /* 16px                                      */
+
+  --btn-padding-y-md:  0.875rem;   /* 14px                                      */
+  --btn-padding-x-md:  1.75rem;    /* 28px                                      */
+  --btn-height-md:     3rem;       /* 48px                                      */
+  --btn-icon-md:       1.25rem;    /* 20px                                      */
+
+  --btn-padding-y-lg:  1rem;       /* 16px                                      */
+  --btn-padding-x-lg:  2.25rem;    /* 36px                                      */
+  --btn-height-lg:     3.5rem;     /* 56px                                      */
+  --btn-icon-lg:       1.375rem;   /* 22px                                      */
+
+  --btn-gap:           0.5rem;     /* 8px — gap between icon and label          */
+  --btn-border-radius: var(--radius-md);
+  --btn-min-touch:     2.75rem;    /* 44px — minimum touch target               */
+
+
+  /* ===========================================================================
+     29. COMPONENT — ICON SIZES
+     =========================================================================== */
+
+  --icon-xs:   1rem;      /* 16px — Inline icons                                */
+  --icon-sm:   1.25rem;   /* 20px — Button/nav icons                            */
+  --icon-md:   1.5rem;    /* 24px — Card feature icons                          */
+  --icon-lg:   2rem;      /* 32px — Contact card icons                          */
+  --icon-xl:   3rem;      /* 48px — Service card icons                          */
+
+
+  /* ===========================================================================
+     30. HEADING ORNAMENT (Decorative divider below H2)
+     =========================================================================== */
+
+  --ornament-width:        5rem;    /* 80px line width                          */
+  --ornament-width-mobile: 3.75rem; /* 60px line width on mobile               */
+  --ornament-height:       2px;
+  --ornament-color:        var(--gold);
+  --ornament-gap-above:    var(--space-4);    /* 16px below heading             */
+  --ornament-gap-below:    var(--space-6);    /* 24px below ornament            */
+
+
+  /* ===========================================================================
+     31. WHATSAPP FAB
+     =========================================================================== */
+
+  --fab-size:           3.5rem;     /* 56px                                      */
+  --fab-offset:         1.5rem;     /* 24px from screen edges (desktop)          */
+  --fab-offset-mobile:  1rem;       /* 16px from screen edges (mobile)           */
+  --fab-icon-size:      1.75rem;    /* 28px WhatsApp icon                        */
+  --fab-pulse-scale:    1.05;       /* Pulse animation scale target              */
+  --fab-pulse-interval: 5s;         /* Pulse every 5 seconds                     */
+
+
+  /* ===========================================================================
+     32. MOBILE STICKY BOTTOM CTA BAR
+     =========================================================================== */
+
+  --sticky-bar-height:     4rem;    /* 64px                                      */
+  --sticky-bar-padding-y:  0.625rem; /* 10px                                    */
+  --sticky-bar-padding-x:  1rem;    /* 16px                                      */
+  --sticky-bar-gap:        0.5rem;  /* 8px between the two buttons               */
+  --sticky-bar-trigger:    300px;   /* Scroll distance before bar appears        */
+
+
+  /* ===========================================================================
+     33. ANIMATION — SCROLL REVEAL
+     =========================================================================== */
+
+  --reveal-distance:         1.25rem;   /* 20px — section headings translate Y   */
+  --reveal-distance-card:    1.875rem;  /* 30px — card translate Y               */
+  --reveal-scale-start:      0.98;      /* Scale from (testimonial entrance)     */
+  --reveal-stagger-delay:    100ms;     /* Delay increment per staggered item    */
+  --reveal-threshold:        0.2;       /* IntersectionObserver threshold        */
+  --counter-duration:        1.5s;      /* Stats count-up animation duration     */
+
+
+  /* ===========================================================================
+     34. MEGA DROPDOWN
+     =========================================================================== */
+
+  --dropdown-width:         35rem;    /* 560px                                   */
+  --dropdown-padding:       var(--space-6);
+  --dropdown-radius:        0 0 var(--radius-xl) var(--radius-xl);
+  --dropdown-open-delay:    150ms;    /* Delay before opening (prevent accidents)*/
+  --dropdown-close-delay:   300ms;    /* Delay before closing                    */
+
+
+  /* ===========================================================================
+     35. BLOG
+     =========================================================================== */
+
+  --blog-sidebar-width:    17.5rem;   /* 280px — desktop sidebar                */
+  --blog-content-max:      var(--container-sm);   /* 640px — post body          */
+  --blog-image-ratio:      56.25%;    /* 16:9 aspect ratio padding-top trick     */
+  --blog-card-img-scale:   1.03;      /* Image zoom on card hover                */
+}

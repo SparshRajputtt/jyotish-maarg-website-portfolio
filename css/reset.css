@@ -1,0 +1,480 @@
+/* =============================================================================
+   JYOTISH MAARG — RESET
+   css/reset.css
+
+   Modern minimal reset. Loaded after tokens.css, before global.css.
+   Removes browser inconsistencies without over-normalising.
+   Does not define any visual styles — that is global.css's job.
+   ============================================================================= */
+
+
+/* -----------------------------------------------------------------------------
+   Box Sizing
+   Apply border-box universally. Inherit-based pattern lets components
+   opt out cleanly by setting box-sizing on their own root element.
+----------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Document & Body
+----------------------------------------------------------------------------- */
+
+html {
+  /* Prevent font size inflation on iOS when rotating to landscape */
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+  /* Smooth scroll — disabled via prefers-reduced-motion below */
+  scroll-behavior: smooth;
+
+  /* Tab size normalisation for <pre>/<code> blocks */
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+body {
+  margin: 0;
+
+  /* Prevent horizontal overflow caused by rogue wide elements */
+  overflow-x: hidden;
+
+  /* Subpixel antialiasing on macOS; grayscale elsewhere */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Ensure body fills at least the full viewport height */
+  min-height: 100dvh;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Block Elements — Margin Collapse Prevention
+----------------------------------------------------------------------------- */
+
+h1, h2, h3, h4, h5, h6,
+p, blockquote, figure,
+ul, ol, dl,
+pre, hr,
+fieldset, details {
+  margin: 0;
+  padding: 0;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Lists
+   Only reset lists that are not using list semantics (nav, etc.).
+   Lists with a role attribute or inside navigation keep their default
+   styles because assistive technologies announce them as lists.
+----------------------------------------------------------------------------- */
+
+ul:where([class]),
+ol:where([class]) {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Headings
+   Remove browser default bold + margin. Font styling is applied in global.css.
+----------------------------------------------------------------------------- */
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Typography
+----------------------------------------------------------------------------- */
+
+/* Prevent orphaned words in short text blocks */
+p {
+  overflow-wrap: break-word;
+}
+
+/* Inherit fonts in address, blockquote */
+address {
+  font-style: normal;
+}
+
+/* Remove default quote characters — controlled in global.css */
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
+  content: none;
+}
+
+/* Consistent small text sizing */
+small {
+  font-size: 80%;
+}
+
+/* Prevent sub/sup from affecting line height */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub { bottom: -0.25em; }
+sup { top: -0.5em; }
+
+
+/* -----------------------------------------------------------------------------
+   Links
+   Remove default browser styles. Full styling in global.css.
+----------------------------------------------------------------------------- */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Media — Images, Video, Canvas, SVG
+----------------------------------------------------------------------------- */
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  /* Prevent alt text layout from breaking when image fails to load */
+  font-style: italic;
+
+  /* Prevent images from being dragged */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+
+  /* Default background while loading */
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Preserve SVG fill/stroke colour when used as inline icons */
+svg {
+  /* Do not override fill — component CSS handles colour */
+  overflow: hidden; /* Clip strokes that exceed viewBox */
+  flex-shrink: 0;   /* Prevent icon squish inside flex containers */
+}
+
+
+/* -----------------------------------------------------------------------------
+   Tables
+----------------------------------------------------------------------------- */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Form Element Normalisation
+----------------------------------------------------------------------------- */
+
+/* Inherit font from document — browsers do not do this by default */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+}
+
+/* Remove default appearance on buttons and inputs */
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Remove default appearance on text inputs and selects */
+input,
+textarea,
+select {
+  -webkit-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+}
+
+/* Textarea: disable horizontal resize (only vertical allowed, set in components.css) */
+textarea {
+  resize: vertical;
+  overflow: auto; /* IE fix */
+}
+
+/* Remove the inner focus ring in Firefox */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* Remove number spinners from number inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Remove default search input styling */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Remove fieldset default styling */
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0; /* Fix fieldset min-width bug in Firefox */
+}
+
+legend {
+  padding: 0;
+  display: table; /* Correct text wrapping in Edge/IE */
+  max-width: 100%;
+  white-space: normal;
+}
+
+/* Remove default details/summary triangle in some browsers */
+details > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Dialog
+----------------------------------------------------------------------------- */
+
+dialog {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Horizontal Rule
+----------------------------------------------------------------------------- */
+
+hr {
+  border: none;
+  border-top: 1px solid;
+  color: inherit;
+  height: 0;
+  overflow: visible;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Accessibility — Focus Management
+   Never remove focus outlines without replacing them.
+   JS will add a .using-mouse class to <body> to suppress focus rings
+   for pointer users only. Keyboard users always see focus rings.
+----------------------------------------------------------------------------- */
+
+/* Hide browser default focus ring for mouse users — JS-gated */
+body.using-mouse :focus {
+  outline: none;
+}
+
+/* Keyboard focus: visible, high-contrast ring using the brand saffron */
+:focus-visible {
+  outline: 3px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
+/* Skip link — always visible on focus, hidden otherwise */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: var(--z-toast);
+  padding: var(--space-2) var(--space-4);
+  background: var(--secondary-500);
+  color: var(--white);
+  font-weight: var(--weight-semibold);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top var(--duration-fast) var(--ease-out);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+
+/* -----------------------------------------------------------------------------
+   Accessibility — Reduced Motion
+   Disable all animations and transitions for users who have requested it.
+   This overrides every animation in animations.css and components.css.
+----------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* -----------------------------------------------------------------------------
+   Accessibility — Screen Reader Utility
+   Visually hidden but announced by assistive technologies.
+   Applied to icon labels, carousel status text, form hints.
+----------------------------------------------------------------------------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Allow sr-only elements to become visible when focused
+   (e.g. skip links, focusable table headers) */
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Pointer & Touch
+----------------------------------------------------------------------------- */
+
+/* Prevent text selection on interactive UI elements */
+button,
+[role="button"],
+label,
+summary {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Remove iOS tap highlight — replaced by focus-visible above */
+a,
+button,
+input,
+select,
+textarea,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Improve touch scrolling performance on iOS */
+[data-scroll],
+.overflow-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Miscellaneous
+----------------------------------------------------------------------------- */
+
+/* Prevent broken layout from empty elements */
+[hidden] {
+  display: none !important;
+}
+
+/* Consistent cursor for disabled elements */
+[disabled],
+[aria-disabled="true"] {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Inherit colour on SVG icons inside buttons/links */
+[data-icon] {
+  pointer-events: none; /* Prevent icon from capturing click events */
+}
+
+/* Remove animation on preference — also handles prefers-contrast */
+@media (prefers-contrast: more) {
+  :focus-visible {
+    outline: 3px solid;
+    outline-offset: 2px;
+  }
+}

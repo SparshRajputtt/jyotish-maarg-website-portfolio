@@ -1,0 +1,1020 @@
+/* =============================================================================
+   JYOTISH MAARG — GLOBAL STYLES
+   css/global.css
+
+   Loaded after tokens.css and reset.css, before components.css.
+   Defines: document base, typography system, container, section spacing,
+   link defaults, utility classes, and accessibility helpers.
+   No component-specific styles belong here.
+   ============================================================================= */
+
+
+/* =============================================================================
+   1. DOCUMENT BASE
+   ============================================================================= */
+
+html {
+  font-size: 100%; /* 16px base — never change this value */
+}
+
+body {
+  font-family:  var(--font-body);
+  font-size:    var(--text-base);
+  font-weight:  var(--weight-regular);
+  line-height:  var(--leading-body);
+  color:        var(--secondary-400);
+  background-color: var(--cream);
+
+  /* Ensure content starts below fixed navbar on non-hero pages.
+     Hero pages manage their own padding via .section--hero.
+     The [data-navbar-transparent] attribute is set on pages with
+     a dark hero directly behind the navbar. */
+}
+
+/* Pages without a dark hero behind the navbar get top padding on <main> */
+body:not([data-navbar-transparent]) main {
+  padding-top: var(--navbar-offset-mobile);
+}
+
+@media (min-width: 768px) {
+  body:not([data-navbar-transparent]) main {
+    padding-top: var(--navbar-offset-desktop);
+  }
+}
+
+
+/* =============================================================================
+   2. TYPOGRAPHY — HEADINGS
+   ============================================================================= */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family:  var(--font-heading);
+  font-weight:  var(--weight-bold);
+  color:        var(--secondary-500);
+  line-height:  var(--leading-heading);
+  letter-spacing: var(--tracking-tight);
+}
+
+h1 {
+  font-size:      var(--text-4xl);   /* 36px — mobile default */
+  letter-spacing: var(--tracking-tighter);
+}
+
+h2 {
+  font-size:      var(--text-2xl);   /* 24px — mobile default */
+  font-weight:    var(--weight-semibold);
+  letter-spacing: var(--tracking-snug);
+}
+
+h3 {
+  font-size:      var(--text-xl);    /* 20px */
+  font-weight:    var(--weight-semibold);
+  letter-spacing: var(--tracking-snug);
+}
+
+h4 {
+  font-size:      var(--text-lg);    /* 18px */
+  font-weight:    var(--weight-semibold);
+  letter-spacing: var(--tracking-normal);
+}
+
+h5 {
+  font-size:      var(--text-base);  /* 16px */
+  font-weight:    var(--weight-semibold);
+  letter-spacing: var(--tracking-normal);
+}
+
+h6 {
+  font-size:      var(--text-sm);    /* 14px */
+  font-weight:    var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: var(--text-5xl);    /* 48px — tablet */
+  }
+
+  h2 {
+    font-size: var(--text-3xl);    /* 30px — tablet+ */
+  }
+}
+
+@media (min-width: 1024px) {
+  h1 {
+    font-size: var(--text-6xl);    /* 60px — desktop hero */
+  }
+}
+
+
+/* =============================================================================
+   3. TYPOGRAPHY — BODY & PROSE
+   ============================================================================= */
+
+p {
+  font-size:   var(--text-base);
+  line-height: var(--leading-body);
+  color:       var(--secondary-400);
+  max-width:   68ch; /* Optimal line length for readability */
+}
+
+/* Lead paragraph — used for section subtext directly under headings */
+.lead {
+  font-size:   var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color:       var(--secondary-400);
+  max-width:   60ch;
+}
+
+/* On dark backgrounds, lead text is semi-opaque white */
+.section--dark .lead,
+.section--hero .lead {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+strong,
+b {
+  font-weight: var(--weight-semibold);
+  color:       var(--secondary-500);
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+/* Inline code */
+code {
+  font-family:      var(--font-mono);
+  font-size:        0.875em;
+  background-color: var(--gray-100);
+  color:            var(--secondary-500);
+  padding:          0.1em 0.35em;
+  border-radius:    var(--radius-sm);
+  border:           1px solid var(--gray-200);
+}
+
+/* Code blocks */
+pre {
+  font-family:      var(--font-mono);
+  font-size:        var(--text-sm);
+  background-color: var(--secondary-500);
+  color:            var(--primary-100);
+  padding:          var(--space-6);
+  border-radius:    var(--radius-lg);
+  overflow-x:       auto;
+  line-height:      var(--leading-relaxed);
+}
+
+pre code {
+  background: none;
+  border:     none;
+  padding:    0;
+  font-size:  inherit;
+  color:      inherit;
+}
+
+blockquote {
+  border-left: 4px solid var(--gold);
+  margin:      var(--space-6) 0;
+  padding:     var(--space-4) var(--space-6);
+  background:  var(--primary-50);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+blockquote p {
+  font-style:  italic;
+  color:       var(--secondary-400);
+  margin:      0;
+  max-width:   none;
+}
+
+/* Devanagari script */
+.hindi,
+[lang="hi"] {
+  font-family: var(--font-hindi);
+}
+
+
+/* =============================================================================
+   4. TYPOGRAPHY — LINKS
+   ============================================================================= */
+
+a {
+  color:      var(--primary-500);
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+a:hover {
+  color: var(--primary-600);
+}
+
+/* Prose links — underlined by default for legibility */
+p a,
+li a,
+blockquote a {
+  text-decoration:        underline;
+  text-underline-offset:  3px;
+  text-decoration-color:  var(--primary-300);
+}
+
+p a:hover,
+li a:hover,
+blockquote a:hover {
+  text-decoration-color: var(--primary-500);
+}
+
+/* Navigation and UI links — no underline; components.css handles hover effects */
+nav a {
+  text-decoration: none;
+  color:           inherit;
+}
+
+
+/* =============================================================================
+   5. TYPOGRAPHY — PRE-HEADING LABEL
+   Small uppercase label displayed above a section H2.
+   Example: "JYOTISH MAARG" above "Vedic Astrology That Gives You Clarity"
+   ============================================================================= */
+
+.pre-heading {
+  display:        block;
+  font-family:    var(--font-body);
+  font-size:      var(--text-sm);
+  font-weight:    var(--weight-semibold);
+  letter-spacing: var(--tracking-preheading);
+  text-transform: uppercase;
+  color:          var(--primary-400);
+  margin-bottom:  var(--space-3);
+}
+
+.section--dark .pre-heading,
+.section--hero .pre-heading {
+  color: var(--gold);
+}
+
+
+/* =============================================================================
+   6. TYPOGRAPHY — SECTION HEADING ORNAMENT
+   Decorative gold line with center diamond rendered via CSS.
+   Applied using the .section-heading wrapper pattern.
+   ============================================================================= */
+
+.section-heading {
+  text-align:    center;
+  margin-bottom: var(--space-10); /* 40px — heading block to first content item */
+}
+
+.section-heading h2 {
+  margin-bottom: var(--ornament-gap-above);
+}
+
+/* Subtext below the heading (optional) */
+.section-heading .lead {
+  margin:    0 auto;
+  max-width: 40rem;
+}
+
+/* Ornament: a centred decorative line with diamond glyph */
+.section-heading--ornament h2::after {
+  content:     '';
+  display:     block;
+  width:       var(--ornament-width-mobile);
+  height:      var(--ornament-height);
+  background:  var(--gradient-gold-shimmer);
+  margin:      var(--ornament-gap-above) auto var(--ornament-gap-below);
+  border-radius: var(--radius-full);
+}
+
+@media (min-width: 768px) {
+  .section-heading--ornament h2::after {
+    width: var(--ornament-width);
+  }
+}
+
+/* Heading colour inversions on dark sections */
+.section--dark .section-heading h2,
+.section--hero .section-heading h2 {
+  color: var(--white);
+}
+
+.section--dark .section-heading .lead,
+.section--hero .section-heading .lead {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+
+/* =============================================================================
+   7. TYPOGRAPHY — CAPTION & META
+   ============================================================================= */
+
+.caption,
+.meta {
+  font-size:   var(--text-sm);
+  font-weight: var(--weight-medium);
+  color:       var(--gray-500);
+  line-height: var(--leading-normal);
+}
+
+.caption--xs {
+  font-size: var(--text-xs);
+}
+
+
+/* =============================================================================
+   8. CONTAINER SYSTEM
+   All page content is wrapped in a .container (or a width variant).
+   The container is always horizontally centred with responsive side padding.
+   ============================================================================= */
+
+.container {
+  width:      100%;
+  max-width:  var(--container-xl);   /* 1200px default */
+  margin-inline: auto;
+  padding-inline: var(--container-px-mobile);
+}
+
+/* Width variants */
+.container--sm  { max-width: var(--container-sm);  }  /* 640px  — blog posts, narrow forms */
+.container--md  { max-width: var(--container-md);  }  /* 768px  — single-column content    */
+.container--lg  { max-width: var(--container-lg);  }  /* 1024px — standard page            */
+.container--2xl { max-width: var(--container-2xl); }  /* 1400px — wide hero sections       */
+
+/* Full-bleed: no max-width, no side padding — used for edge-to-edge backgrounds */
+.container--full {
+  max-width: none;
+  padding-inline: 0;
+}
+
+@media (min-width: 768px) {
+  .container,
+  .container--sm,
+  .container--md,
+  .container--lg,
+  .container--2xl {
+    padding-inline: var(--container-px-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container,
+  .container--sm,
+  .container--md,
+  .container--lg,
+  .container--2xl {
+    padding-inline: var(--container-px-desktop);
+  }
+}
+
+
+/* =============================================================================
+   9. SECTION SYSTEM
+   Every page section uses .section as its root element.
+   Backgrounds, dark inversions, and hero sizing are modifier classes.
+   ============================================================================= */
+
+.section {
+  padding-block: var(--section-padding-mobile);
+  position:      relative;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-block: var(--section-padding-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding-block: var(--section-padding-desktop);
+  }
+}
+
+/* ── Background variants ─────────────────────────────────────────────────── */
+
+/* Default: inherits body cream background */
+
+/* Alternate light grey — used for visual rhythm between sections */
+.section--alt {
+  background-color: var(--gray-100);
+}
+
+/* Warm cream — used for pain point cards, secondary highlights */
+.section--warm {
+  background-color: var(--primary-50);
+}
+
+/* Dark navy — hero gradient, testimonials dark strip, final CTA */
+.section--dark {
+  background: var(--gradient-hero);
+  color:      var(--white);
+}
+
+.section--dark h1,
+.section--dark h2,
+.section--dark h3,
+.section--dark h4,
+.section--dark h5,
+.section--dark h6 {
+  color: var(--white);
+}
+
+.section--dark p,
+.section--dark .lead {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.section--dark .caption,
+.section--dark .meta {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Hero section ─────────────────────────────────────────────────────────── */
+
+.section--hero {
+  padding-block:    var(--section-hero-padding);
+  display:          flex;
+  align-items:      center;
+  min-height:       80svh;
+  background:       var(--gradient-hero);
+  color:            var(--white);
+  overflow:         hidden;
+  position:         relative;
+}
+
+/* For pages with transparent navbar — hero starts at very top */
+[data-navbar-transparent] .section--hero {
+  padding-top: calc(var(--section-hero-padding) + var(--navbar-offset-desktop));
+}
+
+@media (max-width: 767px) {
+  [data-navbar-transparent] .section--hero {
+    padding-top: calc(var(--section-hero-padding) + var(--navbar-offset-mobile));
+  }
+}
+
+/* Inner/compact hero for non-homepage pages */
+.section--hero-compact {
+  padding-block: var(--space-16);
+  min-height:    280px;
+  background:    var(--gradient-hero);
+  color:         var(--white);
+  display:       flex;
+  align-items:   center;
+}
+
+@media (min-width: 768px) {
+  .section--hero-compact {
+    min-height: 320px;
+  }
+}
+
+/* Compact hero on pages WITH transparent navbar offset */
+[data-navbar-transparent] .section--hero-compact {
+  padding-top: calc(var(--space-16) + var(--navbar-offset-desktop));
+}
+
+/* ── CTA strip ────────────────────────────────────────────────────────────── */
+
+.section--cta {
+  padding-block: var(--section-cta-padding);
+}
+
+
+/* =============================================================================
+   10. GRID & LAYOUT UTILITIES
+   ============================================================================= */
+
+/* ── Flex row ─────────────────────────────────────────────────────────────── */
+
+.flex        { display: flex; }
+.flex-col    { display: flex; flex-direction: column; }
+.flex-wrap   { flex-wrap: wrap; }
+.items-start { align-items: flex-start; }
+.items-center { align-items: center; }
+.items-end   { align-items: flex-end; }
+.justify-start  { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-end    { justify-content: flex-end; }
+.justify-between { justify-content: space-between; }
+.gap-2  { gap: var(--space-2); }
+.gap-4  { gap: var(--space-4); }
+.gap-6  { gap: var(--space-6); }
+.gap-8  { gap: var(--space-8); }
+.gap-12 { gap: var(--space-12); }
+
+/* ── Grid system ──────────────────────────────────────────────────────────── */
+
+.grid { display: grid; }
+
+/* Responsive card grid — 1 col → 2 col → 3 col */
+.grid--cards {
+  display:               grid;
+  grid-template-columns: 1fr;
+  gap:                   var(--gap-cards-mobile);
+}
+
+@media (min-width: 768px) {
+  .grid--cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap:                   var(--gap-cards-desktop);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid--cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 2-column layout (photo + text, form + info) */
+.grid--2col {
+  display:               grid;
+  grid-template-columns: 1fr;
+  gap:                   var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .grid--2col {
+    grid-template-columns: 1fr 1fr;
+    align-items:           center;
+  }
+}
+
+/* 4-column stats / contact cards */
+.grid--4col {
+  display:               grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:                   var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .grid--4col {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ── Spacing helpers ──────────────────────────────────────────────────────── */
+
+.mt-0  { margin-top: var(--space-0);  }
+.mt-4  { margin-top: var(--space-4);  }
+.mt-6  { margin-top: var(--space-6);  }
+.mt-8  { margin-top: var(--space-8);  }
+.mt-10 { margin-top: var(--space-10); }
+.mt-12 { margin-top: var(--space-12); }
+.mt-16 { margin-top: var(--space-16); }
+
+.mb-0  { margin-bottom: var(--space-0);  }
+.mb-4  { margin-bottom: var(--space-4);  }
+.mb-6  { margin-bottom: var(--space-6);  }
+.mb-8  { margin-bottom: var(--space-8);  }
+.mb-10 { margin-bottom: var(--space-10); }
+.mb-12 { margin-bottom: var(--space-12); }
+
+.mx-auto { margin-inline: auto; }
+
+
+/* =============================================================================
+   11. TEXT UTILITIES
+   ============================================================================= */
+
+.text-left    { text-align: left;    }
+.text-center  { text-align: center;  }
+.text-right   { text-align: right;   }
+
+/* Text colours — body */
+.text-primary   { color: var(--primary-400); }
+.text-secondary { color: var(--secondary-400); }
+.text-muted     { color: var(--gray-500); }
+.text-white     { color: var(--white); }
+.text-gold      { color: var(--gold); }
+.text-error     { color: var(--error); }
+.text-success   { color: var(--success); }
+
+/* Font sizes */
+.text-xs   { font-size: var(--text-xs);   }
+.text-sm   { font-size: var(--text-sm);   }
+.text-base { font-size: var(--text-base); }
+.text-lg   { font-size: var(--text-lg);   }
+.text-xl   { font-size: var(--text-xl);   }
+.text-2xl  { font-size: var(--text-2xl);  }
+.text-3xl  { font-size: var(--text-3xl);  }
+.text-4xl  { font-size: var(--text-4xl);  }
+
+/* Font weights */
+.font-regular  { font-weight: var(--weight-regular);  }
+.font-medium   { font-weight: var(--weight-medium);   }
+.font-semibold { font-weight: var(--weight-semibold); }
+.font-bold     { font-weight: var(--weight-bold);     }
+
+/* Casing & decoration */
+.uppercase   { text-transform: uppercase;   }
+.italic      { font-style:     italic;      }
+.no-wrap     { white-space:    nowrap;      }
+.break-words { overflow-wrap:  break-word;  }
+
+/* Truncate single line with ellipsis */
+.truncate {
+  overflow:       hidden;
+  text-overflow:  ellipsis;
+  white-space:    nowrap;
+}
+
+/* Clamp to N lines */
+.line-clamp-2 {
+  display:            -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow:           hidden;
+}
+
+.line-clamp-3 {
+  display:            -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow:           hidden;
+}
+
+
+/* =============================================================================
+   12. DISPLAY & VISIBILITY UTILITIES
+   ============================================================================= */
+
+.block          { display: block;        }
+.inline-block   { display: inline-block; }
+.inline-flex    { display: inline-flex;  }
+.hidden         { display: none;         }
+
+/* Responsive show/hide */
+.hide-mobile {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hide-mobile  { display: revert;  }
+  .hide-tablet  { display: none;    }
+}
+
+@media (min-width: 1024px) {
+  .hide-tablet  { display: revert;  }
+  .hide-desktop { display: none;    }
+}
+
+/* Mobile-only elements */
+.mobile-only {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .mobile-only { display: none; }
+}
+
+/* Position helpers */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed    { position: fixed;    }
+.sticky   { position: sticky;   }
+
+/* Overflow */
+.overflow-hidden { overflow: hidden;   }
+.overflow-auto   { overflow: auto;     }
+
+
+/* =============================================================================
+   13. BACKGROUND UTILITIES
+   ============================================================================= */
+
+.bg-white   { background-color: var(--white);      }
+.bg-cream   { background-color: var(--cream);      }
+.bg-alt     { background-color: var(--gray-100);   }
+.bg-warm    { background-color: var(--primary-50); }
+.bg-dark    { background-color: var(--secondary-500); color: var(--white); }
+.bg-primary { background-color: var(--primary-400); }
+
+/* Decorative background — mandala/celestial pattern overlay */
+.bg-pattern::before {
+  content:          '';
+  position:         absolute;
+  inset:            0;
+  background-image: url('/assets/images/pattern-mandala.svg');
+  background-repeat: repeat;
+  background-size:  320px;
+  opacity:          0.04;
+  pointer-events:   none;
+  z-index:          var(--z-below);
+}
+
+
+/* =============================================================================
+   14. BORDER & DIVIDER UTILITIES
+   ============================================================================= */
+
+.border         { border: 1px solid var(--gray-200); }
+.border-top     { border-top: 1px solid var(--gray-200); }
+.border-bottom  { border-bottom: 1px solid var(--gray-200); }
+.rounded        { border-radius: var(--radius-md); }
+.rounded-lg     { border-radius: var(--radius-lg); }
+.rounded-xl     { border-radius: var(--radius-xl); }
+.rounded-full   { border-radius: var(--radius-full); }
+
+/* Gold decorative divider line — used between sections */
+.divider-gold {
+  display:    block;
+  width:      100%;
+  height:     3px;
+  background: var(--gradient-gold-shimmer);
+  border:     none;
+  margin:     0;
+}
+
+/* Standard section divider */
+.divider {
+  display:    block;
+  width:      100%;
+  height:     1px;
+  background: var(--gray-200);
+  border:     none;
+  margin:     0;
+}
+
+
+/* =============================================================================
+   15. SHADOW UTILITIES
+   ============================================================================= */
+
+.shadow-none { box-shadow: var(--shadow-none); }
+.shadow-xs   { box-shadow: var(--shadow-xs);   }
+.shadow-sm   { box-shadow: var(--shadow-sm);   }
+.shadow-md   { box-shadow: var(--shadow-md);   }
+.shadow-lg   { box-shadow: var(--shadow-lg);   }
+.shadow-xl   { box-shadow: var(--shadow-xl);   }
+
+
+/* =============================================================================
+   16. IMAGE UTILITIES
+   ============================================================================= */
+
+.img-cover {
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+}
+
+.img-contain {
+  width:      100%;
+  height:     100%;
+  object-fit: contain;
+}
+
+/* Aspect ratio wrappers */
+.ratio-16-9 {
+  aspect-ratio: 16 / 9;
+  overflow:     hidden;
+}
+
+.ratio-4-3 {
+  aspect-ratio: 4 / 3;
+  overflow:     hidden;
+}
+
+.ratio-1-1 {
+  aspect-ratio: 1 / 1;
+  overflow:     hidden;
+}
+
+.ratio-3-4 {
+  aspect-ratio: 3 / 4;
+  overflow:     hidden;
+}
+
+/* Avatar / circular crop */
+.avatar {
+  border-radius:  var(--radius-full);
+  overflow:       hidden;
+  flex-shrink:    0;
+}
+
+.avatar--sm  { width: 2rem;    height: 2rem;    }  /* 32px  */
+.avatar--md  { width: 3rem;    height: 3rem;    }  /* 48px  */
+.avatar--lg  { width: 4rem;    height: 4rem;    }  /* 64px  */
+.avatar--xl  { width: 5rem;    height: 5rem;    }  /* 80px  */
+
+/* Warm tone overlay for images (heritage photography treatment) */
+.img-warm {
+  filter: saturate(1.05) sepia(0.08) contrast(1.03);
+}
+
+
+/* =============================================================================
+   17. ICON UTILITIES
+   ============================================================================= */
+
+.icon {
+  display:     inline-block;
+  flex-shrink: 0;
+  fill:        none;
+  stroke:      currentColor;
+  stroke-width: 1.5;
+}
+
+.icon--xs { width: var(--icon-xs); height: var(--icon-xs); }
+.icon--sm { width: var(--icon-sm); height: var(--icon-sm); }
+.icon--md { width: var(--icon-md); height: var(--icon-md); }
+.icon--lg { width: var(--icon-lg); height: var(--icon-lg); }
+.icon--xl { width: var(--icon-xl); height: var(--icon-xl); }
+
+/* Colour modifiers */
+.icon--primary   { color: var(--primary-400);   }
+.icon--gold      { color: var(--gold);          }
+.icon--white     { color: var(--white);         }
+.icon--muted     { color: var(--gray-400);      }
+.icon--secondary { color: var(--secondary-400); }
+
+/* Emphasis stroke weight */
+.icon--bold { stroke-width: 2; }
+
+
+/* =============================================================================
+   18. BADGE & PILL UTILITIES
+   ============================================================================= */
+
+.badge {
+  display:        inline-flex;
+  align-items:    center;
+  gap:            var(--space-1);
+  font-size:      var(--text-xs);
+  font-weight:    var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  line-height:    1;
+  padding:        0.25rem 0.625rem;  /* 4px 10px */
+  border-radius:  var(--radius-full);
+}
+
+.badge--primary {
+  background-color: var(--primary-400);
+  color:            var(--white);
+}
+
+.badge--gold {
+  background-color: var(--gold-light);
+  color:            var(--gold-dark);
+}
+
+.badge--success {
+  background-color: var(--success-light);
+  color:            var(--success);
+}
+
+.badge--muted {
+  background-color: var(--gray-100);
+  color:            var(--gray-600);
+}
+
+
+/* =============================================================================
+   19. STAR RATING
+   ============================================================================= */
+
+.stars {
+  display:     inline-flex;
+  gap:         var(--space-1);
+  color:       var(--gold);
+  font-size:   1.25rem;      /* 20px star size */
+  line-height: 1;
+}
+
+
+/* =============================================================================
+   20. INTERACTIVE STATES — GLOBAL DEFAULTS
+   Specific components override these in components.css / navbar.css etc.
+   ============================================================================= */
+
+/* All interactive elements get a base transition */
+a,
+button,
+[role="button"] {
+  transition: var(--transition-fast);
+}
+
+/* Pointer cursor on everything that acts like a button */
+button,
+[role="button"],
+label[for],
+summary {
+  cursor: pointer;
+}
+
+/* Remove the default button transition so components.css can set their own */
+button {
+  transition: none;
+}
+
+
+/* =============================================================================
+   21. FORM BASE
+   Shared label / input defaults that apply globally.
+   Detailed component styling is in components.css.
+   ============================================================================= */
+
+label {
+  display:       block;
+  font-size:     var(--text-sm);
+  font-weight:   var(--weight-medium);
+  color:         var(--secondary-500);
+  margin-bottom: var(--label-margin-bottom);
+  cursor:        pointer;
+}
+
+/* Required field asterisk */
+label .required {
+  color:       var(--error);
+  margin-left: var(--space-1);
+}
+
+/* Placeholder colour */
+::placeholder {
+  color:   var(--gray-400);
+  opacity: 1; /* Firefox normalisation */
+}
+
+/* Selection highlight */
+::selection {
+  background-color: var(--primary-200);
+  color:            var(--secondary-500);
+}
+
+
+/* =============================================================================
+   22. SCROLL BEHAVIOUR & ANCHOR OFFSET
+   Prevent the fixed navbar from overlapping jump-link targets.
+   ============================================================================= */
+
+/* Offset for anchor links — accounts for fixed navbar height */
+:target::before {
+  content:    '';
+  display:    block;
+  height:     calc(var(--navbar-height-mobile) + var(--space-4));
+  margin-top: calc(-1 * (var(--navbar-height-mobile) + var(--space-4)));
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  :target::before {
+    height:     calc(var(--navbar-height-desktop) + var(--space-4));
+    margin-top: calc(-1 * (var(--navbar-height-desktop) + var(--space-4)));
+  }
+}
+
+
+/* =============================================================================
+   23. PRINT
+   ============================================================================= */
+
+@media print {
+  /* Hide navigation chrome */
+  header,
+  footer,
+  .whatsapp-fab,
+  .sticky-cta-bar,
+  .back-to-top,
+  .section--cta {
+    display: none !important;
+  }
+
+  body {
+    font-size:  12pt;
+    color:      #000;
+    background: #fff;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color:           #000;
+    page-break-after: avoid;
+  }
+
+  a[href]::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    color: #555;
+  }
+
+  /* Hide href annotation on nav and button links */
+  a[href^="#"]::after,
+  a[href^="tel:"]::after,
+  a[href^="wa.me"]::after,
+  button::after {
+    content: none;
+  }
+
+  img {
+    max-width:        100% !important;
+    page-break-inside: avoid;
+  }
+
+  p, blockquote {
+    orphans:  3;
+    widows:   3;
+  }
+}
