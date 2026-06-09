@@ -1,0 +1,708 @@
+/* =============================================================================
+   HOME.CSS
+   Jyotish Maarg — Homepage-specific layout & styles
+
+   Load order:  tokens → reset → global → components → navbar → footer
+                → animations → home.css
+
+   Scope:       Only classes and patterns that appear exclusively on the
+                homepage (index.html) and are NOT already handled by:
+                  • global.css   — .section, .section--*, .section-heading,
+                                   .grid--2col, base typography, containers
+                  • components.css — .service-cards-grid, .pain-card,
+                                     .service-card, .credentials-list,
+                                     .process-steps / .process-step,
+                                     .testimonial-carousel, .cta-strip,
+                                     .faq-accordion / .faq-item,
+                                     .stats-strip, .stat-item, .whatsapp-fab,
+                                     .sticky-cta-bar, .back-to-top
+                  • animations.css — .hero-animate-*, .hero-animate--bg,
+                                     all reveal / stagger classes
+                  • navbar.css / footer.css
+
+   Sections covered here:
+     1.  Hero          — .hero__bg, .hero__overlay, .hero__inner, headline,
+                         subhead, stats bar, micro-testimonial
+     2.  About Preview — .about-preview__grid column sizing & image treatment,
+                         floating badge
+     3.  Testimonials  — dark-section carousel wrapper spacing
+     4.  Consultation Process — .process-steps connector (horizontal line)
+     5.  FAQ Preview   — max-width constrain on .faq-accordion
+     6.  CTA Section   — phone link colour inside .cta-strip--dark
+
+   Design tokens used throughout — never arbitrary values.
+   ============================================================================= */
+
+
+/* =============================================================================
+   0. BUTTON VARIANTS USED ON THIS PAGE
+   btn--outline and btn--outline-light are not in components.css because they
+   only appear on the homepage. Defined here to keep components.css clean.
+   ============================================================================= */
+
+/* ── btn--outline (on light/white backgrounds) ──────────────────────────────── */
+
+.btn--outline {
+  background:  transparent;
+  color:       var(--secondary-500);
+  border:      2px solid var(--secondary-300);
+  padding:     calc(var(--btn-padding-y-md) - 2px) var(--btn-padding-x-md);
+}
+
+.btn--outline:hover {
+  border-color: var(--primary-400);
+  color:        var(--primary-500);
+  background:   var(--primary-50);
+}
+
+.btn--outline:active {
+  background:  var(--primary-100);
+}
+
+/* ── btn--outline-light (on dark/navy backgrounds) ──────────────────────────── */
+
+.btn--outline-light {
+  background:  transparent;
+  color:       var(--white);
+  border:      2px solid rgba(255, 255, 255, 0.45);
+  padding:     calc(var(--btn-padding-y-md) - 2px) var(--btn-padding-x-md);
+}
+
+.btn--outline-light.btn--lg {
+  padding: calc(var(--btn-padding-y-lg) - 2px) var(--btn-padding-x-lg);
+}
+
+.btn--outline-light:hover {
+  border-color: var(--gold);
+  color:        var(--gold);
+  background:   rgba(212, 175, 55, 0.08);
+}
+
+.btn--outline-light:active {
+  background: rgba(212, 175, 55, 0.15);
+}
+
+
+/* =============================================================================
+   1. HERO SECTION
+   .section--hero shell is in global.css (min-height, padding, bg, colour).
+   Here we style the hero's internal anatomy exclusively.
+   ============================================================================= */
+
+/* ── 1a. Background image layer ─────────────────────────────────────────────── */
+
+.hero__bg {
+  position:   absolute;
+  inset:      0;
+  z-index:    0;
+  overflow:   hidden;
+}
+
+.hero__bg-img {
+  width:       100%;
+  height:      100%;
+  object-fit:  cover;
+  object-position: center top;
+  /* will-change cleaned up by scroll-reveal after entrance animation */
+  will-change: transform;
+}
+
+/* Dark gradient overlay — ensures WCAG AA contrast for all hero text */
+.hero__overlay {
+  position:   absolute;
+  inset:      0;
+  background: linear-gradient(
+    to bottom,
+    rgba(13, 15, 32, 0.72) 0%,
+    rgba(13, 15, 32, 0.60) 40%,
+    rgba(13, 15, 32, 0.78) 100%
+  );
+}
+
+
+/* ── 1b. Hero inner container ───────────────────────────────────────────────── */
+
+.hero__inner {
+  position:        relative;   /* stack above .hero__bg */
+  z-index:         1;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     flex-start;
+  gap:             var(--space-6);
+  padding-block:   var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .hero__inner {
+    gap:         var(--space-8);
+    max-width:   44rem;         /* constrain prose width on tablet */
+    padding-block: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero__inner {
+    max-width: 52rem;
+  }
+}
+
+
+/* ── 1c. Hero headline ──────────────────────────────────────────────────────── */
+
+.hero__headline {
+  font-family:  var(--font-heading);
+  font-weight:  var(--weight-bold);
+  font-size:    var(--text-4xl);       /* 36px mobile */
+  line-height:  var(--leading-tight);
+  color:        var(--white);
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+  .hero__headline {
+    font-size: var(--text-5xl);        /* 48px tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero__headline {
+    font-size: var(--text-6xl);        /* 60px desktop */
+  }
+}
+
+
+/* ── 1d. Hero subheadline ───────────────────────────────────────────────────── */
+
+/* .lead colour on dark is handled in global.css (.section--hero .lead).
+   We only override the max-width for readability. */
+.hero__subhead {
+  max-width: 38rem;
+}
+
+
+/* ── 1e. Inline stats bar ───────────────────────────────────────────────────── */
+
+.hero__stats {
+  display:     flex;
+  flex-wrap:   wrap;
+  align-items: center;
+  gap:         var(--space-4) var(--space-6);
+}
+
+@media (min-width: 480px) {
+  .hero__stats {
+    flex-wrap: nowrap;
+    gap:       0;                       /* managed by dividers below */
+  }
+}
+
+.hero__stat {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-1);
+  padding-inline: var(--space-6);
+}
+
+/* Remove left padding on the first stat — aligns with container edge */
+.hero__stat:first-child {
+  padding-left: 0;
+}
+
+@media (max-width: 479px) {
+  /* On very small screens the dividers disappear; stats wrap freely */
+  .hero__stat {
+    padding-inline: 0;
+    min-width:      45%;
+  }
+}
+
+.hero__stat-number {
+  font-family:  var(--font-heading);
+  font-weight:  var(--weight-bold);
+  font-size:    var(--text-3xl);       /* 30px */
+  line-height:  var(--leading-tight);
+  color:        var(--primary-400);    /* saffron */
+  letter-spacing: -0.01em;
+}
+
+.hero__stat-label {
+  font-family:  var(--font-body);
+  font-size:    var(--text-xs);
+  font-weight:  var(--weight-medium);
+  color:        var(--primary-100);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height:  var(--leading-normal);
+}
+
+/* Vertical pipe dividers between stats */
+.hero__stat-divider {
+  width:        1px;
+  height:       2.5rem;
+  background:   rgba(255, 255, 255, 0.25);
+  flex-shrink:  0;
+  align-self:   center;
+}
+
+@media (max-width: 479px) {
+  .hero__stat-divider {
+    display: none;
+  }
+}
+
+
+/* ── 1f. Micro-testimonial (first-fold social proof) ────────────────────────── */
+
+.hero__micro-testimonial {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-2);
+  padding:        var(--space-4) var(--space-5);
+  background:     rgba(255, 255, 255, 0.08);
+  border:         1px solid rgba(255, 255, 255, 0.15);
+  border-left:    3px solid var(--gold);
+  border-radius:  var(--radius-md);
+  max-width:      28rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.hero__micro-testimonial p {
+  font-family:  var(--font-body);
+  font-style:   italic;
+  font-size:    var(--text-sm);
+  color:        rgba(255, 255, 255, 0.9);
+  line-height:  var(--leading-relaxed);
+  margin:       0;
+}
+
+.hero__micro-testimonial cite {
+  font-family:  var(--font-body);
+  font-style:   normal;
+  font-size:    var(--text-xs);
+  font-weight:  var(--weight-medium);
+  color:        var(--primary-300);
+  letter-spacing: 0.04em;
+}
+
+.hero__micro-stars {
+  display:     flex;
+  align-items: center;
+  gap:         var(--space-1);
+  color:       var(--gold);
+}
+
+
+/* =============================================================================
+   2. ABOUT PREVIEW SECTION
+   .grid--2col layout is in global.css (1fr / 1fr at 768px+).
+   Column order, image treatment, and badge are homepage-only.
+   ============================================================================= */
+
+/* ── 2a. Grid column sizing ─────────────────────────────────────────────────── */
+
+/* Override the even 1fr / 1fr split — photo slightly narrower than content */
+@media (min-width: 1024px) {
+  .about-preview__grid {
+    grid-template-columns: 5fr 7fr;
+    gap:                   var(--space-12);
+    align-items:           start;
+  }
+}
+
+
+/* ── 2b. Photo column ───────────────────────────────────────────────────────── */
+
+.about-preview__photo {
+  position: relative;
+}
+
+.about-preview__figure {
+  position:      relative;
+  margin:        0;
+  border-radius: var(--radius-xl);
+  overflow:      hidden;
+  box-shadow:    var(--shadow-lg);
+}
+
+/* Decorative gold frame line */
+.about-preview__figure::before {
+  content:       '';
+  position:      absolute;
+  inset:         var(--space-3);
+  border:        2px solid rgba(212, 175, 55, 0.35);
+  border-radius: calc(var(--radius-xl) - var(--space-1));
+  z-index:       1;
+  pointer-events: none;
+}
+
+.about-preview__img {
+  display:     block;
+  width:       100%;
+  height:      auto;
+  aspect-ratio: 7 / 8;
+  object-fit:  cover;
+  object-position: center top;
+}
+
+
+/* ── 2c. Floating credibility badge ─────────────────────────────────────────── */
+
+.about-preview__badge {
+  position:        absolute;
+  bottom:          var(--space-6);
+  right:           calc(-1 * var(--space-4));
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  gap:             var(--space-1);
+  width:           6rem;
+  height:          6rem;
+  background:      var(--gradient-hero);
+  border:          2px solid var(--gold);
+  border-radius:   var(--radius-full);
+  box-shadow:      var(--shadow-md);
+  z-index:         2;
+  text-align:      center;
+}
+
+@media (min-width: 768px) {
+  .about-preview__badge {
+    width:  7rem;
+    height: 7rem;
+    right:  calc(-1 * var(--space-6));
+    bottom: var(--space-8);
+  }
+}
+
+@media (max-width: 767px) {
+  .about-preview__badge {
+    right: var(--space-4);        /* stay on-card on mobile */
+  }
+}
+
+.about-preview__badge-year {
+  font-family:  var(--font-heading);
+  font-size:    1.75rem;
+  line-height:  1;
+  color:        var(--gold);
+}
+
+.about-preview__badge-text {
+  font-family:  var(--font-body);
+  font-size:    var(--text-xs);
+  font-weight:  var(--weight-semibold);
+  color:        var(--primary-100);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height:  var(--leading-normal);
+}
+
+
+/* ── 2d. Content column ─────────────────────────────────────────────────────── */
+
+.about-preview__content {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-4);
+}
+
+.about-preview__content h2 {
+  font-family:  var(--font-heading);
+  font-weight:  var(--weight-bold);
+  font-size:    var(--text-3xl);
+  line-height:  var(--leading-heading);
+  color:        var(--secondary-500);
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .about-preview__content h2 {
+    font-size: var(--text-4xl);
+  }
+}
+
+.about-preview__role {
+  font-family:  var(--font-body);
+  font-size:    var(--text-sm);
+  font-weight:  var(--weight-medium);
+  color:        var(--primary-500);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top:   calc(-1 * var(--space-2));   /* pull closer to h2 */
+}
+
+/* Paragraph spacing within the content column */
+.about-preview__content p {
+  font-size:   var(--text-base);
+  line-height: var(--leading-body);
+  color:       var(--secondary-400);
+}
+
+/* Extra breathing room before the credentials list */
+.about-preview__content .credentials-list {
+  margin-top: var(--space-2);
+}
+
+/* Extra breathing room before the CTA link */
+.about-preview__content .btn {
+  align-self:  flex-start;
+  margin-top:  var(--space-2);
+}
+
+
+/* =============================================================================
+   3. TESTIMONIALS SECTION
+   .section--dark background, .testimonial-carousel, and carousel controls
+   are all in components.css and animations.css.
+   We only constrain the carousel width and add dark-section carousel theming.
+   ============================================================================= */
+
+/* Constrain the carousel to a comfortable reading width on wide screens */
+#testimonials .testimonial-carousel {
+  max-width:  var(--testimonial-max-width);   /* 45rem — tokens.css */
+  margin-inline: auto;
+}
+
+/* Dark section: adjust card surface so it reads against the navy bg */
+#testimonials .testimonial-card {
+  background:   rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.10);
+  border-left-color: var(--gold);
+}
+
+#testimonials .testimonial-card__quote p,
+#testimonials .testimonial-card__quote blockquote p {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+#testimonials .testimonial-card__author {
+  color: var(--primary-100);
+}
+
+/* Dark section: carousel buttons need higher contrast */
+#testimonials .testimonial-carousel__btn {
+  background:   rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.20);
+  color:        var(--primary-100);
+}
+
+#testimonials .testimonial-carousel__btn:hover {
+  background:   rgba(255, 255, 255, 0.15);
+  border-color: var(--gold);
+  color:        var(--gold);
+}
+
+/* Dark section: dots */
+#testimonials .testimonial-carousel__dot {
+  background: rgba(255, 255, 255, 0.30);
+}
+
+#testimonials .testimonial-carousel__dot.is-active {
+  background: var(--primary-400);
+}
+
+
+/* =============================================================================
+   4. CONSULTATION PROCESS SECTION
+   .process-steps and .process-step are fully styled in components.css.
+   Here we add the horizontal connector line that links the three steps
+   visually on desktop — a homepage-specific design detail.
+   ============================================================================= */
+
+/* The connector line sits behind the circles using a pseudo-element on the
+   ordered list. It spans from circle-centre to circle-centre (~75% of track). */
+@media (min-width: 768px) {
+  #process .process-steps {
+    position: relative;
+  }
+
+  #process .process-steps::before {
+    content:    '';
+    position:   absolute;
+    top:        2.25rem;             /* vertical centre of step circles (36px radius ≈ 44px dia / 2 + small offset) */
+    left:       calc(50% / 3);       /* offset from left edge to first circle centre */
+    right:      calc(50% / 3);       /* mirror on right */
+    height:     2px;
+    background: linear-gradient(
+      to right,
+      var(--primary-200) 0%,
+      var(--primary-400) 50%,
+      var(--primary-200) 100%
+    );
+    z-index:    0;
+    pointer-events: none;
+  }
+
+  /* Ensure circles render above the connector line */
+  #process .process-step__circle {
+    position: relative;
+    z-index:  1;
+  }
+}
+
+
+/* =============================================================================
+   5. FAQ PREVIEW SECTION
+   .faq-accordion and .faq-item are fully styled in components.css.
+   We constrain the max-width so the accordion doesn't stretch across the
+   full container on ultrawide screens.
+   ============================================================================= */
+
+#faq .faq-accordion {
+  max-width:     52rem;
+  margin-inline: auto;
+}
+
+
+/* =============================================================================
+   6. FINAL CTA SECTION
+   .section--dark and .cta-strip--dark are styled in global.css / components.css.
+   We add the phone link colour inside the dark strip.
+   ============================================================================= */
+
+.cta-strip__phone-link {
+  color:           var(--primary-300);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition:      color var(--duration-fast) var(--ease-default),
+                   text-decoration-color var(--duration-fast) var(--ease-default);
+}
+
+.cta-strip__phone-link:hover,
+.cta-strip__phone-link:focus-visible {
+  color:                   var(--primary-400);
+  text-decoration-color:   var(--primary-400);
+}
+
+
+/* =============================================================================
+   7. PAIN-POINT SECTION — SERVICE CARDS GRID ADJUSTMENT
+   .service-cards-grid is a 3-col grid in components.css (min-width: 1024px).
+   The pain-point section has 5 cards; we let the 5th span a centred column
+   on desktop so it doesn't sit orphaned at the far left.
+   ============================================================================= */
+
+@media (min-width: 1024px) {
+  #pain-points .service-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* 5th card — span the middle column of the final row */
+  #pain-points .service-cards-grid > li:nth-child(4),
+  #pain-points .service-cards-grid > li:nth-child(5) {
+    /* Push last two cards toward center on a 3-col grid:
+       col 4 → col-start 1, col 5 → col-start 2 naturally.
+       Use auto-placement; just center them visually. */
+    justify-self: center;
+    width:        100%;
+  }
+
+  /* Re-flow last two as a pair centered in a 2-of-3 subgrid band */
+  #pain-points .service-cards-grid > li:last-child:nth-child(5) {
+    grid-column: 2 / 3;            /* force last orphan card to middle column */
+  }
+}
+
+@media (min-width: 1280px) {
+  /* On very wide screens use 5 columns for the pain-point section */
+  #pain-points .service-cards-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+
+/* =============================================================================
+   8. WHY CHOOSE SECTION — CARDS GRID ADJUSTMENT
+   6 cards: 3×2 on desktop. Components.css already handles this natively
+   for .service-cards-grid. No override needed — included as documentation.
+   ============================================================================= */
+
+/* Nothing to add — .service-cards-grid gives us exactly 3 columns at 1024px+
+   which produces a clean 2-row × 3-col layout for 6 cards. */
+
+
+/* =============================================================================
+   9. RESPONSIVE REFINEMENTS
+   ============================================================================= */
+
+/* ── Hero micro-testimonial wraps on small screens ──────────────────────────── */
+
+@media (max-width: 400px) {
+  .hero__micro-testimonial {
+    max-width: 100%;
+  }
+}
+
+/* ── About preview: stack photo below content on mobile ─────────────────────── */
+
+@media (max-width: 767px) {
+  /* Show photo first on mobile (it's the visual hook) */
+  .about-preview__photo {
+    order: -1;
+  }
+
+  .about-preview__content {
+    order: 0;
+  }
+
+  .about-preview__img {
+    aspect-ratio: 4 / 3;            /* landscape crop on small screens */
+    object-position: center 15%;
+  }
+
+  /* Badge repositioned to bottom-right of card, stays on-image */
+  .about-preview__badge {
+    bottom: var(--space-4);
+    right:  var(--space-4);
+    width:  5rem;
+    height: 5rem;
+  }
+
+  .about-preview__badge-year {
+    font-size: 1.375rem;
+  }
+}
+
+/* ── Process connector line hidden on mobile (steps stack vertically) ────────── */
+
+@media (max-width: 767px) {
+  #process .process-steps::before {
+    display: none;
+  }
+}
+
+
+/* =============================================================================
+   10. REDUCED MOTION OVERRIDES
+   Supplement the global reduced-motion block in reset.css.
+   Hero bg-drift and micro-testimonial entrance are the only hero-specific
+   animations. The global block already handles all reveal / stagger classes.
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Hero background — stop the slow drift */
+  .hero__bg-img {
+    animation: none !important;
+  }
+
+  /* Hero content — skip entrance delays, show immediately */
+  .hero-animate--pre-heading,
+  .hero-animate--heading,
+  .hero-animate--subtext,
+  .hero-animate--stats,
+  .hero-animate--cta,
+  .hero-animate--micro {
+    animation:   none !important;
+    opacity:     1 !important;
+    transform:   none !important;
+  }
+
+  /* Glass micro-testimonial — no transition needed */
+  .hero__micro-testimonial {
+    backdrop-filter:         none;
+    -webkit-backdrop-filter: none;
+  }
+}

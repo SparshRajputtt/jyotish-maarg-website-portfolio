@@ -1,0 +1,452 @@
+/* =============================================================================
+   SERVICE-DETAIL.CSS
+   Jyotish Maarg — Shared Service Detail Page Stylesheet
+
+   Covers:  career-astrology, business-astrology,
+            marriage-consultation, vastu-shastra
+
+   Load order (after services-hub.css which supplies .hero__* and the
+   .section--hero shell):
+     tokens → reset → global → components → navbar → footer →
+     animations → services-hub.css → service-detail.css
+
+   Scope — this file styles ONLY patterns that:
+     (a) appear across two or more service detail pages, AND
+     (b) are not already handled by global.css, components.css, or
+         services-hub.css
+
+   What is intentionally NOT here:
+     • .hero__bg / .hero__bg-img / .hero__overlay / .hero__inner /
+       .hero__headline / .hero__subhead  →  services-hub.css
+     • .btn*, .service-card*, .process-step*,
+       .faq-accordion*, .cta-strip*, .breadcrumb* → components.css
+     • .section, .section--*, .section-heading*, .container,
+       .lead, utility classes (.mt-8, .mt-10, etc.)  → global.css
+     • All reveal / stagger / hero-animate* classes  → animations.css
+
+   Structural inconsistencies noted across the four pages
+   (documented here; CSS supports the shared pattern):
+     1. career-astrology.html has a testimonial section (#testimonials)
+        with inline-styled .testimonial-grid — the other three do not.
+        Styles for .service-detail-testimonials are provided here so
+        career-astrology can be updated consistently without inline styles.
+     2. vastu-shastra.html has a Related Services section
+        (#related-services) and a Consultation Formats section
+        (#consultation-formats) — the others use a "Who This Is For"
+        section instead. All three map to the same .service-cards-grid
+        already covered by components.css. No additional CSS needed.
+     3. career-astrology.html lacks full <head> metadata — HTML-only fix,
+        no CSS impact.
+     4. The hero CTA group uses btn-group on 2 of 4 pages — btn-group is
+        already in components.css; no additional CSS needed.
+   ============================================================================= */
+
+
+/* =============================================================================
+   1. HERO SECTION — SERVICE DETAIL OVERRIDES
+   services-hub.css defines the base .hero__* anatomy.
+   Here we widen the headline's max-width on service pages, where copy
+   tends to be longer than the homepage hero, and tighten inner padding
+   on the smallest viewports.
+   ============================================================================= */
+
+/* Give service hero headlines a slightly wider prose ceiling than the
+   homepage (44rem) so multi-word service titles don't widow awkwardly. */
+@media (min-width: 768px) {
+  .section--hero .hero__inner {
+    max-width: 48rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section--hero .hero__inner {
+    max-width: 56rem;
+  }
+}
+
+/* On very small screens the hero inner has default padding-block from
+   services-hub.css. Reduce the gap slightly so the subtext doesn't push
+   the CTAs below the fold. */
+@media (max-width: 479px) {
+  .section--hero .hero__inner {
+    gap: var(--space-4);
+  }
+}
+
+/* The hero CTA group sits inside a .btn-group or a bare div.
+   Ensure consistent vertical breathing room below the subhead. */
+.section--hero .hero__inner .btn-group,
+.section--hero .hero__inner > div:last-child {
+  margin-top: var(--space-4);
+}
+
+
+/* =============================================================================
+   2. BREADCRUMB — HERO OVERLAY POSITIONING
+   The breadcrumb sits above the hero section and uses position within the
+   hero via .breadcrumb--light on service pages. services-hub.css doesn't
+   define .breadcrumb* — components.css does. We only add z-index stacking
+   so the breadcrumb renders above the hero bg image on all service pages.
+   ============================================================================= */
+
+/* Ensure the breadcrumb floats above the hero background regardless of
+   stacking context created by the hero's position:relative shell. */
+.breadcrumb.breadcrumb--light {
+  position: relative;
+  z-index:  var(--z-above, 1);
+}
+
+
+/* =============================================================================
+   3. CHALLENGES SECTION — .content-block
+   The challenges section uses .content-block > ul with inline styles across
+   all four pages. We replace those inline styles here.
+
+   Pattern on all pages:
+     <div class="content-block …">
+       <ul style="list-style-type: disc; padding-left: 1.5rem;
+                  display: flex; flex-direction: column; gap: 0.75rem;
+                  margin-bottom: 2rem;">
+       <p class="lead" style="color: var(--primary-700);">
+     </div>
+   ============================================================================= */
+
+/* Scoped to #challenges to avoid bleeding into other content-block uses. */
+#challenges .content-block {
+  max-width: 52rem;  /* comfortable reading width; wider than 40rem .lead */
+}
+
+/* Replace all inline styles on the challenges bullet list */
+#challenges .content-block ul {
+  list-style-type:  disc;
+  padding-left:     1.5rem;
+  display:          flex;
+  flex-direction:   column;
+  gap:              var(--space-3);    /* 0.75rem = space-3 */
+  margin-bottom:    var(--space-8);   /* 2rem = space-8 */
+  color:            var(--secondary-400);
+  font-size:        var(--text-base);
+  line-height:      var(--leading-body);
+}
+
+/* Closing emphasis paragraph (replaces style="color: var(--primary-700)") */
+#challenges .content-block .lead {
+  color:      var(--primary-700);
+  max-width:  none;  /* override global.css 40rem cap inside this context */
+}
+
+/* Same pattern used in #who-this-is-for on astrology pages */
+#who-this-is-for .content-block ul {
+  list-style-type: disc;
+  padding-left:    1.5rem;
+  display:         flex;
+  flex-direction:  column;
+  gap:             var(--space-3);
+  color:           var(--secondary-400);
+  font-size:       var(--text-base);
+  line-height:     var(--leading-body);
+}
+
+
+/* =============================================================================
+   4. HOW CONSULTATION HELPS SECTION — INTRO PARAGRAPH
+   All four pages have a wide intro paragraph inside .section-heading--center
+   with inline style="max-width: 48rem; margin: 0 auto;" on the
+   .section-heading__sub element.
+
+   global.css sets .section-heading .lead { max-width: 40rem; }.
+   Service detail pages need a wider cap for the technical intro copy.
+   We scope this to the specific section IDs shared across pages.
+   ============================================================================= */
+
+#how-astrology-helps .section-heading .section-heading__sub,
+#how-vastu-helps     .section-heading .section-heading__sub {
+  max-width:     48rem;
+  margin-inline: auto;
+}
+
+/* The sub paragraph is a plain <p> on these pages, not a .lead.
+   Give it appropriate colour and size if .lead class is absent. */
+#how-astrology-helps .section-heading__sub,
+#how-vastu-helps     .section-heading__sub {
+  font-size:   var(--text-base);
+  line-height: var(--leading-body);
+  color:       var(--secondary-400);
+}
+
+/* Strong elements within the intro para — keep them legible */
+#how-astrology-helps .section-heading__sub strong,
+#how-vastu-helps     .section-heading__sub strong {
+  color:       var(--secondary-500);
+  font-weight: var(--weight-semibold);
+}
+
+
+/* =============================================================================
+   5. HOW CONSULTATION HELPS — CARDS GRID TOP MARGIN
+   All four pages use .mt-10 on the cards grid (utility in global.css).
+   Nothing additional needed. Included as a documentation note only.
+   ============================================================================= */
+
+/* .mt-10 → margin-top: var(--space-10)  → already in global.css */
+
+
+/* =============================================================================
+   6. WHAT YOU'LL RECEIVE — CARD PADDING
+   23 instances of style="padding: 1.5rem;" on .service-card across all four
+   pages. We replace these inline styles with a scoped rule.
+
+   Components.css sets padding on .service-card; the "receive" section uses
+   a denser small-card variant inside the 4-column grid. We scope this to
+   #what-you-receive to avoid changing standard service cards elsewhere.
+   ============================================================================= */
+
+#what-you-receive .service-card {
+  padding: var(--space-6);   /* 1.5rem = space-6 in tokens.css */
+}
+
+/* Tighter title sizing in the receive grid (replaces inline font-size styles) */
+#what-you-receive .service-card .service-card__title {
+  font-size:     var(--text-lg);
+  margin-bottom: var(--space-2);  /* 0.5rem = space-2 */
+}
+
+
+/* =============================================================================
+   7. HOW CONSULTATION HELPS — SECTION CARD TITLE SIZING
+   The 4-card "how it helps" grids on all pages use:
+     style="font-size: var(--text-xl); margin-bottom: 0.75rem;"
+   We replace these inline styles scoped to the shared section IDs.
+   ============================================================================= */
+
+#how-astrology-helps .service-card .service-card__title,
+#how-vastu-helps     .service-card .service-card__title {
+  font-size:     var(--text-xl);
+  margin-bottom: var(--space-3);   /* 0.75rem = space-3 */
+}
+
+
+/* =============================================================================
+   8. TESTIMONIALS SECTION
+   Only career-astrology.html has this section, using a .testimonial-grid
+   with inline styles. We provide CSS classes so the inline styles can be
+   removed and this section is consistently styled if other service pages
+   adopt it in future.
+
+   Inline styles replaced:
+     .testimonial-grid → display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem;
+     .testimonial-card → background:var(--surface-100); padding:2rem; border-radius:var(--radius-lg); box-shadow:var(--shadow-sm);
+     .testimonial-card__stars → color:var(--gold); font-size:1.25rem;
+     .testimonial-card__quote → font-style:italic;
+     .testimonial-card__author → font-weight:600;
+   ============================================================================= */
+
+.service-detail-testimonials .testimonial-grid {
+  display:               grid;
+  grid-template-columns: 1fr;
+  gap:                   var(--space-8);
+  margin-top:            var(--space-8);
+}
+
+@media (min-width: 640px) {
+  .service-detail-testimonials .testimonial-grid {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
+}
+
+/* Individual inline-styled testimonial cards on career-astrology.html.
+   These are not .testimonial-card as defined in components.css (which has
+   a different layout), so we style the standalone variant here.
+   Components.css .testimonial-card styles are not duplicated. */
+.service-detail-testimonials .testimonial-card {
+  background:    var(--surface-100);
+  padding:       var(--space-8);
+  border-radius: var(--radius-lg);
+  box-shadow:    var(--shadow-sm);
+  border-left:   3px solid var(--gold);
+  display:       flex;
+  flex-direction: column;
+  gap:           var(--space-4);
+}
+
+/* Stars row (replaces style="color:var(--gold); font-size:1.25rem;") */
+.service-detail-testimonials .testimonial-card__stars {
+  color:     var(--gold);
+  font-size: var(--text-xl);
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+/* Quote text (replaces style="font-style:italic;") */
+.service-detail-testimonials .testimonial-card__quote {
+  font-style:  italic;
+  font-size:   var(--text-base);
+  color:       var(--secondary-400);
+  line-height: var(--leading-body);
+  margin:      0;
+  flex:        1;
+}
+
+/* Author line (replaces style="font-weight:600;") */
+.service-detail-testimonials .testimonial-card__author {
+  font-weight: var(--weight-semibold);
+  font-size:   var(--text-sm);
+  color:       var(--secondary-500);
+}
+
+
+/* =============================================================================
+   9. RELATED SERVICES SECTION (vastu-shastra.html only)
+   Vastu has a two-card related services section. Components.css handles the
+   .service-card layout. We add a max-width constraint and a bottom spacing
+   for the inline CTA link within each card.
+
+   Inline style replaced:
+     <ul style="max-width: 48rem; margin-inline: auto;">
+     <a style="margin-top: var(--space-4);">
+   ============================================================================= */
+
+#related-services .service-cards-grid {
+  max-width:     48rem;
+  margin-inline: auto;
+}
+
+/* CTA link inside related-service cards
+   (replaces style="margin-top: var(--space-4);") */
+#related-services .service-card .btn {
+  margin-top:  var(--space-4);
+  align-self:  flex-start;
+}
+
+/* Ensure related-service cards use a flex column layout so the .btn
+   sits at the bottom of the card cleanly */
+#related-services .service-card {
+  display:        flex;
+  flex-direction: column;
+}
+
+
+/* =============================================================================
+   10. CONSULTATION PROCESS — HORIZONTAL CONNECTOR LINE
+   components.css handles the .process-steps layout and circle styles.
+   On service detail pages we draw the horizontal connector line between the
+   three step circles on desktop — the same technique used in home.css for
+   the homepage process section, scoped here to service detail pages.
+   ============================================================================= */
+
+@media (min-width: 768px) {
+  #process .process-steps {
+    position: relative;
+  }
+
+  #process .process-steps::before {
+    content:       '';
+    position:      absolute;
+    /* Sit at the vertical midpoint of the step circles.
+       .process-step__circle is 3rem (48px) in diameter per components.css;
+       half = 1.5rem. The top of .process-step has padding-top from the circle,
+       so we use 1.5rem (24px) to bisect it. */
+    top:           1.5rem;
+    left:          calc(100% / 6);    /* from left edge to first circle centre */
+    right:         calc(100% / 6);    /* mirror on right */
+    height:        2px;
+    background:    linear-gradient(
+      to right,
+      var(--primary-200) 0%,
+      var(--primary-400) 50%,
+      var(--primary-200) 100%
+    );
+    z-index:       0;
+    pointer-events: none;
+  }
+
+  /* Ensure each step circle renders above the line */
+  #process .process-step__circle {
+    position: relative;
+    z-index:  1;
+  }
+}
+
+
+/* =============================================================================
+   11. FAQ SECTION — MAX-WIDTH CONSTRAINT
+   The .faq-accordion is full-width by default. Constrain it to a comfortable
+   reading column on service detail pages to match the homepage treatment.
+   ============================================================================= */
+
+#faq .faq-accordion {
+  max-width:     52rem;
+  margin-inline: auto;
+}
+
+
+/* =============================================================================
+   12. CTA STRIP — PHONE / SECONDARY LINK COLOUR
+   Consistent link colour treatment for any phone or secondary anchor placed
+   inside the CTA strip on service pages. Matches home.css treatment.
+   ============================================================================= */
+
+.section--dark .cta-strip__phone-link,
+#cta            .cta-strip__phone-link {
+  color:                   var(--primary-300);
+  text-decoration:         underline;
+  text-decoration-color:   transparent;
+  text-underline-offset:   3px;
+  transition:
+    color                   var(--duration-fast) var(--ease-default),
+    text-decoration-color   var(--duration-fast) var(--ease-default);
+}
+
+.section--dark .cta-strip__phone-link:hover,
+#cta            .cta-strip__phone-link:hover,
+.section--dark .cta-strip__phone-link:focus-visible,
+#cta            .cta-strip__phone-link:focus-visible {
+  color:                  var(--primary-400);
+  text-decoration-color:  var(--primary-400);
+}
+
+
+/* =============================================================================
+   13. RESPONSIVE REFINEMENTS
+   ============================================================================= */
+
+/* ── Process connector hidden when steps stack vertically ─────────────────── */
+@media (max-width: 767px) {
+  #process .process-steps::before {
+    display: none;
+  }
+}
+
+/* ── Challenges list items wrap cleanly on narrow screens ─────────────────── */
+@media (max-width: 479px) {
+  #challenges .content-block ul,
+  #who-this-is-for .content-block ul {
+    padding-left: var(--space-5);  /* slightly narrower indent on small screens */
+  }
+}
+
+/* ── Related services grid: full width on mobile ──────────────────────────── */
+@media (max-width: 767px) {
+  #related-services .service-cards-grid {
+    max-width: none;
+  }
+}
+
+
+/* =============================================================================
+   14. REDUCED MOTION OVERRIDES
+   supplements reset.css global block
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Process connector — remove animated gradient, use static colour */
+  #process .process-steps::before {
+    background: var(--primary-300);
+    transition: none !important;
+  }
+
+  /* Testimonial card hover lift — disable */
+  .service-detail-testimonials .testimonial-card {
+    transition: none !important;
+  }
+}

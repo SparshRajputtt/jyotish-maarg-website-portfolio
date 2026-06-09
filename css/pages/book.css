@@ -1,0 +1,752 @@
+/* =============================================================================
+   JYOTISH MAARG — BOOK CONSULTATION PAGE
+   css/pages/book.css
+
+   Page-specific layout and presentation only.
+   All component styles (buttons, forms, cards, FAQ accordion, badges,
+   breadcrumb, section-heading, cta-strip) live in components.css.
+   All section shell styles (.section, .section--dark, .section--alt,
+   .section--warm, .section--hero-compact) live in global.css.
+   All tokens come from tokens.css.
+
+   Sections covered:
+   1.  Compact Hero (breadcrumb + page-hero)
+   2.  Consultation Type Cards
+   3.  Booking Form Layout (form col + aside col)
+   4.  Aside — What Happens Next
+   5.  Aside — Payment Details
+   6.  Trust Signals Strip
+   7.  WhatsApp Alternative Block
+   8.  FAQ Section layout (component styles in components.css)
+   9.  Reduced motion overrides
+   10. Print
+
+   Load order: tokens → reset → global → components → navbar → footer → animations → book.css
+   ============================================================================= */
+
+
+/* =============================================================================
+   1. COMPACT HERO — BREADCRUMB & PAGE HERO CONTENT
+   The .section--hero-compact shell is in global.css.
+   This file adds breadcrumb dark-context overrides and
+   the page-hero content layout inside the hero.
+   ============================================================================= */
+
+/* --- Breadcrumb on dark hero background ----------------------------------- */
+
+/*
+ * .breadcrumb base styles are in components.css.
+ * On the dark hero we flip all text to white tones.
+ * Specificity: .section--dark .breadcrumb (dark section scope).
+ */
+.section--dark .breadcrumb {
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-6);
+}
+
+.section--dark .breadcrumb__link {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.section--dark .breadcrumb__link:hover,
+.section--dark .breadcrumb__link:focus-visible {
+  color: var(--gold);
+}
+
+.section--dark .breadcrumb__separator {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.section--dark .breadcrumb__current {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+
+/* --- Page hero content block ---------------------------------------------- */
+
+.page-hero__content {
+  max-width: 42rem;        /* Constrain heading width for readability */
+}
+
+.page-hero__title {
+  font-family:    var(--font-heading);
+  font-weight:    var(--weight-bold);
+  font-size:      var(--text-4xl);
+  color:          var(--white);
+  line-height:    var(--leading-heading);
+  letter-spacing: var(--tracking-tighter);
+  margin-top:     var(--space-2);
+  margin-bottom:  var(--space-4);
+}
+
+.page-hero__sub {
+  color: rgba(255, 255, 255, 0.85);
+  max-width: none;   /* Override the .lead 60ch clamp inside the narrow column */
+}
+
+@media (min-width: 768px) {
+  .page-hero__title {
+    font-size: var(--text-5xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-hero__title {
+    font-size: var(--text-5xl);   /* Keep compact — this is not a full hero */
+  }
+}
+
+
+/* =============================================================================
+   2. CONSULTATION TYPE CARDS
+   Three cards laid out in a responsive grid.
+   ============================================================================= */
+
+.consult-type-grid {
+  display:               grid;
+  grid-template-columns: 1fr;
+  gap:                   var(--gap-cards-mobile, var(--space-4));
+}
+
+@media (min-width: 640px) {
+  .consult-type-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .consult-type-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap:                   var(--gap-cards-desktop, var(--space-6));
+  }
+}
+
+/* Individual consultation type card */
+.consult-type-card {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-3);
+  background:     var(--white);
+  border:         var(--card-border);
+  border-radius:  var(--card-border-radius);
+  padding:        var(--card-padding-desktop);
+  box-shadow:     var(--shadow-sm);
+  transition:     var(--transition-card);
+  position:       relative;
+  overflow:       hidden;
+}
+
+/* Top accent on hover */
+.consult-type-card::before {
+  content:       '';
+  position:      absolute;
+  top:           0;
+  left:          0;
+  right:         0;
+  height:        3px;
+  background:    var(--gradient-cta);
+  transform:     scaleX(0);
+  transform-origin: left center;
+  transition:    transform var(--duration-normal) var(--ease-out);
+}
+
+.consult-type-card:hover::before,
+.consult-type-card:focus-within::before {
+  transform: scaleX(1);
+}
+
+.consult-type-card:hover,
+.consult-type-card:focus-within {
+  box-shadow:  var(--shadow-md);
+  transform:   translateY(var(--card-hover-translate));
+  border-color: var(--primary-200);
+}
+
+/* Icon */
+.consult-type-card__icon {
+  display:          flex;
+  align-items:      center;
+  justify-content:  center;
+  width:            3.5rem;
+  height:           3.5rem;
+  border-radius:    var(--radius-lg);
+  background:       var(--primary-100);
+  color:            var(--primary-400);
+  flex-shrink:      0;
+  transition:       background-color var(--duration-normal) var(--ease-default),
+                    color            var(--duration-normal) var(--ease-default);
+}
+
+.consult-type-card:hover .consult-type-card__icon,
+.consult-type-card:focus-within .consult-type-card__icon {
+  background: var(--primary-400);
+  color:      var(--white);
+}
+
+/* Title */
+.consult-type-card__title {
+  font-family:   var(--font-heading);
+  font-weight:   var(--weight-semibold);
+  font-size:     var(--text-xl);
+  color:         var(--secondary-500);
+  line-height:   var(--leading-snug);
+  letter-spacing: var(--tracking-snug);
+}
+
+/* Description */
+.consult-type-card__desc {
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  font-size:   var(--text-base);
+  color:       var(--secondary-400);
+  line-height: var(--leading-body);
+  flex-grow:   1;
+}
+
+/* Meta — "Best for" / "Platform" */
+.consult-type-card__meta {
+  font-family:  var(--font-body);
+  font-size:    var(--text-sm);
+  color:        var(--gray-500);
+  line-height:  var(--leading-relaxed);
+  border-top:   1px solid var(--gray-200);
+  padding-top:  var(--space-3);
+  margin-top:   auto;
+}
+
+.consult-type-card__meta strong {
+  color:       var(--secondary-500);
+  font-weight: var(--weight-semibold);
+}
+
+@media (max-width: 767px) {
+  .consult-type-card {
+    padding: var(--card-padding-mobile);
+  }
+}
+
+
+/* =============================================================================
+   3. BOOKING FORM LAYOUT
+   Two-column layout: form (left) + aside (right).
+   Stacks to single column on mobile/tablet.
+   ============================================================================= */
+
+.book-layout {
+  display:        grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "form"
+    "aside";
+  gap:            var(--space-8);
+  align-items:    start;
+}
+
+@media (min-width: 1024px) {
+  .book-layout {
+    grid-template-columns: 1fr minmax(0, 22rem);
+    grid-template-areas: "form aside";
+    gap:                  var(--space-10);
+  }
+}
+
+@media (min-width: 1280px) {
+  .book-layout {
+    grid-template-columns: 1fr 24rem;
+    gap:                   var(--space-12);
+  }
+}
+
+/* Form column */
+.book-layout__form {
+  grid-area: form;
+  min-width:  0;   /* Prevent grid blowout */
+}
+
+/* Aside column */
+.book-layout__aside {
+  grid-area:      aside;
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-6);
+}
+
+/* On desktop, the aside is sticky */
+@media (min-width: 1024px) {
+  .book-layout__aside {
+    position: sticky;
+    top:      calc(var(--navbar-height-desktop) + var(--space-6));
+    max-height: calc(100svh - var(--navbar-height-desktop) - var(--space-12));
+    overflow-y: auto;
+    /* Custom scrollbar — thin, only visible when needed */
+    scrollbar-width: thin;
+    scrollbar-color: var(--gray-300) transparent;
+  }
+
+  .book-layout__aside::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .book-layout__aside::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .book-layout__aside::-webkit-scrollbar-thumb {
+    background-color: var(--gray-300);
+    border-radius:    var(--radius-full);
+  }
+}
+
+
+/* =============================================================================
+   4. ASIDE — BOOK ASIDE CARD (What Happens After / Payment)
+   Shared card shell used for both aside panels.
+   ============================================================================= */
+
+.book-aside-card {
+  background:    var(--white);
+  border:        var(--card-border);
+  border-radius: var(--card-border-radius);
+  padding:       var(--card-padding-desktop);
+  box-shadow:    var(--shadow-sm);
+}
+
+/* Gold top accent on the "What Happens" card */
+.book-aside-card:first-child {
+  border-top: 3px solid var(--primary-400);
+}
+
+/* Card title */
+.book-aside-card__title {
+  font-family:   var(--font-heading);
+  font-weight:   var(--weight-semibold);
+  font-size:     var(--text-xl);
+  color:         var(--secondary-500);
+  line-height:   var(--leading-snug);
+  letter-spacing: var(--tracking-snug);
+  margin-bottom: var(--space-5);
+}
+
+/* Generic body text inside the aside card */
+.book-aside-card__text {
+  font-family:   var(--font-body);
+  font-size:     var(--text-base);
+  color:         var(--secondary-400);
+  line-height:   var(--leading-body);
+  margin-bottom: var(--space-4);
+}
+
+/* Small note / disclaimer text */
+.book-aside-card__note {
+  font-family: var(--font-body);
+  font-size:   var(--text-sm);
+  color:       var(--gray-500);
+  line-height: var(--leading-normal);
+  margin-top:  var(--space-4);
+}
+
+/* Payment card — subtle warm background */
+.book-aside-card--payment {
+  background: var(--primary-50);
+  border-color: var(--primary-200);
+}
+
+@media (max-width: 767px) {
+  .book-aside-card {
+    padding: var(--card-padding-mobile);
+  }
+}
+
+
+/* =============================================================================
+   4a. BOOK PROCESS LIST (numbered steps inside the aside card)
+   ============================================================================= */
+
+.book-process-list {
+  list-style: none;
+  margin:     0;
+  padding:    0;
+  display:    flex;
+  flex-direction: column;
+  gap:        0;
+}
+
+.book-process-list__item {
+  display:  flex;
+  gap:      var(--space-4);
+  position: relative;
+  padding-bottom: var(--space-5);
+}
+
+/* Vertical connector line between steps */
+.book-process-list__item:not(:last-child)::after {
+  content:    '';
+  position:   absolute;
+  left:       calc(1.25rem - 1px);   /* Centre of the number circle (2.5rem / 2 - 1px) */
+  top:        2.75rem;               /* Below the circle */
+  bottom:     0;
+  width:      2px;
+  background: var(--gray-200);
+}
+
+.book-process-list__item:last-child {
+  padding-bottom: 0;
+}
+
+/* Step number circle */
+.book-process-list__number {
+  display:          flex;
+  align-items:      center;
+  justify-content:  center;
+  width:            2.5rem;
+  height:           2.5rem;
+  border-radius:    var(--radius-full);
+  background:       var(--primary-100);
+  color:            var(--primary-600);
+  font-family:      var(--font-heading);
+  font-weight:      var(--weight-bold);
+  font-size:        var(--text-base);
+  flex-shrink:      0;
+  position:         relative;
+  z-index:          var(--z-base);
+  border:           2px solid var(--primary-200);
+}
+
+/* Step content */
+.book-process-list__content {
+  flex:       1;
+  min-width:  0;
+  padding-top: 0.3rem;   /* Optical alignment with circle centre */
+}
+
+.book-process-list__step {
+  display:     block;
+  font-family: var(--font-body);
+  font-weight: var(--weight-semibold);
+  font-size:   var(--text-base);
+  color:       var(--secondary-500);
+  line-height: var(--leading-snug);
+  margin-bottom: var(--space-1);
+}
+
+.book-process-list__desc {
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  font-size:   var(--text-sm);
+  color:       var(--secondary-400);
+  line-height: var(--leading-body);
+}
+
+
+/* =============================================================================
+   4b. PAYMENT METHODS LIST (inside payment aside card)
+   ============================================================================= */
+
+.book-payment-methods {
+  list-style: none;
+  margin:     0;
+  padding:    0;
+  display:    flex;
+  flex-direction: column;
+  gap:        var(--space-3);
+}
+
+.book-payment-methods__item {
+  display:     flex;
+  align-items: center;
+  gap:         var(--space-3);
+  font-family: var(--font-body);
+  font-size:   var(--text-sm);
+  color:       var(--secondary-400);
+  line-height: var(--leading-normal);
+}
+
+.book-payment-methods__item svg {
+  color:      var(--primary-400);
+  flex-shrink: 0;
+  width:      var(--icon-sm);
+  height:     var(--icon-sm);
+}
+
+
+/* =============================================================================
+   5. TRUST SIGNALS STRIP
+   Horizontal strip on a dark background with icon + text badges.
+   ============================================================================= */
+
+.trust-strip {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-5);
+  align-items:    flex-start;
+}
+
+@media (min-width: 768px) {
+  .trust-strip {
+    flex-direction: row;
+    align-items:    center;
+    flex-wrap:      wrap;
+    gap:            0;
+  }
+}
+
+/* Dark variant */
+.trust-strip--dark .trust-badge {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Vertical divider between badges (desktop only) */
+.trust-strip__divider {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .trust-strip__divider {
+    display:      block;
+    width:        1px;
+    height:       3rem;
+    background:   rgba(255, 255, 255, 0.15);
+    flex-shrink:  0;
+    margin-inline: var(--space-6);
+  }
+}
+
+/* Individual trust badge */
+.trust-badge {
+  display:     flex;
+  align-items: flex-start;
+  gap:         var(--space-3);
+  font-family: var(--font-body);
+  font-size:   var(--text-sm);
+  color:       var(--secondary-400);
+  line-height: var(--leading-body);
+  flex:        1;
+  min-width:   0;
+}
+
+.trust-badge strong {
+  color: var(--white);
+}
+
+.trust-badge__icon {
+  width:      1.5rem;
+  height:     1.5rem;
+  flex-shrink: 0;
+  color:      var(--gold);
+  margin-top: 0.15rem;   /* Optical alignment with first text line */
+}
+
+/* On mobile, trust badges stack in a 2-col grid for compactness */
+@media (max-width: 767px) {
+  .trust-strip {
+    display:               grid;
+    grid-template-columns: 1fr;
+    gap:                   var(--space-4);
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  .trust-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .trust-strip__divider {
+    display: none;
+  }
+}
+
+
+/* =============================================================================
+   6. WHATSAPP ALTERNATIVE BLOCK
+   Two-column layout on desktop: large WA icon left, content right.
+   ============================================================================= */
+
+.whatsapp-alt-block {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-6);
+  background:     var(--white);
+  border:         var(--card-border);
+  border-radius:  var(--radius-2xl);
+  padding:        var(--space-8) var(--space-8);
+  box-shadow:     var(--shadow-sm);
+  border-left:    4px solid var(--color-whatsapp, #25D366);
+}
+
+@media (min-width: 768px) {
+  .whatsapp-alt-block {
+    flex-direction: row;
+    align-items:    flex-start;
+    gap:            var(--space-8);
+  }
+}
+
+/* Large icon container */
+.whatsapp-alt-block__icon {
+  display:          flex;
+  align-items:      center;
+  justify-content:  center;
+  width:            5rem;
+  height:           5rem;
+  border-radius:    var(--radius-full);
+  background:       #DCFCE7;   /* Using literal value — no token for WA green tint */
+  color:            var(--color-whatsapp, #25D366);
+  flex-shrink:      0;
+}
+
+/* Content area */
+.whatsapp-alt-block__content {
+  flex:    1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap:     var(--space-4);
+}
+
+.whatsapp-alt-block__title {
+  font-family:   var(--font-heading);
+  font-weight:   var(--weight-semibold);
+  font-size:     var(--text-2xl);
+  color:         var(--secondary-500);
+  line-height:   var(--leading-snug);
+  letter-spacing: var(--tracking-snug);
+}
+
+.whatsapp-alt-block__sub {
+  font-family: var(--font-body);
+  font-size:   var(--text-base);
+  color:       var(--secondary-400);
+  line-height: var(--leading-body);
+  max-width:   none;
+}
+
+/* Pre-filled message template box */
+.whatsapp-template {
+  background:    var(--gray-100);
+  border:        1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding:       var(--space-4) var(--space-5);
+}
+
+.whatsapp-template__label {
+  font-family:   var(--font-body);
+  font-size:     var(--text-xs);
+  font-weight:   var(--weight-semibold);
+  color:         var(--gray-500);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+  max-width:     none;
+}
+
+.whatsapp-template__text {
+  font-family: var(--font-body);
+  font-size:   var(--text-sm);
+  color:       var(--secondary-400);
+  line-height: var(--leading-relaxed);
+  /* Allow user to select and copy the text */
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+@media (max-width: 767px) {
+  .whatsapp-alt-block {
+    padding:      var(--space-6);
+    border-radius: var(--radius-xl);
+  }
+
+  .whatsapp-alt-block__icon {
+    width:  3.5rem;
+    height: 3.5rem;
+  }
+
+  .whatsapp-alt-block__icon svg {
+    width:  2rem;
+    height: 2rem;
+  }
+
+  .whatsapp-alt-block__title {
+    font-size: var(--text-xl);
+  }
+}
+
+
+/* =============================================================================
+   7. CTA STRIP — PHONE LINK
+   The phone number inside .cta-strip__note on dark sections.
+   ============================================================================= */
+
+.cta-strip__phone-link {
+  color:           var(--gold);
+  font-weight:     var(--weight-semibold);
+  text-decoration: none;
+  transition:      color var(--duration-fast) var(--ease-default);
+}
+
+.cta-strip__phone-link:hover,
+.cta-strip__phone-link:focus-visible {
+  color: var(--gold-light);
+}
+
+
+/* =============================================================================
+   8. FAQ SECTION — LAYOUT SCOPE
+   The .faq-accordion and .faq-item components are styled in components.css.
+   This section only provides the max-width container for the book page FAQ,
+   which uses a slightly wider accordion than the homepage preview.
+   ============================================================================= */
+
+#faq .faq-accordion {
+  max-width: var(--container-md);   /* 768px — wider than the default 640px */
+}
+
+
+/* =============================================================================
+   9. REDUCED MOTION
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .consult-type-card,
+  .consult-type-card__icon,
+  .consult-type-card::before {
+    transition: none !important;
+    transform:  none !important;
+  }
+
+  .whatsapp-alt-block {
+    transition: none !important;
+  }
+}
+
+
+/* =============================================================================
+   10. PRINT
+   ============================================================================= */
+
+@media print {
+  /* Show the form inline — no sticky, no JS */
+  .book-layout {
+    display:        block;
+  }
+
+  .book-layout__aside {
+    position: static;
+    max-height: none;
+    overflow:   visible;
+    margin-top: var(--space-8);
+  }
+
+  /* Hide interactive/decorative elements */
+  .consult-type-grid,
+  .whatsapp-alt-block,
+  #trust-signals,
+  #cta-final {
+    display: none !important;
+  }
+
+  /* Ensure form prints fully */
+  .form-container {
+    box-shadow: none;
+    border:     1px solid var(--gray-300);
+  }
+}

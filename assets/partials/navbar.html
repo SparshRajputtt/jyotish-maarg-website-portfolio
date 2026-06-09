@@ -1,0 +1,679 @@
+<!--
+  assets/partials/navbar.html
+  Jyotish Maarg — Shared Navbar Partial
+
+  Injected into every page by main.js via:
+    injectPartial('navbar-placeholder', html)
+
+  Compatible with:
+    css/navbar.css     — all class names sourced from this file
+    js/modules/navbar.js
+      .navbar                               — root element
+      .topbar                               — announcement bar
+      .navbar__nav-link                     — active link detection
+      .mobile-menu__nav-link                — active link detection (mobile)
+      .mobile-menu__submenu-item            — active link detection (submenu)
+      .navbar__nav-item--has-dropdown       — mega-menu trigger
+      .navbar__nav-item                     — active parent highlight
+      .navbar__dropdown                     — mega-menu panel
+    js/modules/mobile-menu.js
+      .navbar__hamburger                    — toggle button (required)
+      .mobile-menu                          — overlay panel (required)
+      .mobile-menu__close                   — close button inside overlay
+      .mobile-menu__nav-link[aria-controls] — accordion trigger for Services
+      .mobile-menu__submenu                 — services accordion panel
+      .mobile-menu__submenu--open           — expanded state (JS-toggled)
+      .mobile-menu__submenu-item            — individual service links
+      .mobile-menu__cta                     — Book CTA (closes overlay on click)
+      .mobile-menu__whatsapp                — WhatsApp link (closes on click)
+      .mobile-menu__contact-link            — closes overlay on click
+      .mobile-menu__secondary-link          — closes overlay on click
+    main.js
+      .whatsapp-link / [data-whatsapp]      — WhatsApp href injection
+
+  Phase 1 services only:
+    Career Astrology, Business Astrology, Marriage Consultation, Vastu Shastra
+-->
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TOP ANNOUNCEMENT BAR
+     Fixed above navbar on desktop (hidden on mobile via CSS).
+     navbar.js hides .topbar--hidden on scroll.
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="topbar" role="complementary" aria-label="Contact information">
+  <div class="topbar__inner">
+    <svg
+      class="topbar__icon"
+      aria-hidden="true"
+      focusable="false"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1 19.79 19.79 0 0 1 1.61 4.56 2 2 0 0 1 3.58 2.36h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.91-1.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </svg>
+    <span>Consultations available Mon–Sat, 10 AM – 7 PM IST</span>
+    <span aria-hidden="true">·</span>
+    <a
+      class="topbar__link"
+      href="tel:+919XXXXXXXXX"
+      aria-label="Call Jyotish Maarg at +91 9XXXXXXXXX"
+    >+91-XXXXXXXXXX</a>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     STICKY NAVBAR
+     navbar.js adds/removes:
+       .navbar--scrolled   — scroll position > 50px
+       .navbar--solid      — non-hero pages (always opaque)
+       .navbar--menu-open  — while mobile overlay is open
+     ═══════════════════════════════════════════════════════════════ -->
+<nav
+  class="navbar"
+  role="navigation"
+  aria-label="Main navigation"
+>
+  <div class="navbar__inner">
+
+    <!-- ── Logo ──────────────────────────────────────────────── -->
+    <a
+      class="navbar__logo"
+      href="/"
+      aria-label="Jyotish Maarg — return to homepage"
+    >
+      <!-- Dark (colour) logo — shown when navbar is solid/scrolled -->
+      <img
+        class="navbar__logo-img navbar__logo-img--dark"
+        src="/assets/images/logo/logo.svg"
+        alt="Jyotish Maarg"
+        width="40"
+        height="40"
+        loading="eager"
+        fetchpriority="high"
+      >
+      <!-- White logo — shown when navbar is transparent over dark hero -->
+      <img
+        class="navbar__logo-img navbar__logo-img--white"
+        src="/assets/images/logo/logo-white.svg"
+        alt="Jyotish Maarg"
+        width="40"
+        height="40"
+        loading="eager"
+        fetchpriority="high"
+      >
+      <div class="navbar__logo-wordmark" aria-hidden="true">
+        <span class="navbar__logo-name">Jyotish Maarg</span>
+        <span class="navbar__logo-tagline">Vedic Astrology</span>
+      </div>
+    </a>
+
+
+    <!-- ── Desktop Navigation ────────────────────────────────── -->
+    <!--
+      Hidden below 1024px via CSS.
+      navbar.js reads .navbar__nav-link hrefs for active link detection.
+      .navbar__nav-item--has-dropdown receives aria-expanded from navbar.js.
+    -->
+    <ul class="navbar__nav" role="list" aria-label="Primary navigation links">
+
+      <!-- Home -->
+      <li class="navbar__nav-item">
+        <a class="navbar__nav-link" href="/">Home</a>
+      </li>
+
+      <!-- About -->
+      <li class="navbar__nav-item">
+        <a class="navbar__nav-link" href="/about">About</a>
+      </li>
+
+      <!-- Services — has dropdown -->
+      <!--
+        navbar.js queries .navbar__nav-item--has-dropdown and binds
+        hover/keyboard events. aria-expanded is set/removed by JS.
+        The dropdown ID connects trigger to panel via aria-controls.
+      -->
+      <li
+        class="navbar__nav-item navbar__nav-item--has-dropdown"
+        aria-expanded="false"
+      >
+        <a
+          class="navbar__nav-link"
+          href="/services"
+          aria-haspopup="true"
+          aria-controls="services-dropdown"
+          aria-label="Services — view all services or use arrow keys to open the dropdown"
+        >
+          Services
+          <!-- Chevron rotates when open via CSS -->
+          <svg
+            class="navbar__nav-link-icon"
+            aria-hidden="true"
+            focusable="false"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </a>
+
+        <!-- Mega-dropdown panel -->
+        <!--
+          Visibility driven by CSS:
+          .navbar__nav-item--has-dropdown[aria-expanded="true"] .navbar__dropdown
+          opacity: 1; visibility: visible;
+        -->
+        <div
+          class="navbar__dropdown"
+          id="services-dropdown"
+          role="region"
+          aria-label="Services submenu"
+        >
+          <!-- Dropdown header -->
+          <div class="navbar__dropdown-header" aria-hidden="true">
+            <p class="navbar__dropdown-title">What We Offer</p>
+          </div>
+
+          <!-- Career Astrology -->
+          <a
+            class="navbar__dropdown-item"
+            href="/services/career-astrology"
+            aria-label="Career Astrology — clarity on job, business, and professional direction"
+          >
+            <div class="navbar__dropdown-item-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <div class="navbar__dropdown-item-text">
+              <span class="navbar__dropdown-item-label">Career Astrology</span>
+              <span class="navbar__dropdown-item-desc">Clarity on job, business &amp; professional direction</span>
+            </div>
+          </a>
+
+          <!-- Business Astrology -->
+          <a
+            class="navbar__dropdown-item"
+            href="/services/business-astrology"
+            aria-label="Business Astrology — timing, partnerships, and financial decisions"
+          >
+            <div class="navbar__dropdown-item-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              </svg>
+            </div>
+            <div class="navbar__dropdown-item-text">
+              <span class="navbar__dropdown-item-label">Business Astrology</span>
+              <span class="navbar__dropdown-item-desc">Timing, partnerships &amp; financial decisions</span>
+            </div>
+          </a>
+
+          <!-- Marriage Consultation -->
+          <a
+            class="navbar__dropdown-item"
+            href="/services/marriage-consultation"
+            aria-label="Marriage Consultation — compatibility, timing, and relationship guidance"
+          >
+            <div class="navbar__dropdown-item-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
+            <div class="navbar__dropdown-item-text">
+              <span class="navbar__dropdown-item-label">Marriage Consultation</span>
+              <span class="navbar__dropdown-item-desc">Compatibility, timing &amp; relationship guidance</span>
+            </div>
+          </a>
+
+          <!-- Vastu Shastra -->
+          <a
+            class="navbar__dropdown-item"
+            href="/services/vastu-shastra"
+            aria-label="Vastu Shastra — space alignment for home and office"
+          >
+            <div class="navbar__dropdown-item-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <div class="navbar__dropdown-item-text">
+              <span class="navbar__dropdown-item-label">Vastu Shastra</span>
+              <span class="navbar__dropdown-item-desc">Space alignment for home &amp; office</span>
+            </div>
+          </a>
+
+          <!-- Dropdown footer -->
+          <div class="navbar__dropdown-footer">
+            <p class="navbar__dropdown-footer-text">Not sure which service you need?</p>
+            <a
+              class="navbar__dropdown-footer-link"
+              href="/contact"
+              aria-label="Contact us to find the right service for you"
+            >
+              Talk to us
+              <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+
+        </div><!-- /.navbar__dropdown -->
+      </li>
+
+      <!-- Blog -->
+      <li class="navbar__nav-item">
+        <a class="navbar__nav-link" href="/blog">Blog</a>
+      </li>
+
+      <!-- Contact -->
+      <li class="navbar__nav-item">
+        <a class="navbar__nav-link" href="/contact">Contact</a>
+      </li>
+
+    </ul><!-- /.navbar__nav -->
+
+
+    <!-- ── Desktop Actions (CTA + WhatsApp) ─────────────────── -->
+    <!--
+      Hidden below 1024px via CSS — these CTAs move into the mobile overlay.
+    -->
+    <div class="navbar__actions">
+
+      <!-- WhatsApp link — href set by main.js applyWhatsAppLinks() -->
+      <a
+        href="https://wa.me/919XXXXXXXXX"
+        class="whatsapp-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp (opens in a new tab)"
+        title="WhatsApp"
+      >
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          style="color: var(--color-whatsapp); display: block;"
+        >
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </a>
+
+      <!-- Book Consultation CTA -->
+      <a
+        class="navbar__cta"
+        href="/book"
+        aria-label="Book a consultation with Jyotish Maarg"
+      >
+        <svg
+          class="navbar__cta-icon"
+          aria-hidden="true"
+          focusable="false"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        Book Consultation
+      </a>
+
+    </div><!-- /.navbar__actions -->
+
+
+    <!-- ── Hamburger Button (mobile only) ───────────────────── -->
+    <!--
+      Shown below 1024px via CSS.
+      mobile-menu.js queries .navbar__hamburger (required selector).
+      aria-expanded and aria-controls are set/managed by mobile-menu.js initAria().
+      The three .navbar__hamburger-bar spans animate to an X via CSS
+      when [aria-expanded="true"].
+    -->
+    <button
+      class="navbar__hamburger"
+      type="button"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="navbar__hamburger-bar" aria-hidden="true"></span>
+      <span class="navbar__hamburger-bar" aria-hidden="true"></span>
+      <span class="navbar__hamburger-bar" aria-hidden="true"></span>
+    </button>
+
+  </div><!-- /.navbar__inner -->
+</nav><!-- /.navbar -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     MOBILE FULL-SCREEN OVERLAY MENU
+     mobile-menu.js queries .mobile-menu (required selector).
+     JS sets role="dialog", aria-modal="true", aria-hidden, inert.
+     Initial state: hidden (aria-hidden="true", inert).
+
+     Open state class: .mobile-menu--open (added by JS)
+     ═══════════════════════════════════════════════════════════════ -->
+<div
+  class="mobile-menu"
+  id="mobile-menu"
+  aria-label="Site navigation"
+  aria-hidden="true"
+  inert
+>
+
+  <!-- ── Overlay Header ──────────────────────────────────────── -->
+  <div class="mobile-menu__header">
+
+    <!-- Logo in overlay -->
+    <a
+      class="mobile-menu__logo"
+      href="/"
+      aria-label="Jyotish Maarg — return to homepage"
+    >
+      <img
+        class="mobile-menu__logo-img"
+        src="/assets/images/logo/logo.svg"
+        alt="Jyotish Maarg"
+        width="32"
+        height="32"
+        loading="lazy"
+      >
+      <span class="mobile-menu__logo-name">Jyotish Maarg</span>
+    </a>
+
+    <!-- Close button -->
+    <!--
+      mobile-menu.js queries .mobile-menu__close within the overlay.
+    -->
+    <button
+      class="mobile-menu__close"
+      type="button"
+      aria-label="Close navigation menu"
+    >
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+  </div><!-- /.mobile-menu__header -->
+
+
+  <!-- ── Overlay Body — Primary Nav ──────────────────────────── -->
+  <div class="mobile-menu__body">
+
+    <ul class="mobile-menu__nav" role="list" aria-label="Primary navigation">
+
+      <!-- Home -->
+      <li class="mobile-menu__nav-item">
+        <a class="mobile-menu__nav-link" href="/">
+          Home
+          <svg class="mobile-menu__nav-link-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+      </li>
+
+      <!-- About -->
+      <li class="mobile-menu__nav-item">
+        <a class="mobile-menu__nav-link" href="/about">
+          About
+          <svg class="mobile-menu__nav-link-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+      </li>
+
+      <!-- Services — accordion trigger -->
+      <!--
+        mobile-menu.js detects .mobile-menu__nav-link[aria-controls] as accordion trigger.
+        aria-expanded is toggled by handleAccordionToggle().
+        getSubmenuForTrigger() resolves the panel via aria-controls="mobile-services-submenu".
+        .mobile-menu__nav-link-icon rotates 90deg when aria-expanded="true" via CSS.
+      -->
+      <li class="mobile-menu__nav-item">
+        <a
+          class="mobile-menu__nav-link"
+          href="/services"
+          aria-expanded="false"
+          aria-controls="mobile-services-submenu"
+          aria-label="Services — tap to expand the services list"
+        >
+          Services
+          <svg class="mobile-menu__nav-link-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+
+        <!-- Services accordion panel -->
+        <!--
+          mobile-menu.js:
+            expandSubmenu()  — adds .mobile-menu__submenu--open, removes hidden,
+                               removes tabindex="-1" from child links
+            collapseSubmenu() — removes .mobile-menu__submenu--open,
+                               adds tabindex="-1" to child links
+          Initial state: collapsed, child links tabindex="-1" (set by initAria()).
+        -->
+        <div
+          class="mobile-menu__submenu"
+          id="mobile-services-submenu"
+          aria-label="Services submenu"
+          hidden
+        >
+          <div class="mobile-menu__submenu-inner">
+
+            <!-- Career Astrology -->
+            <a
+              class="mobile-menu__submenu-item"
+              href="/services/career-astrology"
+              tabindex="-1"
+              aria-label="Career Astrology — clarity on job and professional direction"
+            >
+              <span class="mobile-menu__submenu-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+              </span>
+              Career Astrology
+            </a>
+
+            <!-- Business Astrology -->
+            <a
+              class="mobile-menu__submenu-item"
+              href="/services/business-astrology"
+              tabindex="-1"
+              aria-label="Business Astrology — timing, partnerships and financial decisions"
+            >
+              <span class="mobile-menu__submenu-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+              </span>
+              Business Astrology
+            </a>
+
+            <!-- Marriage Consultation -->
+            <a
+              class="mobile-menu__submenu-item"
+              href="/services/marriage-consultation"
+              tabindex="-1"
+              aria-label="Marriage Consultation — compatibility, timing and relationship guidance"
+            >
+              <span class="mobile-menu__submenu-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+              </span>
+              Marriage Consultation
+            </a>
+
+            <!-- Vastu Shastra -->
+            <a
+              class="mobile-menu__submenu-item"
+              href="/services/vastu-shastra"
+              tabindex="-1"
+              aria-label="Vastu Shastra — space alignment for home and office"
+            >
+              <span class="mobile-menu__submenu-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              </span>
+              Vastu Shastra
+            </a>
+
+            <!-- View all services -->
+            <a
+              class="mobile-menu__submenu-item"
+              href="/services"
+              tabindex="-1"
+              aria-label="View all services offered by Jyotish Maarg"
+              style="color: var(--primary-500); font-weight: var(--weight-medium);"
+            >
+              <span class="mobile-menu__submenu-icon" aria-hidden="true" style="background-color: var(--primary-200);">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </span>
+              View All Services
+            </a>
+
+          </div><!-- /.mobile-menu__submenu-inner -->
+        </div><!-- /.mobile-menu__submenu -->
+
+      </li>
+
+      <!-- Blog -->
+      <li class="mobile-menu__nav-item">
+        <a class="mobile-menu__nav-link" href="/blog">
+          Blog
+          <svg class="mobile-menu__nav-link-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+      </li>
+
+      <!-- Contact -->
+      <li class="mobile-menu__nav-item">
+        <a class="mobile-menu__nav-link" href="/contact">
+          Contact
+          <svg class="mobile-menu__nav-link-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+      </li>
+
+    </ul><!-- /.mobile-menu__nav -->
+
+
+    <!-- Divider -->
+    <div class="mobile-menu__divider" aria-hidden="true"></div>
+
+    <!-- Secondary links -->
+    <ul class="mobile-menu__secondary-nav" role="list" aria-label="Secondary navigation">
+      <li>
+        <a class="mobile-menu__secondary-link" href="/about">
+          About Shashank Sharma
+          <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+      </li>
+    </ul>
+
+  </div><!-- /.mobile-menu__body -->
+
+
+  <!-- ── Overlay Footer — CTA + WhatsApp + Contact ─────────── -->
+  <!--
+    mobile-menu.js closes the overlay on click of:
+      .mobile-menu__cta
+      .mobile-menu__whatsapp
+      .mobile-menu__contact-link
+  -->
+  <div class="mobile-menu__footer">
+
+    <!-- Primary CTA: Book Consultation -->
+    <a
+      class="mobile-menu__cta"
+      href="/book"
+      aria-label="Book a Vedic astrology consultation"
+    >
+      <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      Book Consultation
+    </a>
+
+    <!-- WhatsApp CTA — href set by main.js applyWhatsAppLinks() -->
+    <a
+      class="mobile-menu__whatsapp whatsapp-link"
+      href="https://wa.me/919XXXXXXXXX"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Message Jyotish Maarg on WhatsApp (opens WhatsApp in a new tab)"
+    >
+      <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      WhatsApp Us
+    </a>
+
+    <!-- Contact micro-row -->
+    <div class="mobile-menu__contact" role="contentinfo">
+      <a
+        class="mobile-menu__contact-link"
+        href="tel:+919XXXXXXXXX"
+        aria-label="Call Jyotish Maarg"
+      >+91-XXXXXXXXXX</a>
+      <span aria-hidden="true">·</span>
+      <a
+        class="mobile-menu__contact-link"
+        href="mailto:contact@jyotishmaarg.com"
+        aria-label="Email Jyotish Maarg"
+      >contact@jyotishmaarg.com</a>
+    </div>
+
+  </div><!-- /.mobile-menu__footer -->
+
+</div><!-- /.mobile-menu -->

@@ -1,0 +1,821 @@
+/**
+ * contact.css
+ * Jyotish Maarg — Contact Page Layout Styles
+ *
+ * ─────────────────────────────────────────────────────────────────
+ * SCOPE
+ * ─────────────────────────────────────────────────────────────────
+ * This file styles ONLY contact-page-specific layout and presentation.
+ * It intentionally defers to the existing CSS cascade:
+ *
+ *   tokens.css    → all custom property values
+ *   reset.css     → box-model normalisation
+ *   global.css    → body, container, section, .lead, .pre-heading,
+ *                   .section-heading, .sr-only, address, etc.
+ *   components.css → .btn, .form-*, .faq-*, .cta-strip,
+ *                    .sticky-cta-bar, .back-to-top, .whatsapp-fab
+ *   navbar.css    → navbar, breadcrumb (if defined globally)
+ *   footer.css    → footer
+ *   animations.css → .reveal, .reveal--card, .reveal--fade,
+ *                    .stagger-*, .btn-animate, .btn-glow, .fab-pulse
+ *
+ * Sections covered here:
+ *   1. Breadcrumb
+ *   2. Contact Hero  (.section--hero-compact)
+ *   3. Contact Cards Grid  (.contact-cards-grid / .contact-card)
+ *   4. Consultation Availability  (.availability-layout / table / timeline)
+ *   5. Contact Form Section  (.contact-layout)
+ *   6. FAQ Preview  (layout wrapper only — accordion in components.css)
+ *   7. WhatsApp CTA  (layout wrapper only — .cta-strip in components.css)
+ *
+ * ─────────────────────────────────────────────────────────────────
+ * BREAKPOINTS
+ *   Mobile-first default
+ *   --bp-md  : 768px   (tablet)
+ *   --bp-lg  : 1024px  (desktop)
+ *   --bp-xl  : 1280px  (large desktop)
+ * ─────────────────────────────────────────────────────────────────
+ */
+
+
+/* =============================================================================
+   1. BREADCRUMB
+   ============================================================================= */
+
+.breadcrumb {
+  margin-bottom: var(--space-6);
+}
+
+.breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--text-sm);
+  line-height: 1;
+}
+
+.breadcrumb__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.breadcrumb__link {
+  color: var(--color-gold-light, var(--color-gold));
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.breadcrumb__link:hover,
+.breadcrumb__link:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.breadcrumb__separator {
+  color: var(--color-text-muted-dark, rgba(255, 255, 255, 0.45));
+  font-size: var(--text-xs);
+  line-height: 1;
+}
+
+.breadcrumb__current {
+  color: var(--color-text-muted-dark, rgba(255, 255, 255, 0.6));
+  font-weight: var(--font-weight-medium, 500);
+}
+
+
+/* =============================================================================
+   2. CONTACT HERO  (.section--hero-compact + .page-hero__)
+   ============================================================================= */
+
+/*
+ * The compact hero is a lighter variant of the main hero.
+ * global.css / the shared hero partial handles .section--dark background,
+ * .pre-heading, and .lead.  We set sizing and vertical rhythm here.
+ */
+
+.section--hero-compact {
+  padding-top: calc(var(--navbar-height-mobile, 3.75rem) + var(--space-12));
+  padding-bottom: var(--space-12);
+}
+
+.page-hero__content {
+  max-width: 44rem;
+}
+
+.page-hero__title {
+  margin-bottom: var(--space-4);
+}
+
+.page-hero__sub {
+  margin-top: var(--space-4);
+  margin-bottom: 0;
+}
+
+@media (min-width: 1024px) {
+  .section--hero-compact {
+    padding-top: calc(var(--navbar-height-desktop, 4.5rem) + var(--space-16));
+    padding-bottom: var(--space-16);
+  }
+}
+
+
+/* =============================================================================
+   3. CONTACT INFORMATION — CARDS GRID
+   ============================================================================= */
+
+/* ── Grid wrapper ── */
+
+.contact-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  margin-top: var(--space-10);
+}
+
+@media (min-width: 600px) {
+  .contact-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .contact-cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+    margin-top: var(--space-12);
+  }
+}
+
+
+/* ── Individual card ── */
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background-color: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+  border-radius: var(--radius-lg, 0.75rem);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.contact-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Featured / primary card variant */
+.contact-card--primary {
+  background-color: var(--color-surface-elevated, #fff);
+  border-color: var(--color-gold, #c9a84c);
+  box-shadow: var(--shadow-md);
+}
+
+.contact-card--primary:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+
+/* ── Card icon ── */
+
+.contact-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-md, 0.5rem);
+  background-color: var(--color-primary-50, rgba(27, 31, 59, 0.06));
+  color: var(--color-primary, #1b1f3b);
+  flex-shrink: 0;
+}
+
+.contact-card__icon--whatsapp {
+  background-color: rgba(37, 211, 102, 0.1);
+  color: #25d366;
+}
+
+
+/* ── Card body ── */
+
+.contact-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--space-2);
+}
+
+.contact-card__title {
+  font-size: var(--text-base, 1rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-heading, var(--color-primary));
+  margin: 0;
+  line-height: var(--leading-tight, 1.25);
+}
+
+.contact-card__desc {
+  font-size: var(--text-sm, 0.875rem);
+  color: var(--color-text-muted, #6b7280);
+  line-height: var(--leading-relaxed, 1.625);
+  margin: 0;
+  flex: 1;
+}
+
+.contact-card__note {
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--color-text-muted, #6b7280);
+  margin: 0;
+}
+
+.contact-card__address {
+  font-size: var(--text-sm, 0.875rem);
+  color: var(--color-text, #1f2937);
+  line-height: var(--leading-relaxed, 1.625);
+  font-style: normal;
+  margin: 0;
+}
+
+
+/* ── Card inline action links ── */
+
+.contact-card__action {
+  margin-top: var(--space-2);
+  align-self: flex-start;
+}
+
+/* Phone link displayed as a styled text link */
+.contact-card__phone {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-base, 1rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-primary, #1b1f3b);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.2s ease;
+}
+
+.contact-card__phone:hover,
+.contact-card__phone:focus-visible {
+  color: var(--color-gold, #c9a84c);
+  text-decoration: underline;
+}
+
+/* Email link */
+.contact-card__email {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-primary, #1b1f3b);
+  text-decoration: none;
+  word-break: break-all;
+  transition: color 0.2s ease;
+}
+
+.contact-card__email:hover,
+.contact-card__email:focus-visible {
+  color: var(--color-gold, #c9a84c);
+  text-decoration: underline;
+}
+
+/* Map link */
+.contact-card__map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-primary, #1b1f3b);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contact-card__map-link:hover,
+.contact-card__map-link:focus-visible {
+  color: var(--color-gold, #c9a84c);
+  text-decoration: underline;
+}
+
+
+/* =============================================================================
+   4. CONSULTATION AVAILABILITY
+   ============================================================================= */
+
+/* ── Two-column layout: hours table | response timeline ── */
+
+.availability-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-10);
+  margin-top: var(--space-10);
+}
+
+@media (min-width: 768px) {
+  .availability-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+}
+
+@media (min-width: 1024px) {
+  .availability-layout {
+    gap: var(--space-16);
+    margin-top: var(--space-12);
+  }
+}
+
+
+/* ── Business hours panel ── */
+
+.availability-hours__title,
+.availability-response__title {
+  font-size: var(--text-lg, 1.125rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-heading, var(--color-primary));
+  margin: 0 0 var(--space-5) 0;
+  line-height: var(--leading-tight, 1.25);
+}
+
+
+/* ── Availability table ── */
+
+.availability-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm, 0.875rem);
+  line-height: var(--leading-normal, 1.5);
+}
+
+.availability-table thead th {
+  text-align: left;
+  padding: var(--space-2) var(--space-3);
+  font-weight: var(--font-weight-semibold, 600);
+  font-size: var(--text-xs, 0.75rem);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted, #6b7280);
+  border-bottom: 2px solid var(--color-border, rgba(0, 0, 0, 0.08));
+}
+
+.availability-table tbody tr {
+  border-bottom: 1px solid var(--color-border, rgba(0, 0, 0, 0.06));
+  transition: background-color 0.15s ease;
+}
+
+.availability-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.availability-table tbody tr:hover {
+  background-color: var(--color-primary-50, rgba(27, 31, 59, 0.03));
+}
+
+.availability-table tbody td {
+  padding: var(--space-3);
+  color: var(--color-text, #1f2937);
+  vertical-align: middle;
+}
+
+.availability-table tbody td:first-child {
+  font-weight: var(--font-weight-medium, 500);
+}
+
+
+/* ── Availability badges ── */
+
+.availability-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full, 9999px);
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.availability-badge--open {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+}
+
+.availability-badge--closed {
+  background-color: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
+}
+
+
+/* ── IST note below table ── */
+
+.availability-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-primary-50, rgba(27, 31, 59, 0.04));
+  border-left: 3px solid var(--color-gold, #c9a84c);
+  border-radius: 0 var(--radius-sm, 0.25rem) var(--radius-sm, 0.25rem) 0;
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--color-text-muted, #6b7280);
+  line-height: var(--leading-relaxed, 1.625);
+}
+
+.availability-note svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--color-gold, #c9a84c);
+}
+
+
+/* ── Response timeline ── */
+
+.response-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+/* Vertical connector line between timeline items */
+.response-timeline::before {
+  content: '';
+  position: absolute;
+  top: 1.5rem;
+  left: calc(var(--space-4) + 10px); /* centred behind the 40px icon */
+  bottom: 1.5rem;
+  width: 1px;
+  background: var(--color-border, rgba(0, 0, 0, 0.1));
+  z-index: 0;
+}
+
+.response-timeline__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  position: relative;
+}
+
+.response-timeline__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-full, 9999px);
+  background-color: var(--color-surface, #fff);
+  border: 2px solid var(--color-gold, #c9a84c);
+  color: var(--color-gold, #c9a84c);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.response-timeline__content {
+  padding-top: var(--space-1);
+  flex: 1;
+  min-width: 0;
+}
+
+.response-timeline__label {
+  display: block;
+  font-size: var(--text-base, 1rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-heading, var(--color-primary));
+  margin-bottom: var(--space-1);
+  line-height: var(--leading-tight, 1.25);
+}
+
+.response-timeline__desc {
+  font-size: var(--text-sm, 0.875rem);
+  color: var(--color-text-muted, #6b7280);
+  line-height: var(--leading-relaxed, 1.625);
+  margin: 0;
+}
+
+
+/* ── CTA button inside availability section ── */
+
+.availability-cta {
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+}
+
+
+/* =============================================================================
+   5. CONTACT FORM SECTION  (.contact-layout)
+   ============================================================================= */
+
+/*
+ * Two-column layout: form left, social/location aside right.
+ * Single column on mobile; two columns from desktop.
+ * .form-*, .form-container patterns are in components.css — untouched here.
+ */
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-10);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .contact-layout {
+    grid-template-columns: 1fr minmax(0, 22rem);
+    gap: var(--space-14);
+  }
+}
+
+@media (min-width: 1280px) {
+  .contact-layout {
+    grid-template-columns: 1fr 24rem;
+  }
+}
+
+
+/* ── Form column ── */
+
+.contact-layout__form {
+  min-width: 0;
+}
+
+/* Override the default centred section-heading alignment for the form column */
+.contact-layout__form .section-heading--left {
+  text-align: left;
+}
+
+.contact-layout__form .section-heading--left .section-heading__title {
+  text-align: left;
+}
+
+
+/* ── Aside column ── */
+
+.contact-layout__aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+/* On mobile the aside drops below the form */
+@media (max-width: 1023px) {
+  .contact-layout__aside {
+    margin-top: var(--space-2);
+  }
+}
+
+
+/* ── Aside cards (social / location) ── */
+
+.contact-aside-card {
+  padding: var(--space-5) var(--space-6);
+  background-color: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+  border-radius: var(--radius-lg, 0.75rem);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.contact-aside-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-md, 0.5rem);
+  background-color: var(--color-primary-50, rgba(27, 31, 59, 0.05));
+  color: var(--color-primary, #1b1f3b);
+  flex-shrink: 0;
+}
+
+.contact-aside-card__title {
+  font-size: var(--text-base, 1rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-heading, var(--color-primary));
+  margin: 0;
+  line-height: var(--leading-tight, 1.25);
+  display: flex;
+  align-items: center;
+}
+
+.contact-aside-card__desc {
+  font-size: var(--text-sm, 0.875rem);
+  color: var(--color-text-muted, #6b7280);
+  line-height: var(--leading-relaxed, 1.625);
+  margin: 0;
+  flex: 1;
+}
+
+.contact-aside-card__note {
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--color-text-muted, #6b7280);
+  line-height: var(--leading-relaxed, 1.625);
+  margin: 0;
+}
+
+/* Map card variant */
+.contact-aside-card--map {
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+.contact-aside-card--map .contact-aside-card__note {
+  padding: var(--space-3) var(--space-6) var(--space-4);
+}
+
+
+/* ── Map preview ── */
+
+.contact-map-preview {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 var(--radius-lg, 0.75rem) var(--radius-lg, 0.75rem);
+  margin: 0 calc(-1 * var(--space-6));   /* bleed to card edges */
+  margin-top: var(--space-1);
+}
+
+/* Remove the negative margin bleed applied above for the note that follows */
+.contact-aside-card--map .contact-aside-card__note {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.contact-map-preview__link {
+  display: block;
+  position: relative;
+}
+
+.contact-map-preview__img {
+  display: block;
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.35s ease, filter 0.35s ease;
+  filter: saturate(0.9);
+}
+
+.contact-map-preview__link:hover .contact-map-preview__img,
+.contact-map-preview__link:focus-visible .contact-map-preview__img {
+  transform: scale(1.04);
+  filter: saturate(1.1);
+}
+
+.contact-map-preview__label {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  background-color: var(--color-primary, #1b1f3b);
+  color: var(--color-text-on-dark, #fff);
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: var(--font-weight-medium, 500);
+  border-radius: var(--radius-full, 9999px);
+  pointer-events: none;
+  white-space: nowrap;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+/* Focus ring on map link */
+.contact-map-preview__link:focus-visible {
+  outline: 2px solid var(--color-focus-ring, var(--color-gold));
+  outline-offset: 2px;
+}
+
+
+/* =============================================================================
+   6. FAQ PREVIEW SECTION
+   ============================================================================= */
+
+/*
+ * The .faq-accordion, .faq-item, .faq-item__question, .faq-item__answer,
+ * and .faq-item__chevron are all defined in components.css.
+ * This block only handles layout above the accordion and the footer link.
+ */
+
+.faq-accordion {
+  margin-top: var(--space-10);
+  max-width: 52rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 1024px) {
+  .faq-accordion {
+    margin-top: var(--space-12);
+  }
+}
+
+/* "Still have questions?" footer row */
+.faq-footer {
+  text-align: center;
+  margin-top: var(--space-8);
+}
+
+.faq-footer .text-muted {
+  margin-bottom: var(--space-3);
+}
+
+
+/* =============================================================================
+   7. WHATSAPP CTA SECTION
+   ============================================================================= */
+
+/*
+ * .cta-strip, .cta-strip--dark, .cta-strip__actions, .cta-strip__title,
+ * .cta-strip__sub, .cta-strip__note, and .cta-strip__phone-link are all
+ * defined in components.css.  Nothing to add here for layout.
+ *
+ * The only contact-page-specific detail: the phone link inside
+ * .cta-strip__note uses the same link colour as other cta-strip links.
+ */
+
+.cta-strip__phone-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.2s ease;
+}
+
+.cta-strip__phone-link:hover,
+.cta-strip__phone-link:focus-visible {
+  opacity: 0.8;
+}
+
+
+/* =============================================================================
+   ACCESSIBILITY — REDUCED MOTION
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-card,
+  .contact-map-preview__img {
+    transition: none;
+  }
+
+  .contact-card:hover {
+    transform: none;
+  }
+
+  .contact-map-preview__link:hover .contact-map-preview__img,
+  .contact-map-preview__link:focus-visible .contact-map-preview__img {
+    transform: none;
+  }
+}
+
+
+/* =============================================================================
+   PRINT
+   ============================================================================= */
+
+@media print {
+  .section--hero-compact {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-6);
+  }
+
+  .contact-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    break-inside: avoid;
+  }
+
+  .contact-card,
+  .contact-aside-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  .contact-map-preview {
+    display: none;
+  }
+
+  .availability-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,110 @@
+/* =============================================================================
+   SERVICES-HUB.CSS
+   Jyotish Maarg — Services Hub Page styles
+   
+   NOTE: The following classes would ideally belong in components.css as they 
+   are shared across multiple pages:
+   - .hero__* classes (currently duplicated from home.css)
+   ============================================================================= */
+
+/* ── 1. Services Hero (Duplicated from home.css) ────────────────────────────── */
+
+.hero__bg {
+  position:   absolute;
+  inset:      0;
+  z-index:    0;
+  overflow:   hidden;
+}
+
+.hero__bg-img {
+  width:       100%;
+  height:      100%;
+  object-fit:  cover;
+  object-position: center top;
+  will-change: transform;
+}
+
+.hero__overlay {
+  position:   absolute;
+  inset:      0;
+  background: linear-gradient(
+    to bottom,
+    rgba(13, 15, 32, 0.72) 0%,
+    rgba(13, 15, 32, 0.60) 40%,
+    rgba(13, 15, 32, 0.78) 100%
+  );
+}
+
+.hero__inner {
+  position:        relative;
+  z-index:         1;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     flex-start;
+  gap:             var(--space-6);
+  padding-block:   var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .hero__inner {
+    gap:           var(--space-8);
+    max-width:     44rem;
+    padding-block: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero__inner {
+    max-width: 52rem;
+  }
+}
+
+.hero__headline {
+  font-family:    var(--font-heading);
+  font-weight:    var(--weight-bold);
+  font-size:      var(--text-4xl);
+  line-height:    var(--leading-tight);
+  color:          var(--white);
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+  .hero__headline {
+    font-size: var(--text-5xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero__headline {
+    font-size: var(--text-6xl);
+  }
+}
+
+.hero__subhead {
+  max-width: 38rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__bg-img {
+    animation: none !important;
+  }
+}
+
+/* ── 2. Services Grid Layout ────────────────────────────────────────────────── */
+
+/* Note: The 4-column variant is handled by .service-cards-grid--4col in components.css.
+   If the HTML omits the modifier, this fallback ensures a balanced 2x2 layout on desktop
+   rather than an orphaned 3-1 layout. */
+@media (min-width: 1024px) {
+  #services-grid .service-cards-grid:not(.service-cards-grid--4col) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Remaining Sections ───────────────────────────────────────────────────────
+   Introduction Section: Included within Hero subtext
+   Consultation Process: Handled completely by .process-steps (components.css)
+   Why Choose Us: Handled completely by .service-cards-grid (components.css)
+   FAQ Preview: Handled completely by .faq-accordion (components.css)
+   CTA Strip: Handled completely by .cta-strip (components.css)
+   ───────────────────────────────────────────────────────────────────────────── */

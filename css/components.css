@@ -230,7 +230,7 @@
   transform: translateX(4px);
 }
 
-/* Ghost on dark backgrounds */
+/* --- Ghost on dark backgrounds */
 .btn--ghost-dark {
   background: transparent;
   color:      var(--gold);
@@ -244,6 +244,68 @@
   color:           var(--gold-light);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+
+/* --- Outline (on light backgrounds) --- */
+
+.btn--outline {
+  background:   transparent;
+  color:        var(--secondary-500);
+  border:       2px solid var(--secondary-300);
+  padding:      calc(var(--btn-padding-y-md) - 2px) var(--btn-padding-x-md);
+}
+
+.btn--outline.btn--sm {
+  padding: calc(var(--btn-padding-y-sm) - 2px) var(--btn-padding-x-sm);
+}
+
+.btn--outline.btn--lg {
+  padding: calc(var(--btn-padding-y-lg) - 2px) var(--btn-padding-x-lg);
+}
+
+.btn--outline:hover {
+  background:   var(--secondary-500);
+  border-color: var(--secondary-500);
+  color:        var(--white);
+  transform:    translateY(-1px);
+  box-shadow:   var(--shadow-md);
+}
+
+.btn--outline:active {
+  transform:  translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+
+/* --- Outline Light (on dark/hero backgrounds) --- */
+
+.btn--outline-light {
+  background:   transparent;
+  color:        var(--white);
+  border:       2px solid rgba(255, 255, 255, 0.6);
+  padding:      calc(var(--btn-padding-y-md) - 2px) var(--btn-padding-x-md);
+}
+
+.btn--outline-light.btn--sm {
+  padding: calc(var(--btn-padding-y-sm) - 2px) var(--btn-padding-x-sm);
+}
+
+.btn--outline-light.btn--lg {
+  padding: calc(var(--btn-padding-y-lg) - 2px) var(--btn-padding-x-lg);
+}
+
+.btn--outline-light:hover {
+  background:   rgba(255, 255, 255, 0.15);
+  border-color: var(--white);
+  color:        var(--white);
+  transform:    translateY(-1px);
+  box-shadow:   0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btn--outline-light:active {
+  background: rgba(255, 255, 255, 0.1);
+  transform:  translateY(0);
 }
 
 
@@ -694,13 +756,17 @@
   z-index:       var(--z-base);
 }
 
-/* Divider line */
-.testimonial-card__divider {
-  width:         2.5rem;   /* 40px */
-  height:        2px;
-  background:    var(--gradient-gold-shimmer);
-  margin-bottom: var(--space-4);
-  border:        none;
+/* Divider line — removed: element not present in HTML markup.
+   The footer row (author + badge) provides sufficient visual separation
+   without a decorative divider, which was redundant with the quote margin. */
+
+/* Attribution row */
+.testimonial-card__footer {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             var(--space-4);
+  flex-wrap:       wrap;
 }
 
 /* Attribution */

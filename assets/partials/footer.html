@@ -1,0 +1,697 @@
+<!--
+  assets/partials/footer.html
+  Jyotish Maarg — Shared Footer Partial
+
+  Injected into every page by main.js via:
+    injectPartial('footer-placeholder', html)
+
+  Compatible with:
+  ─────────────────────────────────────────────────────────────────
+  css/footer.css
+    Every class in this file is verified against footer.css.
+    No invented class names.
+
+  js/modules/footer-accordion.js
+    Required selectors and their roles:
+    .footer                     — root; module queries this on init
+    .footer__col                — all column elements; iterated for accordion
+    .footer__col--brand         — EXEMPT from accordion (never collapses)
+    .footer__col-trigger        — <button> toggle (mobile only, CSS shows/hides)
+    [data-footer-trigger]       — attribute JS requires on the trigger button
+    .footer__col-body           — collapsible panel
+    [data-footer-body]          — attribute JS requires on the panel
+    .footer__col-body--open     — open state class added/removed by JS
+    .footer__col-chevron        — chevron SVG inside trigger; CSS rotates on open
+
+  main.js
+    .whatsapp-link / [data-whatsapp] — WhatsApp href replaced by applyWhatsAppLinks()
+
+  Accordion behaviour:
+    Below 768px each column (except .footer__col--brand) becomes an accordion.
+    footer-accordion.js activates/deactivates based on viewport width.
+    Above 768px: all .footer__col-body panels are unconditionally visible (CSS).
+    Below 768px: JS toggles .footer__col-body--open on each panel.
+    The brand column's body has max-height: none !important in CSS —
+    it is structurally present but always visible regardless of JS state.
+
+  Phase 1 services only:
+    Career Astrology, Business Astrology, Marriage Consultation, Vastu Shastra
+-->
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FOOTER ROOT
+     .footer — root selector used by footer-accordion.js init()
+     ═══════════════════════════════════════════════════════════════ -->
+<footer class="footer" role="contentinfo" aria-label="Site footer">
+
+  <div class="footer__inner">
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         BRAND ROW
+         Full-width row above the column grid:
+         logo + tagline + trust badges on the left,
+         decorative divider, then rating/availability on the right.
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="footer__brand-row">
+
+      <!-- Brand: logo + tagline + trust items -->
+      <div class="footer__brand">
+
+        <a
+          class="footer__logo"
+          href="/"
+          aria-label="Jyotish Maarg — return to homepage"
+        >
+          <img
+            class="footer__logo-img"
+            src="/assets/images/logo/logo-white.svg"
+            alt="Jyotish Maarg"
+            width="40"
+            height="40"
+            loading="lazy"
+          >
+          <div class="footer__logo-wordmark" aria-hidden="true">
+            <span class="footer__logo-name">Jyotish Maarg</span>
+            <span class="footer__logo-tagline-small">Vedic Astrology</span>
+          </div>
+        </a>
+
+        <p class="footer__tagline">
+          Trusted Vedic astrology and Vastu consultations from Haridwar for over 14 years. Clarity, not confusion — for every stage of life.
+        </p>
+
+        <!-- Trust indicators -->
+        <div class="footer__trust" aria-label="Trust credentials">
+
+          <div class="footer__trust-item">
+            <svg class="footer__trust-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span>14+ Years of Practice</span>
+          </div>
+
+          <div class="footer__trust-item">
+            <svg class="footer__trust-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>5,000+ Consultations</span>
+          </div>
+
+          <div class="footer__trust-item">
+            <svg class="footer__trust-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span>Haridwar, Uttarakhand</span>
+          </div>
+
+        </div><!-- /.footer__trust -->
+
+        <!-- Star rating -->
+        <div class="footer__rating" aria-label="Client rating: 4.9 out of 5 stars">
+          <div class="footer__stars" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" focusable="false"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" focusable="false"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" focusable="false"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" focusable="false"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" focusable="false"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <span class="footer__rating-text">4.9 / 5 from 500+ clients</span>
+        </div>
+
+      </div><!-- /.footer__brand -->
+
+      <!-- Decorative vertical divider (hidden on tablet/mobile via CSS) -->
+      <div class="footer__brand-divider" aria-hidden="true"></div>
+
+      <!-- Availability note on the right of the brand row -->
+      <div class="footer__brand" style="max-width: 18rem;">
+        <p class="footer__tagline" style="font-size: var(--text-sm);">
+          <strong style="color: var(--white); display: block; margin-bottom: var(--space-2);">Consultation Hours</strong>
+          Monday – Friday &nbsp; 10:00 AM – 7:00 PM IST<br>
+          Saturday &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10:00 AM – 5:00 PM IST<br>
+          Sunday &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Closed
+        </p>
+        <a
+          href="https://wa.me/919XXXXXXXXX?text=Namaste%21%20I%20would%20like%20to%20book%20a%20consultation%20with%20Jyotish%20Maarg."
+          class="footer__map-link whatsapp-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Message Jyotish Maarg on WhatsApp to book a consultation (opens in a new tab)"
+          style="color: var(--color-whatsapp); gap: var(--space-2); margin-top: var(--space-2);"
+        >
+          <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Message us on WhatsApp
+        </a>
+      </div>
+
+    </div><!-- /.footer__brand-row -->
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         DECORATIVE ORNAMENT (desktop only — CSS hides on mobile)
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="footer__ornament" aria-hidden="true">
+      <span class="footer__ornament-line"></span>
+      <span class="footer__ornament-symbol">ॐ</span>
+      <span class="footer__ornament-line"></span>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         FOUR-COLUMN GRID
+         Desktop: 4 columns via CSS grid.
+         Mobile: each non-brand column collapses via footer-accordion.js.
+
+         footer-accordion.js iterates .footer__col elements.
+         .footer__col--brand is exempt (CSS: max-height: none !important).
+         All other columns need:
+           [data-footer-trigger] on the button
+           [data-footer-body]    on the collapsible panel
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="footer__columns">
+
+
+      <!-- ── Column 1: Brand (EXEMPT from accordion) ───────── -->
+      <!--
+        .footer__col--brand exemption:
+          footer-accordion.js: getCollapsibleCols() filters out .footer__col--brand
+          footer.css: .footer__col--brand .footer__col-body { max-height: none !important }
+          .footer__col--brand .footer__col-trigger { display: none }
+        No trigger button or data attributes needed on this column.
+      -->
+      <div class="footer__col footer__col--brand">
+
+        <!-- Static heading (always visible on all breakpoints) -->
+        <h2 class="footer__col-heading" id="footer-brand-heading">Jyotish Maarg</h2>
+
+        <!-- Brand col body — always open; JS never touches this column -->
+        <div class="footer__col-body" aria-labelledby="footer-brand-heading">
+
+          <p class="footer__tagline" style="margin-bottom: var(--space-5);">
+            Astrology that gives you real answers, not vague predictions. Every consultation is personal, private, and practical.
+          </p>
+
+          <!-- Social icons -->
+          <p class="footer__social-heading" id="footer-social-heading">Follow Us</p>
+
+          <nav
+            class="footer__social"
+            aria-label="Social media links"
+            aria-labelledby="footer-social-heading"
+          >
+
+            <!-- YouTube -->
+            <a
+              class="footer__social-link footer__social-link--youtube"
+              href="https://www.youtube.com/@JyotishMaarg"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Watch Jyotish Maarg on YouTube (opens in a new tab)"
+            >
+              <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+              </svg>
+            </a>
+
+            <!-- Instagram -->
+            <a
+              class="footer__social-link footer__social-link--instagram"
+              href="https://www.instagram.com/jyotishmaarg"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow Jyotish Maarg on Instagram (opens in a new tab)"
+            >
+              <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </a>
+
+            <!-- WhatsApp -->
+            <a
+              class="footer__social-link footer__social-link--whatsapp whatsapp-link"
+              href="https://wa.me/919XXXXXXXXX"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Chat with Jyotish Maarg on WhatsApp (opens in a new tab)"
+            >
+              <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+            </a>
+
+          </nav><!-- /.footer__social -->
+
+        </div><!-- /.footer__col-body -->
+
+      </div><!-- /.footer__col--brand -->
+
+
+      <!-- ── Column 2: Quick Links ─────────────────────────── -->
+      <!--
+        Accordion enabled on mobile.
+        footer-accordion.js:
+          getTrigger()  → querySelector('[data-footer-trigger]')
+          getBody()     → querySelector('[data-footer-body]')
+          openCol()     → adds .footer__col-body--open, sets aria-expanded="true"
+          closeCol()    → removes .footer__col-body--open, sets aria-expanded="false"
+      -->
+      <div class="footer__col" id="footer-col-quick">
+
+        <!-- Desktop static heading (hidden on mobile by CSS) -->
+        <h2
+          class="footer__col-heading"
+          id="footer-quick-heading"
+          aria-hidden="true"
+        >Quick Links</h2>
+
+        <!-- Mobile accordion trigger (CSS: display:none on desktop) -->
+        <!--
+          data-footer-trigger   — required by footer-accordion.js getTrigger()
+          aria-expanded         — managed by footer-accordion.js openCol()/closeCol()
+          aria-controls         — links button to its panel
+          id                    — referenced by panel aria-labelledby
+        -->
+        <button
+          class="footer__col-trigger"
+          type="button"
+          data-footer-trigger
+          aria-expanded="false"
+          aria-controls="footer-quick-body"
+          id="footer-quick-trigger"
+          aria-label="Quick Links — expand this section"
+        >
+          Quick Links
+          <svg
+            class="footer__col-chevron"
+            aria-hidden="true"
+            focusable="false"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        <!-- Collapsible body -->
+        <!--
+          data-footer-body         — required by footer-accordion.js getBody()
+          role="region"            — landmark for assistive technology
+          aria-labelledby          — links region to its trigger on mobile
+        -->
+        <div
+          class="footer__col-body"
+          data-footer-body
+          id="footer-quick-body"
+          role="region"
+          aria-labelledby="footer-quick-trigger"
+        >
+          <nav aria-labelledby="footer-quick-heading" aria-describedby="footer-quick-trigger">
+            <ul class="footer__links" role="list">
+
+              <li>
+                <a class="footer__link" href="/">
+                  <svg class="footer__link-arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  Home
+                </a>
+              </li>
+
+              <li>
+                <a class="footer__link" href="/about">
+                  <svg class="footer__link-arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  About Shashank Sharma
+                </a>
+              </li>
+
+              <li>
+                <a class="footer__link" href="/services">
+                  <svg class="footer__link-arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  All Services
+                </a>
+              </li>
+
+              <li>
+                <a class="footer__link" href="/blog">
+                  <svg class="footer__link-arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  Blog &amp; Articles
+                  <span class="footer__link-badge" aria-label="New content">New</span>
+                </a>
+              </li>
+
+              <li>
+                <a class="footer__link" href="/contact">
+                  <svg class="footer__link-arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  Contact Us
+                </a>
+              </li>
+
+              <li>
+                <a class="footer__link" href="/book">
+                  <svg class="footer__link-arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  Book a Consultation
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+        </div><!-- /.footer__col-body -->
+
+      </div><!-- /.footer__col (Quick Links) -->
+
+
+      <!-- ── Column 3: Our Services ────────────────────────── -->
+      <div class="footer__col" id="footer-col-services">
+
+        <!-- Desktop static heading -->
+        <h2
+          class="footer__col-heading"
+          id="footer-services-heading"
+          aria-hidden="true"
+        >Our Services</h2>
+
+        <!-- Mobile accordion trigger -->
+        <button
+          class="footer__col-trigger"
+          type="button"
+          data-footer-trigger
+          aria-expanded="false"
+          aria-controls="footer-services-body"
+          id="footer-services-trigger"
+          aria-label="Our Services — expand this section"
+        >
+          Our Services
+          <svg
+            class="footer__col-chevron"
+            aria-hidden="true"
+            focusable="false"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        <!-- Collapsible body -->
+        <div
+          class="footer__col-body"
+          data-footer-body
+          id="footer-services-body"
+          role="region"
+          aria-labelledby="footer-services-trigger"
+        >
+          <nav aria-labelledby="footer-services-heading" aria-describedby="footer-services-trigger">
+            <ul class="footer__links" role="list">
+
+              <li>
+                <a class="footer__link" href="/services/career-astrology">
+                  <svg class="footer__link-arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  Career Astrology
+                </a>
+              </li>
+
+              <li>
+                <a class="footer__link" href="/services/business-astrology">
+                  <svg class="footer__link-arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  Business Astrology
+                </a>
+              </li>
+
+              <li>
+                <a class="footer__link" href="/services/marriage-consultation">
+                  <svg class="footer__link-arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  Marriage Consultation
+                </a>
+              </li>
+
+              <li>
+                <a class="footer__link" href="/services/vastu-shastra">
+                  <svg class="footer__link-arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  Vastu Shastra
+                </a>
+              </li>
+
+              <li>
+                <a class="footer__link" href="/services">
+                  <svg class="footer__link-arrow" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                  View All Services
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+        </div><!-- /.footer__col-body -->
+
+      </div><!-- /.footer__col (Our Services) -->
+
+
+      <!-- ── Column 4: Connect / Contact ───────────────────── -->
+      <div class="footer__col footer__col--connect" id="footer-col-connect">
+
+        <!-- Desktop static heading -->
+        <h2
+          class="footer__col-heading"
+          id="footer-connect-heading"
+          aria-hidden="true"
+        >Connect &amp; Visit</h2>
+
+        <!-- Mobile accordion trigger -->
+        <button
+          class="footer__col-trigger"
+          type="button"
+          data-footer-trigger
+          aria-expanded="false"
+          aria-controls="footer-connect-body"
+          id="footer-connect-trigger"
+          aria-label="Connect and Visit — expand this section"
+        >
+          Connect &amp; Visit
+          <svg
+            class="footer__col-chevron"
+            aria-hidden="true"
+            focusable="false"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        <!-- Collapsible body -->
+        <div
+          class="footer__col-body"
+          data-footer-body
+          id="footer-connect-body"
+          role="region"
+          aria-labelledby="footer-connect-trigger"
+        >
+
+          <!-- Contact details -->
+          <address>
+            <ul class="footer__contact-list" role="list" aria-label="Contact information">
+
+              <!-- Phone -->
+              <li class="footer__contact-item">
+                <svg class="footer__contact-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1 19.79 19.79 0 0 1 1.61 4.56 2 2 0 0 1 3.58 2.36h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.91-1.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <div class="footer__contact-body">
+                  <span class="footer__contact-label">Phone</span>
+                  <a
+                    class="footer__contact-value"
+                    href="tel:+919XXXXXXXXX"
+                    aria-label="Call Jyotish Maarg at +91 9XXXXXXXXX"
+                  >+91-XXXXXXXXXX</a>
+                  <span class="footer__contact-note">Mon–Sat · 10 AM – 7 PM IST</span>
+                </div>
+              </li>
+
+              <!-- WhatsApp -->
+              <li class="footer__contact-item">
+                <svg class="footer__contact-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                <div class="footer__contact-body">
+                  <span class="footer__contact-label">WhatsApp</span>
+                  <a
+                    class="footer__contact-value whatsapp-link"
+                    href="https://wa.me/919XXXXXXXXX"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Message Jyotish Maarg on WhatsApp (opens in a new tab)"
+                  >Message us</a>
+                  <span class="footer__contact-note">Fastest response</span>
+                </div>
+              </li>
+
+              <!-- Email -->
+              <li class="footer__contact-item">
+                <svg class="footer__contact-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                <div class="footer__contact-body">
+                  <span class="footer__contact-label">Email</span>
+                  <a
+                    class="footer__contact-value"
+                    href="mailto:contact@jyotishmaarg.com"
+                    aria-label="Email Jyotish Maarg at contact@jyotishmaarg.com"
+                  >contact@jyotishmaarg.com</a>
+                </div>
+              </li>
+
+              <!-- Address -->
+              <li class="footer__contact-item">
+                <svg class="footer__contact-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <div class="footer__contact-body">
+                  <span class="footer__contact-label">Location</span>
+                  <span class="footer__contact-value">Haridwar, Uttarakhand</span>
+                  <span class="footer__contact-note">India · In-person by appointment</span>
+                </div>
+              </li>
+
+            </ul>
+          </address>
+
+          <!-- Static Google Map preview -->
+          <!--
+            Lite-load pattern per blueprint:
+            Shows a static image; clicking opens Google Maps.
+            No live <iframe> loaded by default — avoids performance hit.
+          -->
+          <div class="footer__map-wrap">
+            <a
+              href="https://maps.google.com/?q=Haridwar,Uttarakhand,India"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View Haridwar on Google Maps (opens in a new tab)"
+              style="display: block;"
+            >
+              <img
+                class="footer__map"
+                src="/assets/images/haridwar-map-static.webp"
+                alt="Map showing Haridwar, Uttarakhand — location of Jyotish Maarg"
+                width="400"
+                height="150"
+                loading="lazy"
+              >
+            </a>
+            <a
+              class="footer__map-link"
+              href="https://maps.google.com/?q=Haridwar,Uttarakhand,India"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Haridwar in Google Maps (opens in a new tab)"
+            >
+              <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+              Open in Google Maps
+            </a>
+          </div>
+
+        </div><!-- /.footer__col-body -->
+
+      </div><!-- /.footer__col--connect -->
+
+
+    </div><!-- /.footer__columns -->
+
+  </div><!-- /.footer__inner -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       BOTTOM BAR
+       Sits outside .footer__inner to span full width with bg colour.
+       footer.css: .footer__bottom { background-color: var(--footer-bg-bottom) }
+  ═══════════════════════════════════════════════════════════════════ -->
+  <div class="footer__bottom" role="contentinfo" aria-label="Legal and copyright information">
+    <div class="footer__bottom-inner">
+
+      <!-- Copyright -->
+      <p class="footer__copyright">
+        &copy; <span id="footer-year">2024</span>
+        <span class="footer__copyright-highlight">Jyotish Maarg</span>.
+        All rights reserved.
+        Shashank Shekhar Sharma, Haridwar, Uttarakhand.
+      </p>
+
+      <!-- Legal links -->
+      <ul class="footer__legal" role="list" aria-label="Legal links">
+        <li>
+          <a class="footer__legal-link" href="/privacy-policy">Privacy Policy</a>
+        </li>
+        <li aria-hidden="true">
+          <span class="footer__legal-separator">·</span>
+        </li>
+        <li>
+          <a class="footer__legal-link" href="/terms">Terms of Use</a>
+        </li>
+        <li aria-hidden="true">
+          <span class="footer__legal-separator">·</span>
+        </li>
+        <li>
+          <a class="footer__legal-link" href="/disclaimer">Disclaimer</a>
+        </li>
+      </ul>
+
+      <!-- Back to top -->
+      <button
+        class="footer__back-to-top"
+        type="button"
+        aria-label="Scroll back to the top of the page"
+        onclick="window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })"
+      >
+        <span class="footer__back-to-top-icon" aria-hidden="true">
+          <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"/>
+          </svg>
+        </span>
+        Back to top
+      </button>
+
+    </div><!-- /.footer__bottom-inner -->
+  </div><!-- /.footer__bottom -->
+
+</footer><!-- /.footer -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     INLINE SCRIPT — live copyright year
+     No module needed. Single line. Runs once on inject.
+     Ensures the year stays current without a rebuild.
+═══════════════════════════════════════════════════════════════════ -->
+<script>
+  (function () {
+    var el = document.getElementById('footer-year');
+    if (el) el.textContent = new Date().getFullYear();
+  }());
+</script>

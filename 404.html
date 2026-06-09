@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     PRIMARY SEO
+     noindex — search engines should not index error pages.
+  ═══════════════════════════════════════════════════════════════ -->
+  <title>Page Not Found — Jyotish Maarg</title>
+  <meta name="description" content="The page you're looking for couldn't be found. Return to Jyotish Maarg's homepage or browse our astrology and Vastu Shastra services.">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#1B1F3B">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     OPEN GRAPH
+  ═══════════════════════════════════════════════════════════════ -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:site_name" content="Jyotish Maarg">
+  <meta property="og:title" content="Page Not Found — Jyotish Maarg">
+  <meta property="og:description" content="The page you're looking for couldn't be found. Return to Jyotish Maarg's homepage or browse our services.">
+  <meta property="og:image" content="https://jyotishmaarg.com/assets/images/og/og-default.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Jyotish Maarg — Vedic Astrology &amp; Vastu Shastra, Haridwar">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     PRECONNECT — FONT ORIGINS
+  ═══════════════════════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     FONTS
+  ═══════════════════════════════════════════════════════════════ -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     FAVICON & TOUCH ICONS
+  ═══════════════════════════════════════════════════════════════ -->
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     CSS STACK
+  ═══════════════════════════════════════════════════════════════ -->
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/animations.css">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     PAGE-SPECIFIC STYLES
+     Scoped to this page only — avoids polluting the shared CSS stack.
+  ═══════════════════════════════════════════════════════════════ -->
+  <style>
+    /* ── 404 Hero ─────────────────────────────────────────────────────── */
+
+    .error-hero {
+      min-height:    70vh;
+      display:       flex;
+      align-items:   center;
+      background:    var(--gradient-hero);
+      color:         var(--white);
+      padding-block: var(--space-20);
+      position:      relative;
+      overflow:      hidden;
+    }
+
+    /* Subtle radial glow behind the 404 numeral */
+    .error-hero::before {
+      content:    '';
+      position:   absolute;
+      top:        50%;
+      left:       50%;
+      transform:  translate(-50%, -50%);
+      width:      min(60vw, 480px);
+      height:     min(60vw, 480px);
+      background: radial-gradient(
+        circle,
+        rgba(212, 175, 55, 0.08) 0%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+
+    .error-hero__inner {
+      position:       relative;
+      z-index:        1;
+      text-align:     center;
+      display:        flex;
+      flex-direction: column;
+      align-items:    center;
+      gap:            var(--space-6);
+    }
+
+    /* Large decorative 404 numeral */
+    .error-hero__numeral {
+      font-family:    var(--font-heading);
+      font-weight:    var(--weight-bold);
+      font-size:      clamp(6rem, 22vw, 14rem);
+      line-height:    1;
+      letter-spacing: -0.04em;
+      color:          transparent;
+      /* Gold gradient fill — decorative only */
+      background:     var(--gradient-gold-shimmer);
+      -webkit-background-clip: text;
+      background-clip: text;
+      /* Fallback for browsers that don't support background-clip: text */
+      text-shadow:    0 0 0 var(--gold);
+      -webkit-user-select: none;
+      user-select:    none;
+      pointer-events: none;
+    }
+
+    @supports not (-webkit-background-clip: text) {
+      .error-hero__numeral {
+        color:      var(--gold);
+        background: none;
+      }
+    }
+
+    .error-hero__headline {
+      font-family:    var(--font-heading);
+      font-weight:    var(--weight-bold);
+      font-size:      var(--text-3xl);
+      line-height:    var(--leading-heading);
+      color:          var(--white);
+      letter-spacing: -0.01em;
+      max-width:      28rem;
+    }
+
+    @media (min-width: 768px) {
+      .error-hero__headline {
+        font-size: var(--text-4xl);
+      }
+    }
+
+    .error-hero__sub {
+      font-size:   var(--text-base);
+      line-height: var(--leading-body);
+      color:       rgba(255, 255, 255, 0.80);
+      max-width:   34rem;
+    }
+
+    /* ── Quick navigation links ───────────────────────────────────────── */
+
+    .error-nav {
+      display:        flex;
+      flex-wrap:      wrap;
+      justify-content: center;
+      gap:            var(--space-2) var(--space-3);
+      list-style:     none;
+      margin:         0;
+      padding:        0;
+    }
+
+    .error-nav__link {
+      display:         inline-flex;
+      align-items:     center;
+      gap:             var(--space-1);
+      padding:         var(--space-2) var(--space-4);
+      background:      rgba(255, 255, 255, 0.10);
+      border:          1px solid rgba(255, 255, 255, 0.20);
+      border-radius:   var(--radius-full);
+      color:           rgba(255, 255, 255, 0.90);
+      font-size:       var(--text-sm);
+      font-weight:     var(--weight-medium);
+      text-decoration: none;
+      transition:
+        background  var(--duration-fast) var(--ease-default),
+        border-color var(--duration-fast) var(--ease-default),
+        color        var(--duration-fast) var(--ease-default);
+    }
+
+    .error-nav__link:hover,
+    .error-nav__link:focus-visible {
+      background:   rgba(255, 255, 255, 0.18);
+      border-color: var(--gold);
+      color:        var(--white);
+    }
+
+    .error-nav__link svg {
+      opacity: 0.70;
+    }
+
+    /* ── Services grid on the 404 page ───────────────────────────────── */
+
+    /* The standard .service-cards-grid from components.css handles layout.
+       We only constrain width and remove the icon column that services.html
+       uses — keeping the cards clean for a recovery page. */
+
+    #popular-services .service-card {
+      display:        flex;
+      flex-direction: column;
+    }
+
+    #popular-services .service-card__link {
+      margin-top:  auto;
+      padding-top: var(--space-4);
+      font-weight: var(--weight-medium);
+      color:       var(--primary-600);
+      text-decoration: none;
+      display:     inline-flex;
+      align-items: center;
+      gap:         var(--space-1);
+      font-size:   var(--text-sm);
+      transition:  color var(--duration-fast) var(--ease-default);
+    }
+
+    #popular-services .service-card__link:hover,
+    #popular-services .service-card__link:focus-visible {
+      color: var(--primary-500);
+    }
+
+    #popular-services .service-card__link svg {
+      transition: transform var(--duration-fast) var(--ease-out);
+    }
+
+    #popular-services .service-card__link:hover svg,
+    #popular-services .service-card__link:focus-visible svg {
+      transform: translateX(3px);
+    }
+
+    /* ── Reduced motion ───────────────────────────────────────────────── */
+
+    @media (prefers-reduced-motion: reduce) {
+      .error-hero::before {
+        display: none;
+      }
+
+      .error-hero__numeral {
+        animation: none !important;
+      }
+
+      #popular-services .service-card__link svg {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body data-navbar-transparent="true">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     SKIP LINK
+  ═══════════════════════════════════════════════════════════════ -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     NAVBAR PLACEHOLDER
+  ═══════════════════════════════════════════════════════════════ -->
+  <div id="navbar-placeholder" role="banner" aria-label="Site navigation"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     MAIN CONTENT
+  ═══════════════════════════════════════════════════════════════ -->
+  <main id="main-content">
+
+    <!-- ═══════════════════════════════════════════════════════════
+       SECTION 1 — 404 HERO
+    ═══════════════════════════════════════════════════════════ -->
+    <section
+      class="error-hero"
+      id="hero"
+      aria-labelledby="error-heading"
+    >
+      <div class="container error-hero__inner">
+
+        <!-- Decorative numeral — aria-hidden because the heading below
+             communicates the error to screen readers -->
+        <p class="error-hero__numeral" aria-hidden="true">404</p>
+
+        <h1 id="error-heading" class="error-hero__headline">
+          This Page Couldn't Be Found
+        </h1>
+
+        <p class="error-hero__sub">
+          The page you were looking for may have moved, been renamed, or no longer exists. The rest of the site is working fine — let's get you back on track.
+        </p>
+
+        <!-- Quick navigation pill links -->
+        <nav aria-label="Recovery navigation">
+          <ul class="error-nav">
+            <li>
+              <a href="/" class="error-nav__link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="/services.html" class="error-nav__link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 8v4l3 3"/>
+                </svg>
+                Services
+              </a>
+            </li>
+            <li>
+              <a href="/about.html" class="error-nav__link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+                About
+              </a>
+            </li>
+            <li>
+              <a href="/book.html" class="error-nav__link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                Book a Consultation
+              </a>
+            </li>
+            <li>
+              <a href="/contact.html" class="error-nav__link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+                </svg>
+                Contact
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Primary recovery CTAs -->
+        <div class="btn-group">
+          <a href="/" class="btn btn--primary btn--lg">Go to Homepage</a>
+          <a
+            href="https://wa.me/919XXXXXXXXX?text=Namaste%21%20I%20was%20looking%20for%20a%20page%20on%20your%20website%20and%20couldn%27t%20find%20it.%20Can%20you%20help%3F"
+            class="btn btn--outline-light btn--lg whatsapp-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Message on WhatsApp</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+       SECTION 2 — POPULAR SERVICES
+       Show the four core services so visitors can navigate directly
+       to what they likely came for.
+    ═══════════════════════════════════════════════════════════════ -->
+    <section
+      class="section section--alt"
+      id="popular-services"
+      aria-labelledby="services-heading"
+    >
+      <div class="container">
+
+        <div class="section-heading section-heading--center reveal">
+          <h2 id="services-heading" class="section-heading__title">Were You Looking for a Service?</h2>
+          <p class="lead">
+            Here are the most visited pages on Jyotish Maarg. One of these may be what you were looking for.
+          </p>
+        </div>
+
+        <ul class="service-cards-grid service-cards-grid--4col" role="list">
+
+          <!-- Career Astrology -->
+          <li class="service-card reveal stagger-1">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
+              </svg>
+            </div>
+            <h3 class="service-card__title">Career Astrology</h3>
+            <p class="service-card__desc">
+              Feeling stuck in your career? Your birth chart reveals which professional paths align with your natural strengths and which planetary periods favour career growth.
+            </p>
+            <a href="/services/career-astrology.html" class="service-card__link">
+              Explore Career Astrology
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </li>
+
+          <!-- Business Astrology -->
+          <li class="service-card reveal stagger-2">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+                <path d="M3 3v18h18"/>
+                <path d="M18 9l-5 5-4-4-5 5"/>
+              </svg>
+            </div>
+            <h3 class="service-card__title">Business Astrology</h3>
+            <p class="service-card__desc">
+              Know when to invest, launch, or expand. Business astrology informs your decisions with timing and planetary insights that can tip the odds in your favour.
+            </p>
+            <a href="/services/business-astrology.html" class="service-card__link">
+              Explore Business Astrology
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </li>
+
+          <!-- Marriage Consultation -->
+          <li class="service-card reveal stagger-3">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+                <circle cx="8" cy="8" r="6"/>
+                <circle cx="16" cy="16" r="6"/>
+              </svg>
+            </div>
+            <h3 class="service-card__title">Marriage Consultation</h3>
+            <p class="service-card__desc">
+              Kundli matching, marriage timing, compatibility analysis, and guidance on delays or challenges — clarity for one of life's biggest decisions.
+            </p>
+            <a href="/services/marriage-consultation.html" class="service-card__link">
+              Explore Marriage Consultation
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </li>
+
+          <!-- Vastu Shastra -->
+          <li class="service-card reveal stagger-4">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <h3 class="service-card__title">Vastu Shastra</h3>
+            <p class="service-card__desc">
+              Align your home or office with natural directional energies. Most Vastu corrections require no demolition — practical adjustments that make a noticeable difference.
+            </p>
+            <a href="/services/vastu-shastra.html" class="service-card__link">
+              Explore Vastu Shastra
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </li>
+
+        </ul>
+
+        <!-- View all services link -->
+        <div class="text-center reveal" style="margin-top: var(--space-8);">
+          <a href="/services.html" class="btn btn--ghost btn-arrow">
+            View All Services
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="btn-arrow-icon">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+       SECTION 3 — CTA STRIP
+       Two primary recovery paths: return home or reach out.
+    ═══════════════════════════════════════════════════════════════ -->
+    <section
+      class="section section--cta cta-strip--dark section--dark"
+      id="cta"
+      aria-labelledby="cta-heading"
+    >
+      <div class="container text-center">
+        <h2 id="cta-heading" class="cta-strip__title reveal">Can't Find What You Need?</h2>
+        <p class="cta-strip__sub reveal stagger-1">
+          Send us a WhatsApp message and we'll point you in the right direction. Shashank Sharma or his team responds within 4 hours during business hours (Mon–Sat, 10&nbsp;AM – 7&nbsp;PM&nbsp;IST).
+        </p>
+        <div class="cta-strip__actions reveal stagger-2">
+          <a href="/" class="btn btn--primary btn--lg">Return to Homepage</a>
+          <a
+            href="https://wa.me/919XXXXXXXXX?text=Namaste%21%20I%20was%20looking%20for%20a%20page%20on%20your%20website%20and%20couldn%27t%20find%20it.%20Can%20you%20help%3F"
+            class="btn btn--outline-light btn--lg whatsapp-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Message on WhatsApp</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     FOOTER PLACEHOLDER
+  ═══════════════════════════════════════════════════════════════ -->
+  <div id="footer-placeholder" role="contentinfo" aria-label="Site footer"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     WHATSAPP FLOATING ACTION BUTTON
+  ═══════════════════════════════════════════════════════════════ -->
+  <a
+    href="https://wa.me/919XXXXXXXXX?text=Namaste%21%20I%20was%20looking%20for%20a%20page%20on%20your%20website%20and%20couldn%27t%20find%20it.%20Can%20you%20help%3F"
+    class="whatsapp-fab fab-pulse whatsapp-link"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Chat with Jyotish Maarg on WhatsApp (opens WhatsApp in a new tab)"
+    title="WhatsApp us"
+  >
+    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    <span class="whatsapp-fab__tooltip" aria-hidden="true">Chat with us</span>
+  </a>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     BACK TO TOP BUTTON
+  ═══════════════════════════════════════════════════════════════ -->
+  <button
+    class="back-to-top"
+    type="button"
+    aria-label="Back to top"
+    aria-hidden="true"
+    tabindex="-1"
+    data-back-to-top
+  >
+    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+     JAVASCRIPT
+  ═══════════════════════════════════════════════════════════════ -->
+  <script type="module" src="/js/main.js"></script>
+
+</body>
+</html>
